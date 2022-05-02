@@ -22,7 +22,7 @@ function App() {
           Learn React
 
         </a>
-        <h1>Dr. Ismael Dominguez</h1>
+        <h1>Dr. María Nereida </h1>
       </header>
     </div>
   );
