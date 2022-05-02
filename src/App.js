@@ -7,7 +7,11 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          esta es una muestra <code>src/App.js</code> and save to reload.
+          Esta es la mueestra 2 <code>src/App.js</code> and save to reload.
+          <input type="button" value="pushh mee"/>
+
+          <br/>
+          <input type="button" value="pushh mee"/>
         </p>
         <a
           className="App-link"
