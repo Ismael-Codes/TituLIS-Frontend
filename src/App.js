@@ -11,7 +11,7 @@ function App() {
           <input type="button" value="pushh mee"/>
 
           <br/>
-          <input type="button" value="pushh mee"/>
+          <input type="color" value="pushh mee"/>
         </p>
         <a
           className="App-link"
