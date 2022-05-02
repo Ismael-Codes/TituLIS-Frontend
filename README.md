@@ -4,10 +4,12 @@ This directory is a brief example of a [Create React App](https://github.com/fac
 
 
 ## Course Sample Pages
-https://create-react-app-indol-iota.vercel.app
-https://create-react-app-ismael-codes.vercel.app
-https://create-react-app-git-main-ismael-codes.vercel.app
 
+https://create-react-app-indol-iota.vercel.app
+
+https://create-react-app-ismael-codes.vercel.app
+
+https://create-react-app-git-main-ismael-codes.vercel.app
 
 ## Deploy Your Own
 
