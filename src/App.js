@@ -23,6 +23,7 @@ function App() {
 
         </a>
         <h1>Dr. María Nereida, Doctor Profesor Patricio Brian</h1>
+        <h2>No se que estoy haciendo xD</h2>
       </header>
     </div>
   );
