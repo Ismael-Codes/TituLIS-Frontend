@@ -21,8 +21,8 @@ function App() {
         >
           Learn React
 
-          <h1>dr. Ismael</h1>
         </a>
+        <h1>Dr. Ismael Dominguez</h1>
       </header>
     </div>
   );
