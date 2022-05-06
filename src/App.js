@@ -1,31 +1,29 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Sidebar from './components/Sidebar';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Dashboard from "./pages/Dashboard.jsx";
+import Notifications from "./pages/Notifications.jsx";
+import Statistics from "./pages/Statistics.jsx";
+import Revision from "./pages/Revision.jsx";
+import LogOut from "./pages/LogOut";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Esta es la mueestra 2 <code>src/App.js</code> and save to reload.
-          <input type="button" value="pushh mee"/>
-
-          <br/>
-          <input type="color" value="pushh mee"/>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-
-        </a>
-        <h1>Dr. María Nereida, Doctor Profesor Patricio Brian</h1>
-        <h2>No se que estoy haciendo xD</h2>
-      </header>
-    </div>
+      <div>
+        <BrowserRouter>
+          <Sidebar>
+            <Routes>
+              <Route path="/" element={<Dashboard/>}/>
+              <Route path="/dashboard" element={<Dashboard/>}/>
+              <Route path="/notifications" element={<Notifications/>}/>
+              <Route path="/revision" element={<Revision/>}/>
+              <Route path="/statistics" element={<Statistics/>}/>
+              <Route path="/LogOut" element={<LogOut/>} className="LogOut" />
+            </Routes>
+          </Sidebar>
+        </BrowserRouter>
+      </div>
   );
 }
 
