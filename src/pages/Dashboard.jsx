@@ -3,7 +3,7 @@ import React from 'react';
 const Dashboard = () => {
     return (
         <div>
-            <h1>Dashboarasdasdsad page</h1>
+            <h1>Dashboard page</h1>
             <input type="button" value = "pushmeee"/>
         </div>
     );
