@@ -12,6 +12,15 @@ const Notifications = () => {
                            data-table="customers-list"/>
                 </h3>
             </div>
+            <div className="filter">
+                <select name="filtro">
+                    <option value="value1" selected>Filtrar</option>
+                    <option value="value3">Asunto</option>
+                    <option value="value2">Remitente</option>
+                    <option value="value3">Fecha</option>
+                    <option value="value3">Leído</option>
+                </select>
+            </div>
             <div className="table_section">
                 <table className=" customers-list">
                     <thead>
@@ -25,8 +34,8 @@ const Notifications = () => {
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Brian</td>
                         <td>Ejemplo</td>
+                        <td>Brian</td>
                         <td>Ejemplo</td>
                         <td>
                             <div className="form-check">
@@ -42,8 +51,8 @@ const Notifications = () => {
                         </td>
                     </tr>
                     <tr>
-                        <td>Gama</td>
                         <td>Ejemplo</td>
+                        <td>Gama</td>
                         <td>Ejemplo</td>
                         <td>
                             <div className="form-check">
@@ -58,8 +67,8 @@ const Notifications = () => {
                         </td>
                     </tr>
                     <tr>
-                        <td>Misael</td>
                         <td>Ejemplo</td>
+                        <td>Misael</td>
                         <td>Ejemplo</td>
                         <td>
                             <div className="form-check">
