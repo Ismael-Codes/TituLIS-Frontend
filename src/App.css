@@ -166,3 +166,7 @@ tr:hover td {
 
 /* Termina Tabla Uno */
 
+select{
+    border-radius:13px;
+    background-color: #dedbdb;
+}

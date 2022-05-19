@@ -20,6 +20,9 @@ const Notifications = () => {
                     <option value="value3">Fecha</option>
                     <option value="value3">Leído</option>
                 </select>
+
+
+
             </div>
             <div className="table_section">
                 <table className=" customers-list">
