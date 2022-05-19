@@ -1,9 +1,13 @@
 const express = require('express')();
 const app = express();
-const { v4 } = require('uuid');
-const port = process.env.PORT||4000;
+const {v4} = require('uuid');
+const port = process.env.PORT || 4000;
 
 app.listen(port)
+app.get("/", (req, res) =>{
+    res.send("ya estamos aca");
+    }
+);
 console.log('Listen on port ${port}')
 
 //
