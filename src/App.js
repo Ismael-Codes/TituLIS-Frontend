@@ -19,12 +19,12 @@ function App() {
               <Route path="/notifications" element={<Notifications/>}/>
               <Route path="/revision" element={<Revision/>}/>
               <Route path="/statistics" element={<Statistics/>}/>
-              <Route path="/LogOut" element={<LogOut/>} className="LogOut" />
+              <Route path="/LogOut" element={<LogOut/>} className="LogOut"/>
           </Routes>
           </Sidebar>
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
 export default App;

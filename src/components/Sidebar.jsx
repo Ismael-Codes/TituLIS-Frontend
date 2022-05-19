@@ -15,12 +15,12 @@ const Sidebar = ({children}) => {
         },
         {
             path: '/notifications',
-            name: "Notificaciónes",
+            name: "Notificaciones",
             icon: <AiTwotoneBell/>
         },
         {
             path: '/revision',
-            name: "Revision",
+            name: "Revisión",
             icon: <AiTwotoneEye/>,
         },
         {
