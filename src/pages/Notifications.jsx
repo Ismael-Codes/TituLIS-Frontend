@@ -1,4 +1,6 @@
 import React from 'react';
+import {IoBookmarkOutline} from "react-icons/all";
+
 
 const Notifications = () => {
     return (
@@ -18,6 +20,7 @@ const Notifications = () => {
                         <th>Remitente</th>
                         <th>Fecha</th>
                         <th>Estado</th>
+                        <th>Marcador</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,7 +34,11 @@ const Notifications = () => {
                                 <label className="form-check-label" htmlFor="flexCheckDefault">
                                     Leído
                                 </label>
+
                             </div>
+                        </td>
+                        <td>
+                            <IoBookmarkOutline/>
                         </td>
                     </tr>
                     <tr>
@@ -46,6 +53,9 @@ const Notifications = () => {
                                 </label>
                             </div>
                         </td>
+                        <td>
+                            <IoBookmarkOutline/>
+                        </td>
                     </tr>
                     <tr>
                         <td>Misael</td>
@@ -58,6 +68,9 @@ const Notifications = () => {
                                         Leído
                                     </label>
                             </div>
+                        </td>
+                        <td>
+                            <IoBookmarkOutline/>
                         </td>
                     </tr>
                     </tbody>
