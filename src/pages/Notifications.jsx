@@ -1,5 +1,5 @@
 import React from 'react';
-import {IoBookmarkOutline} from "react-icons/all";
+import {IoBookmarkOutline} from "react-icons/io5";
 
 
 const Notifications = () => {
