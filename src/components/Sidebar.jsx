@@ -25,7 +25,7 @@ const Sidebar = ({children}) => {
         },
         {
             path: '/revision',
-            name: "Revision",
+            name: "Revisión",
             icon: <AiTwotoneEye/>,
         },
         {
