@@ -35,11 +35,11 @@ const Sidebar = ({children}) => {
         }
     ]
     return (
-        <div className="container">
-            <div style={{width: isOpen ? "200px" : "50px"}} className="sidebar">
+        <div className="container1">
+            <div style={{width: isOpen ? "220px" : "50px"}} className="sidebar">
                 <div className="top_section">
                     <h1 style={{display: isOpen ? "block" : "none"}} className="logo">UAEH</h1>
-                    <div style={{marginLeft: isOpen ? "40px" : "-3px"}} className="bars">
+                    <div style={{marginLeft: isOpen ? "45px" : "-4.5px"}} className="bars">
                         <FaBars onClick={toggle}/>
                     </div>
                 </div>
