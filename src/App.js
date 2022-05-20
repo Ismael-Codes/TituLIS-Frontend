@@ -2,11 +2,11 @@ import React from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Dashboard from "./pages/Dashboard.jsx";
-import Notifications from "./pages/Notifications.jsx";
-import Statistics from "./pages/Statistics.jsx";
-import Revision from "./pages/Revision.jsx";
-import LogOut from "./pages/LogOut";
+import Dashboard from "./pages/academico/Dashboard.jsx";
+import Notifications from "./pages/academico/Notifications.jsx";
+import Statistics from "./pages/academico/Statistics.jsx";
+import Revision from "./pages/academico/Revision.jsx";
+import LogOut from "./pages/academico/LogOut";
 
 function App() {
   return (

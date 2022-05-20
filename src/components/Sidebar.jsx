@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import {FaBars, FaTh} from "react-icons/fa";
-import {AiOutlineBarChart, AiOutlineLogout, AiTwotoneBell, AiTwotoneEye} from "react-icons/ai";
+import {
+    AiOutlineBarChart,
+    AiOutlineLogout, AiOutlineSend,
+    AiTwotoneBell,
+    AiTwotoneEye
+} from "react-icons/ai";
 import {NavLink} from "react-router-dom";
 
 
@@ -15,13 +20,18 @@ const Sidebar = ({children}) => {
         },
         {
             path: '/notifications',
-            name: "Notificaciones",
+            name: "Notificaciónes",
             icon: <AiTwotoneBell/>
         },
         {
             path: '/revision',
-            name: "Revisión",
+            name: "Revision",
             icon: <AiTwotoneEye/>,
+        },
+        {
+            path: '/solicitud',
+            name: "Solicitud",
+            icon: <AiOutlineSend/>,
         },
         {
             path: '/statistics',
@@ -29,13 +39,13 @@ const Sidebar = ({children}) => {
             icon: <AiOutlineBarChart/>
         },
         {
-            path: '/LogOut',
+            path: '/logOut',
             name: "Salir",
             icon: <AiOutlineLogout/>
         }
     ]
     return (
-        <div className="container1">
+        <div className="containerSide">
             <div style={{width: isOpen ? "220px" : "50px"}} className="sidebar">
                 <div className="top_section">
                     <h1 style={{display: isOpen ? "block" : "none"}} className="logo">UAEH</h1>
