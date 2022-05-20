@@ -5,7 +5,7 @@ const Dashboard = () => {
 
         <div style={{background:"blue",margin:"0"}}>
             <header style={{width:"100vw",background:"red",padding:""}}>
-                <img alt={} src={null}></img>
+                {/*<img alt={} src={null}></img>*/}
                 <h1>Titulacion ingenieria de software</h1>
             </header>
             <main>
@@ -17,9 +17,7 @@ const Dashboard = () => {
 
             </main>
 
-        <div>
-            <h1>Dashboard page</h1>
-            <input type="button" value = "pushmeee"/>
+
 
         </div>
     );
