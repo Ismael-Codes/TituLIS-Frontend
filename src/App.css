@@ -58,76 +58,60 @@ main{
     font-size: 20px;
 }
 
-.graph{
+.quickStatsSection{
+    flex: inherit;
+    padding: 2%;
+    height: 100px;
+}
+
+.block{
+    height: 100px;
+    width: 200px;
+    margin-left: 30px;
+    background: #f8b688;
+    border-radius: 8px;
+    float: left;
+}
+.blockLabel{
+    text-align: left;
+    font-size: 20px;
+    color: #841816;
+    margin-top: 30px;
+    margin-left: 30px;
+}
+.blockStats{
+    text-align: left;
+    font-size: 15px;
+    margin-left: 30px;
+}
+
+.graphsSection{
+    height: 300px;
+    padding: 2%;
+    border-radius: 8px;
+}
+
+.pieChart{
+    margin-left: 30px;
     display: flex;
     position: relative;
     max-width: 500px;
     height: 300px;
-    background: #f3f3f3;
+    background: #4f4f4f;
     border-radius: 8px;
-    border-style: solid;
-    border-color: #cecece;
-    border-width: 1px;
-
+    float: left;
+    padding: 10px;
 }
 
-
-.BarGraphLine{
-    position:absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: rgba(196, 196, 196, 0.06);
-    left: 10%;
-}
-
-.bar-text-content{
-    height: 100%;
-    width: 20%;
-    padding-top: 11%;
-    padding-left: 3%;
-    padding-right: 3%;
-}
-
-.bar-lines-container{
-    width: 88%;
-    height: 100%;
-
-}
-
-.rbar{
-    margin-top: 10.66666667%;
-    margin-bottom: 10.66666667%;
-    height: 15%;
-    background: #77e042;
-    z-index: 25;
+.barChart{
+    margin-left: 30px;
+    display: flex;
+    position: relative;
+    max-width: 600px;
+    height: 300px;
+    background: #d7d7d7;
     border-radius: 8px;
-}
-
-.pbar{
-    margin-top: 10.66666667%;
-    margin-bottom: 10.66666667%;
-    height: 15%;
-    background: #42a3e0;
-    z-index: 25;
-    border-radius: 8px;
-}
-
-.cbar{
-    margin-top: 10.66666667%;
-    margin-bottom: 10.66666667%;
-    height: 15%;
-    background: #e04242;
-    z-index: 25;
-    border-radius: 8px;
-}
-
-.labeldiv{
-    height: 19%;
-}
-
-.chartlabel{
-    font-family: Helvetica, sans-serif, l;
-    color: #595959;
+    float: left;
+    padding: 10px;
 }
 

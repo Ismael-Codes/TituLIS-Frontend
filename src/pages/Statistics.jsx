@@ -1,34 +1,64 @@
 import React from 'react';
-
+import { PieChart, Pie} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis } from 'recharts';
 
 
 class Statistics extends React.Component{
 
-    renderLines() {
-        return Array(10).fill(null).map((el,i)=>(
-            <BarGraphLine
-                Left={i*10}
-                key={i}
-            />
-        ))
-    }
 
     render(){
+
+        const data = [
+                {name: 'Revision', solicitudes: 30},
+            {name: 'En Progreso', solicitudes: 15},
+            {name: 'Cancelada', solicitudes: 7},
+        ];
+
+        const renderCustomizedLabel = ({ x, y, name}) => {
+            return (
+                <text x={x} y={y} fill="white" textAnchor="start" dominantBaseline="central">
+                    {name}
+                </text>
+            );
+        };
+
         return (
             <div>
                 <h1>Estadisticas</h1>
 
-                <div className={"barGraph"}>
-                    <h3>Estatus</h3>
-                    <div className={"graph"}>
-                        <BarTextContent />
-                        <div className={"bar-lines-container"}>
-                            <RBar percent={50}/>
-                            <PBar percent={30}/>
-                            <CBar percent={20}/>
-                            {this.renderLines()}
-                        </div>
+                <div className={"quickStatsSection"}>
+                    <div className={"block"}>
+                        <h4 className={"blockLabel"}>Stats</h4>
+                        <text className={"blockStats"}>0</text>
                     </div>
+                    <div className={"block"}>
+                        <h4 className={"blockLabel"}>Stats</h4>
+                        <text className={"blockStats"}>0</text>
+                    </div>
+                    <div className={"block"}>
+                        <h4 className={"blockLabel"}>Stats</h4>
+                        <text className={"blockStats"}>0</text>
+                    </div>
+
+                </div>
+
+                <div className={"graphsSection"}>
+
+                    <div className={"barChart"}>
+                        <BarChart width={600} height={300} data={data} barSize={40}>
+                            <Bar dataKey="solicitudes" fill="#841816"/>
+                            <XAxis dataKey="name" />
+                            <YAxis />400
+                        </BarChart>
+                    </div>
+
+
+                    <div className={"pieChart"}>
+                        <PieChart width={500} height={300}>
+                            <Pie data={data} dataKey="solicitudes" label={renderCustomizedLabel} outerRadius={100} fill="#841816" />
+                        </PieChart>
+                    </div>
+
                 </div>
 
             </div>
@@ -38,44 +68,5 @@ class Statistics extends React.Component{
 
 }
 
-const BarGraphLine = ({Left}) => {
-    return(
-        <div className="BarGraphLine"
-           style={{left: `${Left}%`}}
-        />
-    )
-
-}
-
-const BarTextContent = () => {
-    return(
-        <div className={"bar-text-content"}>
-            <text className={"chartlabel"}>Revision</text>
-            <div className={"labeldiv"}/>
-            <text className={"chartlabel"}>En Progreso</text>
-            <div className={"labeldiv"}/>
-            <text className={"chartlabel"}>Cancelada</text>
-        </div>
-    )
-
-}
-
-const RBar = ({percent}) => {
-  return(
-      <div className={"rbar"} style={{width: `${percent}%`}}></div>
-  )
-}
-
-const PBar = ({percent}) => {
-    return(
-        <div className={"pbar"} style={{width: `${percent}%`}}></div>
-    )
-}
-
-const CBar = ({percent}) => {
-    return(
-        <div className={"cbar"} style={{width: `${percent}%`}}></div>
-    )
-}
 
 export default Statistics;
