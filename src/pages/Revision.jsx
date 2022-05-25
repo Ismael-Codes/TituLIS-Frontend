@@ -5,7 +5,7 @@ const Revision = () => {
    <div className="auxTable">
         <div className="table_header">
             <h3>
-                <span>Revisión</span>
+                <span>Revisasdsadadión</span>
                 <input type="search" placeholder="Buscar..." className="form-control search-input" data-table="customers-list"/>
             </h3>
         </div>
