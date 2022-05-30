@@ -9,7 +9,7 @@ class Statistics extends React.Component{
     render(){
 
         const data = [
-                {name: 'Revision', solicitudes: 30},
+            {name: 'Revision', solicitudes: 30},
             {name: 'En Progreso', solicitudes: 15},
             {name: 'Cancelada', solicitudes: 7},
         ];
@@ -59,7 +59,56 @@ class Statistics extends React.Component{
                         </PieChart>
                     </div>
 
+                    <div className={"barTable"}>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Cantidad</th>
+                                <th>Revisiones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Brian</td>
+                                <td>Alumnos</td>
+                                <td>Revisados</td>
+                            </tr>
+                            <tr>
+                                <td>Gama</td>
+                                <td>Alumnos</td>
+                                <td>Revisados</td>
+                            </tr>
+                            <tr>
+                                <td>Misael</td>
+                                <td>Alumnos</td>
+                                <td>Revisados</td>
+                            </tr>
+
+                            <tr>
+                                <td>Misael</td>
+                                <td>Alumnos</td>
+                                <td>Revisados</td>
+                            </tr>
+
+                            <tr>
+                                <td>Misael</td>
+                                <td>Alumnos</td>
+                                <td>Revisados</td>
+                            </tr>
+
+                            <tr>
+                                <td>Misael</td>
+                                <td>Alumnos</td>
+                                <td>Revisados</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
+
 
             </div>
 

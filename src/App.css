@@ -67,7 +67,7 @@ main{
 .block{
     height: 100px;
     width: 200px;
-    margin-left: 30px;
+    margin: 10px 10px;
     background: #f8b688;
     border-radius: 8px;
     float: left;
@@ -92,7 +92,7 @@ main{
 }
 
 .pieChart{
-    margin-left: 30px;
+    margin: 20px 10px;
     display: flex;
     position: relative;
     max-width: 500px;
@@ -104,7 +104,7 @@ main{
 }
 
 .barChart{
-    margin-left: 30px;
+    margin: 20px 10px;
     display: flex;
     position: relative;
     max-width: 600px;
@@ -115,3 +115,54 @@ main{
     padding: 10px;
 }
 
+
+/*Tabla Uno */
+
+.barTable{
+    width: 400px;
+    background: #d7d7d7;
+    border-radius: 8px;
+    float: left;
+    padding: 10px;
+    margin: 20px 10px;
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+
+.barTable thead th {
+    background-color: #4f4f4f;
+    color: #f6f9fc;
+    font-size: 15px;
+    width: 100px;
+}
+
+.barTable th,
+td {
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 20px;
+    margin: 0;
+    word-break: break-all;
+    text-align: center;
+}
+
+.barTable tr:hover td {
+    color: #b91116;
+    cursor: pointer;
+    background-color: #f6f9fc;
+}
+
+::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Termina Tabla Uno */
