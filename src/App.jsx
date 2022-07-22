@@ -1,23 +1,41 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useFetch } from './hooks/useFetch'
+import { LoadingQuote } from './components/LoadingQuote';
+import { Rows } from "./components/Rows";
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
+
+  const { data, isLoading, hasError } = useFetch(`https://express-with-vercel-l1hm0yhtz-ismael-codes.vercel.app/api/getUsers`)
+
+  const { status, message } = data;
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Desarrollo de Plataforma Web para Control y Seguimiento de Modalidades de Titulación.</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-      </header>
-    </div>
+    <>
+      <h1 className="text-center">Usuarios</h1>
+      <hr />
+
+      <table className="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            isLoading
+              ? (
+                <LoadingQuote />
+              )
+              : (
+                message.map((data) => (
+                  < Rows key={data.id_usuario} data={data} />
+                ))
+              )
+          }
+        </tbody>
+      </table>
+    </>
   )
 }
 
-export default App
