@@ -19,6 +19,7 @@ export const LoginPage = () => {
     document.getElementById("signInDiv").hidden = true;
 
     const { name, email } = userObject;
+    console.log(userObject);
 
     login(name);
 
