@@ -1,7 +1,7 @@
 import { useFetchPost } from "../../hook";
 import { HeroList } from "../components"
 
-export const MarvelPage = () => {
+export const ProfilePage = () => {
 
   const misDatos = JSON.parse(localStorage.getItem('user'));
 
