@@ -3,10 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import jwt_decode from 'jwt-decode';
 
-//? Hooks Globales
-import { useFetch } from '../../hook';
-
-
 export const LoginPage = () => {
 
   const { login } = useContext(AuthContext)
@@ -14,32 +10,6 @@ export const LoginPage = () => {
 
   //? Vainilla Version
   const [user, setUser] = useState({});
-
-  //^ Test
-  // const { data, isLoading, hasError } = useFetch('https://express-with-vercel-l1hm0yhtz-ismael-codes.vercel.app/api/getUsers')
-  // const { data, isLoading, hasError } = useFetch('https://restserver-node-brian.herokuapp.com/api/usuarios/')
-  // console.log(data);
-
-  //* Post request
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        "nombre": "Brian Cruz Sanchez",
-        "correo": "test168@gmail.com",
-        "password": "123456",
-        "rol": "USER_ROLE"
-      })
-    };
-
-    fetch("https://restserver-node-brian.herokuapp.com/api/usuarios/", requestOptions)
-      .then(response => response.json())
-      .then(res => console.log(res));
-  };
-  //^ Test
 
   //? Sign in
   const handleSignIn = (response) => {
@@ -49,7 +19,9 @@ export const LoginPage = () => {
     setUser(userObject);
     document.getElementById("signInDiv").hidden = true;
 
-    const { name, email, given_name, family_name, picture } = userObject;
+    const { name, email, given_name, family_name, picture, sub} = userObject;
+
+    console.log(sub)
 
     //* Divide los nombres
     const miCadena = family_name;
@@ -59,17 +31,9 @@ export const LoginPage = () => {
 
     //* Extraer la matricula de un email
     const stringWithNumbers = email;
-    const matricula = stringWithNumbers.replace(/[^0-9]+/g, ""); // esto retorna '1234'
+    const matricula = stringWithNumbers.replace(/[^0-9]+/g, "");
 
-    console.log(`
-    Nombre: ${given_name}
-    Apellido Paterno: ${aPaterno}
-    Apellido Materno: ${aMaterno}
-    Correo: ${email}
-    Matricula: ${matricula}
-    `);
-
-    login(given_name, aPaterno, aMaterno, email, matricula, picture);
+    login(given_name, aPaterno, aMaterno, email, matricula, picture, sub);
     // login(name);
 
     navigate('/perfil', { replace: true });
@@ -95,18 +59,18 @@ export const LoginPage = () => {
 
   return (
     <>
-      <button type="submit" onClick={handleSubmit}>
-        Create Post
-      </button>
       <div className="Auth-form-container">
         <form className="Auth-form">
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>
+            <p className="fs-5 text-center">Solo se admiten cuentas con dominio: <span className="fw-bold">uaeh.edu.mx</span></p>
+            {/*//? Google Sign In */}
             <div id="signInDiv" style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center"
             }} className="mb-4"></div>
+            {/* //? Google Sign In */}
             <a href="https://accounts.google.com/signin/v2/recoveryidentifier?utm_source=hc_exp0722c&flowName=GlifWebSignIn&flowEntry=AccountRecovery" target='_blank' className="alert-link">Recuperación de la cuenta</a>
           </div>
         </form>

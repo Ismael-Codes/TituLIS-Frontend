@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth';
-import { AiOutlineUser } from "react-icons/ai";
+import { AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
 export const Navbar = () => {
@@ -64,11 +64,15 @@ export const Navbar = () => {
               <AiOutlineUser />
             </IconContext.Provider>
             <span className="ms-1">
-              {user?.name}
+              {`${user?.given_name} ${user?.aPaterno} ${user?.aMaterno}`}
             </span>
           </button>
           <ul className="dropdown-menu dropdown-menu-dark">
-            <li><a className="dropdown-item text-center" href="#" onClick={() => onLogout()}>Logout</a></li>
+            <li><a className="dropdown-item text-center" href="#" onClick={() => onLogout()}>
+              <IconContext.Provider value={{ color: "light", size: "1.3em" }}>
+                <AiOutlineLogout />
+              </IconContext.Provider>
+              <span className="ms-2">logout</span></a></li>
           </ul>
         </div>
       </div>

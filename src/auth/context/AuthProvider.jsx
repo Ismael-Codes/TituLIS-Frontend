@@ -22,10 +22,10 @@ export const AuthProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, {}, init)
 
   //* Login, recibe los argumentos y hace el login
-  const login = async (given_name = ' ', aPaterno = ' ', aMaterno = ' ', email = ' ', matricula = ' ', picture = ' ') => {
-    const user = { id: 'ABC', given_name, aPaterno, aMaterno, email, matricula, picture }
+  const login = async (given_name = ' ', aPaterno = ' ', aMaterno = ' ', email = ' ', matricula = ' ', picture = ' ', sub = '') => {
+    const user = { id: sub, given_name, aPaterno, aMaterno, email, matricula, picture }
 
-    console.log(user);
+    // console.log(user);
 
     const action = { type: types.login, payload: user }
 
