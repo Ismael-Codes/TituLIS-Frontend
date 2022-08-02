@@ -22,8 +22,10 @@ export const AuthProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, {}, init)
 
   //* Login, recibe los argumentos y hace el login
-  const login = async (name = ' ') => {
-    const user = { id: 'ABC', name }
+  const login = async (given_name = ' ', aPaterno = ' ', aMaterno = ' ', email = ' ', matricula = ' ', picture = ' ') => {
+    const user = { id: 'ABC', given_name, aPaterno, aMaterno, email, matricula, picture }
+
+    console.log(user);
 
     const action = { type: types.login, payload: user }
 
@@ -36,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   //* Cierra la sesion del usuario y borra el localStorage
   const logout = async () => {
     localStorage.removeItem('user');
-    
+
     //* Accion de cerrar sesion del useReducer
     const action = { type: types.logout }
 

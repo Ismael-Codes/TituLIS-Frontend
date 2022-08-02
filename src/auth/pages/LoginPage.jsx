@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-// import { LoginButton } from './LoginButton';
-import { Profile } from './Profile';
 import jwt_decode from 'jwt-decode';
+
+//? Hooks Globales
+import { useFetch } from '../../hook';
+
 
 export const LoginPage = () => {
 
@@ -13,40 +15,78 @@ export const LoginPage = () => {
   //? Vainilla Version
   const [user, setUser] = useState({});
 
-  const handleCallbackResponse = (response) => {
+  //^ Test
+  // const { data, isLoading, hasError } = useFetch('https://express-with-vercel-l1hm0yhtz-ismael-codes.vercel.app/api/getUsers')
+  // const { data, isLoading, hasError } = useFetch('https://restserver-node-brian.herokuapp.com/api/usuarios/')
+  // console.log(data);
+
+  //* Post request
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        "nombre": "Brian Cruz Sanchez",
+        "correo": "test168@gmail.com",
+        "password": "123456",
+        "rol": "USER_ROLE"
+      })
+    };
+
+    fetch("https://restserver-node-brian.herokuapp.com/api/usuarios/", requestOptions)
+      .then(response => response.json())
+      .then(res => console.log(res));
+  };
+  //^ Test
+
+  //? Sign in
+  const handleSignIn = (response) => {
+
+
     const userObject = jwt_decode(response.credential);
     setUser(userObject);
     document.getElementById("signInDiv").hidden = true;
 
-    const { name, email } = userObject;
-    console.log(userObject);
+    const { name, email, given_name, family_name, picture } = userObject;
 
-    login(name);
+    //* Divide los nombres
+    const miCadena = family_name;
+    const divisiones = miCadena.split(" ");
+    const aPaterno = divisiones[0];
+    const aMaterno = divisiones[1];
 
-    navigate('/Marvel', { replace: true });
+    //* Extraer la matricula de un email
+    const stringWithNumbers = email;
+    const matricula = stringWithNumbers.replace(/[^0-9]+/g, ""); // esto retorna '1234'
 
-    // document.cookie = "Hola";
+    console.log(`
+    Nombre: ${given_name}
+    Apellido Paterno: ${aPaterno}
+    Apellido Materno: ${aMaterno}
+    Correo: ${email}
+    Matricula: ${matricula}
+    `);
+
+    login(given_name, aPaterno, aMaterno, email, matricula, picture);
+    // login(name);
+
+    navigate('/perfil', { replace: true });
   }
-
-  const handleSignOut = () => {
-    setUser({});
-    document.getElementById("signInDiv").hidden = false;
-  }
+  //? Sign in
 
   useEffect(() => {
     google.accounts.id.initialize({
       client_id: import.meta.env.VITE_APP_GOOGLE_CLIENT_ID,
-      callback: handleCallbackResponse
+      callback: handleSignIn
     })
 
     google.accounts.id.renderButton(
       document.getElementById("signInDiv"),
       {
         theme: "dark",
-        style: "large",
-        // width: 200,
-        // height: 200,
-        // text: 'continue_with'
+        style: "large"
       }
     )
 
@@ -55,21 +95,9 @@ export const LoginPage = () => {
 
   return (
     <>
-      {/* <div className="text-center">
-        <h1>Application XD</h1>
-
-        {Object.keys(user).length != 0 &&
-          <button onClick={() => handleSignOut()}>Sign Out</button>
-        }
-        {user &&
-          <div>
-            <img src={user.picture} alt="" />
-            <h4>Name: {user.name}</h4>
-            <h4>Email: {user.email}</h4>
-          </div>
-        }
-      </div> */}
-
+      <button type="submit" onClick={handleSubmit}>
+        Create Post
+      </button>
       <div className="Auth-form-container">
         <form className="Auth-form">
           <div className="Auth-form-content">
