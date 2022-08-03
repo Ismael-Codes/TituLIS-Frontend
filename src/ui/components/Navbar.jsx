@@ -19,63 +19,73 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-dark p-2">
+    <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
       <Link
-        className="navbar-brand"
+        className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none mx-4"
         to="/"
       >
         Project 34793
       </Link>
 
-      <div className="navbar-collapse">
-        <div className="navbar-nav">
+      <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        {/* <div className="navbar-nav"> */}
 
+        <li className="nav-pills">
           <NavLink
-            className={({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`}
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+
             to="/perfil"
           >
             Perfil
           </NavLink>
+        </li>
+
+        <li className="nav-pills">
 
           <NavLink
-            className={({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`}
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
             to="/dc"
           >
             Example
           </NavLink>
+        </li>
+
+        <li className="nav-pills">
 
           <NavLink
-            className={({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`}
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
             to="/search"
           >
             Search
           </NavLink>
-        </div>
-      </div>
+          {/* </div> */}
+        </li>
+      </ul>
 
-      <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
+      <div className="col-md-3 text-end mx-4">
+        <button type="button" className="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 
+          {/* //? Image */}
+          <img src={user?.picture} alt="mdo" width="32" height="32" class="rounded-circle" />
 
-        <div className="btn-group me-1" role="group">
-          <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-
+          {/* //? Icon */}
+          {/* 
             <IconContext.Provider value={{ color: "light", size: "1.5em" }}>
               <AiOutlineUser />
+            </IconContext.Provider> */}
+          <span className="ms-1">
+            {`${user?.given_name} ${user?.aPaterno} ${user?.aMaterno}`}
+          </span>
+        </button>
+        <ul className="dropdown-menu dropdown-menu-light">
+          <li><a className="dropdown-item text-center" href="#" onClick={() => onLogout()}>
+            <IconContext.Provider value={{ color: "light", size: "1.3em" }}>
+              <AiOutlineLogout />
             </IconContext.Provider>
-            <span className="ms-1">
-              {`${user?.given_name} ${user?.aPaterno} ${user?.aMaterno}`}
-            </span>
-          </button>
-          <ul className="dropdown-menu dropdown-menu-dark">
-            <li><a className="dropdown-item text-center" href="#" onClick={() => onLogout()}>
-              <IconContext.Provider value={{ color: "light", size: "1.3em" }}>
-                <AiOutlineLogout />
-              </IconContext.Provider>
-              <span className="ms-2">logout</span></a></li>
-          </ul>
-        </div>
+            <span className="ms-2">logout</span></a></li>
+        </ul>
       </div>
-    </nav>
+    </header>
   )
 }

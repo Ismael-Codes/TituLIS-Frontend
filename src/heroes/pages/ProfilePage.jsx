@@ -17,7 +17,7 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <h1>Profile</h1>
+      <h1 className="mt-3">Profile</h1>
       <hr />
       <img src={misDatos.picture} />
       <p className="fs-4 fw-bold">Nombre: <span className="fw-normal">{misDatos?.given_name}</span></p>
@@ -26,7 +26,11 @@ export const ProfilePage = () => {
       <p className="fs-4 fw-bold">Correo Electrónico: <span className="fw-normal">{misDatos?.email}</span> </p>
       <p className="fs-4 fw-bold">Matricula: <span className="fw-normal">{misDatos?.matricula}</span></p>
       <p className="fs-4 fw-bold">ID: <span className="fw-normal">{misDatos?.id}</span></p>
-      <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Enviar Datos</button>
+
+      <button type="submit" className="btn btn-primary" onClick={handleSubmit} disabled>Enviar Datos</button>
+
+
+
       {/* <HeroList publisher={'Marvel Comics'} /> */}
     </>
   )
