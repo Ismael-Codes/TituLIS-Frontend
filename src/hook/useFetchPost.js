@@ -2,10 +2,9 @@ import { useFetch } from "./useFetch";
 
 export const useFetchPost = ({ url, dataInfo }) => {
 
-  //*                                                 
-  // const existeUsuario = await Usuario.findById(id)
-  //*                                                 
 
+  //todo: colocar esta peticion dentro de validar usuario
+  //* Get data
   const { data, hasError, isLoading } = useFetch("https://express-with-vercel-l1hm0yhtz-ismael-codes.vercel.app/api/getUsers");
 
   const { message = 'no data' } = data;
