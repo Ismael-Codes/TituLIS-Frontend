@@ -1,12 +1,14 @@
-import { useFetchPost } from "../../hook";
-import { HeroList } from "../components"
+import { useFetchPost } from '../../hook';
+// import { HeroList } from "../components"
+import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
+import { Modal } from '../../components/Modal';
 
 export const ProfilePage = () => {
 
   const misDatos = JSON.parse(localStorage.getItem('user'));
 
   const { handleSubmit } = useFetchPost({
-    url: "https://restserver-node-brian.herokuapp.com/api/usuarios/", data:
+    url: "https://restserver-node-brian.herokuapp.com/api/usuarios/", dataInfo:
     {
       "nombre": "Brian Cruz Sanchez",
       "correo": "test168@gmail.com",
@@ -17,18 +19,25 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <h1 className="mt-3">Profile</h1>
-      <hr />
-      <img src={misDatos.picture} />
-      <p className="fs-4 fw-bold">Nombre: <span className="fw-normal">{misDatos?.given_name}</span></p>
-      <p className="fs-4 fw-bold">Apellido Paterno: <span className="fw-normal">{misDatos?.aPaterno}</span> </p>
-      <p className="fs-4 fw-bold">Apellido Materno: <span className="fw-normal">{misDatos?.aMaterno}</span> </p>
-      <p className="fs-4 fw-bold">Correo Electrónico: <span className="fw-normal">{misDatos?.email}</span> </p>
-      <p className="fs-4 fw-bold">Matricula: <span className="fw-normal">{misDatos?.matricula}</span></p>
-      <p className="fs-4 fw-bold">ID: <span className="fw-normal">{misDatos?.id}</span></p>
+      <h2>Perfil</h2>
+      <hr className="border border-dark border-1 opacity-50" />
 
-      <button type="submit" className="btn btn-primary" onClick={handleSubmit} disabled>Enviar Datos</button>
+      <form className="row">
+        <img src={misDatos.picture} style={{ width: "18rem" }} />
+        <p className="fs-5 fw-bold mt-2">Nombre: <span className="fw-normal">{misDatos?.given_name}</span></p>
+        <p className="fs-5 fw-bold">Apellido Paterno: <span className="fw-normal">{misDatos?.aPaterno}</span> </p>
+        <p className="fs-5 fw-bold">Apellido Materno: <span className="fw-normal">{misDatos?.aMaterno}</span> </p>
+        <p className="fs-5 fw-bold">Correo Electrónico: <span className="fw-normal">{misDatos?.email}</span> </p>
+        <p className="fs-5 fw-bold">Matricula: <span className="fw-normal">{misDatos?.matricula}</span></p>
+        <p className="fs-5 fw-bold">ID: <span className="fw-normal">{misDatos?.id}</span></p>
 
+        <div className="col-auto mb-2">
+          <button type="submit" className="btn btn-primary" onClick={handleSubmit} data-bs-toggle="modal" data-bs-target="#exampleModal">Enviar Datos</button>
+
+          {/* <!-- Modal --> */}
+          <Modal />
+        </div>
+      </form>
 
 
       {/* <HeroList publisher={'Marvel Comics'} /> */}

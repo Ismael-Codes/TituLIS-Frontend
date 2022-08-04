@@ -1,6 +1,6 @@
 import { HeroList } from "../components"
 
-export const DcPage = () => {
+export const CRUDPage = () => {
   return (
     <>
       <h1>CRUD</h1>

@@ -13,6 +13,7 @@ const init = () => {
 
   return {
     logged: !!user,
+    // logged: true,
     user: user,
   }
 }

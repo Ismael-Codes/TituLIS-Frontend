@@ -45,9 +45,9 @@ export const Navbar = () => {
 
           <NavLink
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            to="/dc"
+            to="/crud"
           >
-            Example
+            CRUD
           </NavLink>
         </li>
 
@@ -67,7 +67,7 @@ export const Navbar = () => {
         <button type="button" className="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 
           {/* //? Image */}
-          <img src={user?.picture} alt="mdo" width="32" height="32" class="rounded-circle" />
+          <img src={user?.picture} alt="" width="32" height="32" className="rounded-circle" />
 
           {/* //? Icon */}
           {/* 
