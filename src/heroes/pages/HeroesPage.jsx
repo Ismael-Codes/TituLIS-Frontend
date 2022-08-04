@@ -13,7 +13,7 @@ export const HeroesPage = () => {
 
   if (!hero) {
 
-    return <Navigate to="/marvel" />
+    return <Navigate to="/perfil" />
   }
 
   return (

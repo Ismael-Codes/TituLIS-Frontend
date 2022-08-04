@@ -11,5 +11,5 @@ export const PublicRoute = ({ children }) => {
   //^ Children es los demas components
   return (!logged)
     ? children
-    : <Navigate to="/marvel" />
+    : <Navigate to="/perfil" />
 }

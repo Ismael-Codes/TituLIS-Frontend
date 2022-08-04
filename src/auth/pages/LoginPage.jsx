@@ -3,8 +3,12 @@ import { handleSignIn } from '../hooks/handleSignIn'
 
 export const LoginPage = () => {
 
+  //todo: token personalization, udemy video
+
   const { SignIn } = handleSignIn()
 
+
+  //todo: google is not defined, I have to initialize google before that the component is drawn
   useEffect(() => {
     google.accounts.id.initialize({
       client_id: import.meta.env.VITE_APP_GOOGLE_CLIENT_ID,
@@ -20,7 +24,7 @@ export const LoginPage = () => {
     )
 
     google.accounts.id.prompt();
-  }, [])
+  })
 
   return (
     <>
