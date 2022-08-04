@@ -19,7 +19,7 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <h2>Perfil</h2>
+      <h1>Perfil</h1>
       <hr className="border border-dark border-1 opacity-50" />
 
       <form className="row">

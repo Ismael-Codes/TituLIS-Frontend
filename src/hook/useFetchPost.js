@@ -20,7 +20,7 @@ export const useFetchPost = ({ url, dataInfo }) => {
   //* Valida si el usuario ya esta registrado
   const validarUsuario = () => {
     for (let i = 0; i < message.length; i++) {
-      (message[i].email == 'Brian@gmail.com') ? valid = true : valid;
+      (message[i].email == 'Brian@gmail.com') ? valid : valid = true;
     }
     console.log(valid);
   }

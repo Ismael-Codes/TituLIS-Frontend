@@ -3,6 +3,8 @@ import { handleSignIn } from '../hooks/handleSignIn'
 
 export const LoginPage = () => {
 
+  //todo: token personalization, udemy video
+
   const { SignIn } = handleSignIn()
 
   useEffect(() => {
