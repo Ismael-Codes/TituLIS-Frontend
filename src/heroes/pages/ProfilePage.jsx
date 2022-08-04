@@ -23,7 +23,7 @@ export const ProfilePage = () => {
       <hr className="border border-dark border-1 opacity-50" />
 
       <form className="row">
-        <img src={misDatos.picture} style={{ width: "18rem" }} />
+        <img src={misDatos.picture} style={{ width: "10rem" }} />
         <p className="fs-5 fw-bold mt-2">Nombre: <span className="fw-normal">{misDatos?.given_name}</span></p>
         <p className="fs-5 fw-bold">Apellido Paterno: <span className="fw-normal">{misDatos?.aPaterno}</span> </p>
         <p className="fs-5 fw-bold">Apellido Materno: <span className="fw-normal">{misDatos?.aMaterno}</span> </p>
