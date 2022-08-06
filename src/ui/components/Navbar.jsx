@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth';
-import { AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineLogout } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
 export const Navbar = () => {
@@ -25,7 +25,7 @@ export const Navbar = () => {
         className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none mx-4"
         to="/"
       >
-        Project 34793
+        <span className="fw-bold fs-5 text-center">Plataforma para Control y Seguimiento de Titulación</span>
       </Link>
 
       <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
