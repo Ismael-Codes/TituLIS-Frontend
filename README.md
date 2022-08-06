@@ -39,6 +39,3 @@ Vite 2.9.9
 
 React 18.0.0
 
-## Development Page
-
-
