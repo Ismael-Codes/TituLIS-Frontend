@@ -1,5 +1,5 @@
 //? Primeros
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 //? Terceros
 import jwt_decode from 'jwt-decode';
@@ -15,15 +15,10 @@ export const handleSignIn = () => {
   const { login } = useContext(AuthContext)
   const navigate = useNavigate();
 
-  //? Vainilla Version
-  const [user, setUser] = useState({});
-
-
   const SignIn = (response) => {
 
     const userObject = jwt_decode(response.credential);
-    setUser(userObject);
-    document.getElementById("signInDiv").hidden = true;
+    // console.log(userObject);
 
     const { email, given_name, family_name, picture, sub } = userObject;
 
