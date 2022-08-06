@@ -5,9 +5,6 @@ export const LoginPage = () => {
 
   //todo: token personalization, udemy video
 
-  //todo: google is not defined, I have to initialize google
-
-
   return (
     <>
       <div className="Auth-form-container">
