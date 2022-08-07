@@ -14,10 +14,10 @@ export const HeroesRoutes = () => {
           <Route path="search" element={<SearchPage />} />
           <Route path="hero/:id" element={<HeroesPage />} />
 
-          <Route path="error_404" element={<Error_404 />} />
+          <Route path="404" element={<Error_404 />} />
           
           <Route path="/" element={<Navigate to="/perfil" />} />
-          <Route path="*" element={<Navigate to="/error_404" />} />
+          <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
       </div>
     </>
