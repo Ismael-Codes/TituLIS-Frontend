@@ -1,60 +1,75 @@
+import { useState } from "react";
 import { useFetch } from "./useFetch";
+// import lodash from "lodash";
 
-export const useFetchPost = ({ url, dataInfo }) => {
+export const useFetchPost = ({ url = '', misDatos = '' }) => {
 
+  const { email } = misDatos;
+  console.log(email);
+
+  const [state, setState] = useState({
+    isLoading: true
+  })
 
   //todo: colocar esta peticion dentro de validar usuario
   //* Get data
-  const { data, hasError, isLoading } = useFetch("https://express-with-vercel-l1hm0yhtz-ismael-codes.vercel.app/api/getUsers");
+  // const { data, hasError, isLoading } = useFetch("https://express-with-vercel-l1hm0yhtz-ismael-codes.vercel.app/api/getUsers");
+  // const { message = 'no data' } = data;
 
-  const { message = 'no data' } = data;
+  const { data, isLoading, hasError } = useFetch('https://restserver-node-brian.herokuapp.com/api/usuarios/?limite=15&desde=0')
 
-  //^ Test
-  // const { data, isLoading, hasError } = useFetch('https://express-with-vercel-l1hm0yhtz-ismael-codes.vercel.app/api/getUsers')
-  // const { data, isLoading, hasError } = useFetch('https://restserver-node-brian.herokuapp.com/api/usuarios/')
-  // console.log(data);
-
-  let valid = false;
+  const { usuarios } = data
 
   //* Valida si el usuario ya esta registrado
-  const validarUsuario = () => {
-    for (let i = 0; i < message.length; i++) {
-      (message[i].email == 'Brian@gmail.com') ? valid : valid = true;
+  const validarUsuario = (valid = false) => {
+
+    for (let i = 0; i < data.total; i++) {
+      (usuarios[i].correo === email) ? valid = true : valid;
     }
-    console.log(valid);
+    return valid;
   }
 
   //* Post request
   const handleSubmit = (e) => {
+
+
+
+
     // pepe@gmail.com
 
     //* Evita la recarga del navegador
     e.preventDefault();
 
-    validarUsuario();
+    const valid = validarUsuario()
+    console.log(valid);
 
 
-    if (!valid) {
+    if (valid) {
+
+      document.getElementById('validUser').innerHTML = 'El usuario ya esta registrado en la base de datos';
+    } else {
 
       //* POST a la base de datos
-      const requestOptions = {
+      /* const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataInfo)
-      };
+        body: JSON.stringify(misDatos)
+      }; */
 
       //* POST a la base de datos
-      fetch(url, requestOptions)
+      /* fetch(url, requestOptions)
         .then(response => response.json())
-        .then(res => console.log(res));
+        .then(res => console.log(res)); */
 
-      document.getElementById('validUser').innerHTML = 'Usuario registrado';
-    } else {
-      document.getElementById('validUser').innerHTML = 'El usuario ya esta registrado en la base de datos';
+
+      document.getElementById('validUser').innerHTML = 'Usuario no esta registrado';
+      // document.getElementById('buttonSend').disabled = true;
     }
 
   };
   //^ Test
 
-  return { handleSubmit }
+  return {
+    handleSubmit
+  }
 }

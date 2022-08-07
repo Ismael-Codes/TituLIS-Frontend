@@ -1,20 +1,13 @@
 import { useFetchPost } from '../../hook';
-// import { HeroList } from "../components"
-import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
 import { Modal } from '../../components/Modal';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 
 export const ProfilePage = () => {
 
   const misDatos = JSON.parse(localStorage.getItem('user'));
 
   const { handleSubmit } = useFetchPost({
-    url: "https://restserver-node-brian.herokuapp.com/api/usuarios/", dataInfo:
-    {
-      "nombre": "Brian Cruz Sanchez",
-      "correo": "test168@gmail.com",
-      "password": "123456",
-      "rol": "USER_ROLE"
-    }
+    url: "https://restserver-node-brian.herokuapp.com/api/usuarios/", misDatos
   })
 
   return (
@@ -32,15 +25,14 @@ export const ProfilePage = () => {
         <p className="fs-5 fw-bold">ID: <span className="fw-normal">{misDatos?.id}</span></p>
 
         <div className="col-auto mb-2">
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit} data-bs-toggle="modal" data-bs-target="#exampleModal">Enviar Datos</button>
+          <button type="submit" className="btn btn-primary" onClick={handleSubmit} data-bs-toggle="modal" data-bs-target="#exampleModal" id='buttonSend'>Enviar Datos</button>
 
+
+          {/* <LoadingSpinner /> */}
           {/* <!-- Modal --> */}
           <Modal />
         </div>
       </form>
-
-
-      {/* <HeroList publisher={'Marvel Comics'} /> */}
     </>
   )
 }
