@@ -62,7 +62,7 @@ export const useFetchPost = ({ url = '', misDatos = '' }) => {
         .then(res => console.log(res)); */
 
 
-      document.getElementById('validUser').innerHTML = 'Usuario no esta registrado';
+      document.getElementById('validUser').innerHTML = 'El usuario no esta registrado';
       // document.getElementById('buttonSend').disabled = true;
     }
 

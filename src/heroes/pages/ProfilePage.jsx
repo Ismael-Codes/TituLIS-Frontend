@@ -12,20 +12,42 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <h1>Perfil</h1>
-      <hr className="border border-dark border-1 opacity-50" />
+      <form className="row g-3 mt-5">
+        <div className="col-12 text-center mb-5">
+          <img src={misDatos.picture} style={{ width: "10rem" }} />
+        </div>
+        <div class="col-md-4">
+          <label for="inputFirstN" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="inputFirstN" disabled readonly value={misDatos?.given_name} />
+        </div>
 
-      <form className="row">
-        <img src={misDatos.picture} style={{ width: "10rem" }} />
-        <p className="fs-5 fw-bold mt-2">Nombre: <span className="fw-normal">{misDatos?.given_name}</span></p>
-        <p className="fs-5 fw-bold">Apellido Paterno: <span className="fw-normal">{misDatos?.aPaterno}</span> </p>
-        <p className="fs-5 fw-bold">Apellido Materno: <span className="fw-normal">{misDatos?.aMaterno}</span> </p>
-        <p className="fs-5 fw-bold">Correo Electrónico: <span className="fw-normal">{misDatos?.email}</span> </p>
-        <p className="fs-5 fw-bold">Matricula: <span className="fw-normal">{misDatos?.matricula}</span></p>
-        <p className="fs-5 fw-bold">ID: <span className="fw-normal">{misDatos?.id}</span></p>
+        <div className="col-md-4">
+          <label for="inputLasName1" className="form-label">Apellido Paterno</label>
+          <input type="text" className="form-control" id="inputLasName1" disabled readonly value={misDatos?.aPaterno} />
+        </div>
 
-        <div className="col-auto mb-2">
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit} data-bs-toggle="modal" data-bs-target="#exampleModal" id='buttonSend'>Enviar Datos</button>
+        <div className="col-md-4">
+          <label for="inputLasName2" className="form-label">Apellido Materno</label>
+          <input type="text" className="form-control" id="inputLasName2" disabled readonly value={misDatos?.aMaterno} />
+        </div>
+
+        <div className="col-md-4">
+          <label for="inputEmail4" className="form-label">Correo</label>
+          <input type="email" className="form-control" id="inputEmail4" disabled readonly value={misDatos?.email} />
+        </div>
+
+        <div className="col-md-4">
+          <label for="inputMatricula" className="form-label">Matricula</label>
+          <input type="text" className="form-control" id="inputMatricula" disabled readonly value={misDatos?.matricula} />
+        </div>
+
+        <div className="col-md-4">
+          <label for="inputID" className="form-label">ID</label>
+          <input type="text" className="form-control" id="inputID" disabled readonly value={misDatos?.id} />
+        </div>
+
+        <div className="col-12 mb-2">
+          <button type="submit" className="btn btn-primary" onClick={handleSubmit} data-bs-toggle="modal" data-bs-target="#exampleModal" id='buttonSend'>Comprobar Registro</button>
 
 
           {/* <LoadingSpinner /> */}
