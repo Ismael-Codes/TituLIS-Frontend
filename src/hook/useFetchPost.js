@@ -31,44 +31,25 @@ export const useFetchPost = ({ url = '', misDatos = '' }) => {
 
   //* Post request
   const handleSubmit = (e) => {
-
-
-
-
-    // pepe@gmail.com
-
     //* Evita la recarga del navegador
     e.preventDefault();
-
     const valid = validarUsuario()
     console.log(valid);
 
+    //* POST a la base de datos
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(misDatos)
+    };
 
-    if (valid) {
+    //* POST a la base de datos
+    fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(res => console.log(res));
+    //^ Test
 
-      document.getElementById('validUser').innerHTML = 'El usuario ya esta registrado en la base de datos';
-    } else {
-
-      //* POST a la base de datos
-      /* const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(misDatos)
-      }; */
-
-      //* POST a la base de datos
-      /* fetch(url, requestOptions)
-        .then(response => response.json())
-        .then(res => console.log(res)); */
-
-
-      document.getElementById('validUser').innerHTML = 'El usuario no esta registrado';
-      // document.getElementById('buttonSend').disabled = true;
-    }
-
-  };
-  //^ Test
-
+  }
   return {
     handleSubmit
   }

@@ -1,9 +1,8 @@
-import { handleSignIn } from "../hooks/handleSignIn";
+import { useSignIn } from "../hooks/useSignIn";
 import { GoogleLogin } from '@react-oauth/google';
-
 export const LoginButton = () => {
 
-  const { SignIn } = handleSignIn()
+  const { SignIn } = useSignIn()
 
   return (
     <div style={{
@@ -11,6 +10,7 @@ export const LoginButton = () => {
       justifyContent: "center",
       alignItems: "center"
     }} className="mb-4">
+
       <GoogleLogin
         /* onSuccess={credentialResponse => {
           console.log(credentialResponse);
@@ -22,6 +22,7 @@ export const LoginButton = () => {
         theme="filled_black"
         text="continue_with"
         useOneTap={true}
+
       />
     </div>
   )
