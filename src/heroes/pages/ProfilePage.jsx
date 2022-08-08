@@ -1,6 +1,7 @@
 import { useFetchPost } from '../../hook';
 import { Modal } from '../../components/Modal';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
+import { Alert } from '@mui/material';
 
 export const ProfilePage = () => {
 
@@ -12,8 +13,8 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <form className="row g-3 mt-5">
-        <div className="col-12 text-center mb-5">
+      <form className="row g-3 mt-3">
+        <div className="col-12 text-center mb-3">
           <img src={misDatos.picture} style={{ width: "10rem" }} />
         </div>
         <div class="col-md-4">
@@ -46,9 +47,8 @@ export const ProfilePage = () => {
           <input type="text" className="form-control" id="inputID" disabled readonly value={misDatos?.id} />
         </div>
 
-        <div className="col-12 mb-2">
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit} data-bs-toggle="modal" data-bs-target="#exampleModal" id='buttonSend'>Comprobar Registro</button>
-
+        <div className="col mb-2">
+          {/* <button type="submit" className="btn btn-primary" onClick={handleSubmit} data-bs-toggle="modal" data-bs-target="#exampleModal" id='buttonSend'>Comprobar Registro</button> */}
 
           {/* <LoadingSpinner /> */}
           {/* <!-- Modal --> */}
