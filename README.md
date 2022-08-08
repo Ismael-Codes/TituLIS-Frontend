@@ -1,4 +1,4 @@
-#  PCOSTI (Plataforma para Control y Seguimiento Titulación)
+#  Plataforma para Control y Seguimiento de Titulación
 
 ## React + Vite
 
