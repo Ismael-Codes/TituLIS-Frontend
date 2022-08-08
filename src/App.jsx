@@ -2,7 +2,7 @@ import { AuthProvider } from "./auth"
 import { AppRouter } from "./router/AppRouter"
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-export const HeroesApp = () => {
+export const App = () => {
   return (
     <>
       <AuthProvider>

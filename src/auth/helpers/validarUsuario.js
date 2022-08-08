@@ -1,9 +1,9 @@
 export const validarUsuario = (valid = false, email = '', data = '') => {
 
-  const { usuarios } = data
-
-  for (let i = 0; i < data.total; i++) {
-    (usuarios[i].correo === email) ? valid = true : valid;
+  const { message = ' '} = data;
+  console.log(message.length);
+  for (let i = 0; i < message.length; i++) {
+    (message[i].email === email) ? valid = true : valid;
   }
   return valid;
 }
