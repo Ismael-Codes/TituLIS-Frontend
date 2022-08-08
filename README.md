@@ -1,4 +1,6 @@
-# React + Vite
+#  PCOSTI (Plataforma para Control y Seguimiento Titulación)
+
+## React + Vite
 
 This App is being created with Vite
 
@@ -7,7 +9,7 @@ This App is being created with Vite
 You will need to install node packages, if you want to run the app, install the packages with the next command:
 
 ```
-yarn install
+npm install
 ```
 
 Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -15,13 +17,13 @@ Runs the app in the development mode. Open [http://localhost:3000](http://localh
 The page will reload when you make changes. You may also see any lint errors in the console.
 
 ```
-yarn dev
+npm run dev
 ```
 
 Launches the test runner in the interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ```
-yarn build
+npm run build
 ```
 
 Builds the app for production to the `build` folder.
@@ -32,14 +34,8 @@ It correctly bundles React in production mode and optimizes the build for the be
 ## Technologies
 
 Node 18.4.0
+
 Vite 2.9.9
+
 React 18.0.0
-
-## Course Sample Pages
-
-https://create-react-app-indol-iota.vercel.app
-
-https://create-react-app-ismael-codes.vercel.app
-
-https://create-react-app-git-main-ismael-codes.vercel.app 
 

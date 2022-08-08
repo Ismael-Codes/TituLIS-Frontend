@@ -1,46 +1,45 @@
-import { useFetchPost } from '../../hook';
-// import { HeroList } from "../components"
-import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
 import { Modal } from '../../components/Modal';
 
 export const ProfilePage = () => {
 
   const misDatos = JSON.parse(localStorage.getItem('user'));
 
-  const { handleSubmit } = useFetchPost({
-    url: "https://restserver-node-brian.herokuapp.com/api/usuarios/", dataInfo:
-    {
-      "nombre": "Brian Cruz Sanchez",
-      "correo": "test168@gmail.com",
-      "password": "123456",
-      "rol": "USER_ROLE"
-    }
-  })
-
   return (
     <>
-      <h1>Perfil</h1>
-      <hr className="border border-dark border-1 opacity-50" />
+      <form className="row g-3 mt-3">
+        <div className="col-12 text-center mb-3">
+          <img src={misDatos.picture} style={{ width: "10rem" }} />
+        </div>
+        <div className="col-md-4">
+          <label htmlFor="inputFirstN" className="form-label">Nombre</label>
+          <input type="text" className="form-control" id="inputFirstN" disabled readOnly value={misDatos?.given_name} />
+        </div>
 
-      <form className="row">
-        <img src={misDatos.picture} style={{ width: "10rem" }} />
-        <p className="fs-5 fw-bold mt-2">Nombre: <span className="fw-normal">{misDatos?.given_name}</span></p>
-        <p className="fs-5 fw-bold">Apellido Paterno: <span className="fw-normal">{misDatos?.aPaterno}</span> </p>
-        <p className="fs-5 fw-bold">Apellido Materno: <span className="fw-normal">{misDatos?.aMaterno}</span> </p>
-        <p className="fs-5 fw-bold">Correo Electrónico: <span className="fw-normal">{misDatos?.email}</span> </p>
-        <p className="fs-5 fw-bold">Matricula: <span className="fw-normal">{misDatos?.matricula}</span></p>
-        <p className="fs-5 fw-bold">ID: <span className="fw-normal">{misDatos?.id}</span></p>
+        <div className="col-md-4">
+          <label htmlFor="inputLasName1" className="form-label">Apellido Paterno</label>
+          <input type="text" className="form-control" id="inputLasName1" disabled readOnly value={misDatos?.aPaterno} />
+        </div>
 
-        <div className="col-auto mb-2">
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit} data-bs-toggle="modal" data-bs-target="#exampleModal">Enviar Datos</button>
+        <div className="col-md-4">
+          <label htmlFor="inputLasName2" className="form-label">Apellido Materno</label>
+          <input type="text" className="form-control" id="inputLasName2" disabled readOnly value={misDatos?.aMaterno} />
+        </div>
 
-          {/* <!-- Modal --> */}
-          <Modal />
+        <div className="col-md-4">
+          <label htmlFor="inputEmail4" className="form-label">Correo</label>
+          <input type="email" className="form-control" id="inputEmail4" disabled readOnly value={misDatos?.email} />
+        </div>
+
+        <div className="col-md-4">
+          <label htmlFor="inputMatricula" className="form-label">Matricula</label>
+          <input type="text" className="form-control" id="inputMatricula" disabled readOnly value={misDatos?.matricula} />
+        </div>
+
+        <div className="col-md-4">
+          <label htmlFor="inputID" className="form-label">ID</label>
+          <input type="text" className="form-control" id="inputID" disabled readOnly value={misDatos?.id} />
         </div>
       </form>
-
-
-      {/* <HeroList publisher={'Marvel Comics'} /> */}
     </>
   )
 }

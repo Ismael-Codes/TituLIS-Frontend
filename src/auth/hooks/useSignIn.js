@@ -1,5 +1,5 @@
 //? Primeros
-import { useContext, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 //? Terceros
 import jwt_decode from 'jwt-decode';
@@ -7,25 +7,31 @@ import jwt_decode from 'jwt-decode';
 //?
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { useFetch } from '../../hook/useFetch';
+import { validarUsuario } from '../helpers/validarUsuario';
 
 //? Google Sign in
-export const handleSignIn = () => {
-
+export const useSignIn = () => {
 
   const { login } = useContext(AuthContext)
   const navigate = useNavigate();
 
-  //? Vainilla Version
-  const [user, setUser] = useState({});
-
+  const { data, isLoading, hasError } = useFetch('https://restserver-node-brian.herokuapp.com/api/usuarios/?limite=15&desde=0')
 
   const SignIn = (response) => {
 
-    const userObject = jwt_decode(response.credential);
-    setUser(userObject);
-    document.getElementById("signInDiv").hidden = true;
+    const { email, given_name, family_name, picture, sub } = jwt_decode(response.credential);
 
-    const { email, given_name, family_name, picture, sub } = userObject;
+    const valid = validarUsuario(false, email, data);
+
+    if (valid) {
+
+      console.log('El usuario ya esta registrado')
+    } else {
+
+      //todo: hacer post a la base de datos
+      console.log('Usuario no registrado')
+    }
 
     //* Divide los nombres
     const miCadena = family_name;
