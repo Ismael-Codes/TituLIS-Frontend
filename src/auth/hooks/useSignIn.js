@@ -16,13 +16,16 @@ export const useSignIn = () => {
   const { login } = useContext(AuthContext)
   const navigate = useNavigate();
 
-  const { data, isLoading, hasError } = useFetch('https://restserver-node-brian.herokuapp.com/api/usuarios/?limite=15&desde=0')
+  // const { data, isLoading, hasError } = useFetch('https://restserver-node-brian.herokuapp.com/api/usuarios/?limite=15&desde=0')
+  const { data, isLoading, hasError } = useFetch('https://express-with-vercel-iota.vercel.app/api/getUsers')
 
+  
   const SignIn = (response) => {
+    console.log(data)
 
     const { email, given_name, family_name, picture, sub } = jwt_decode(response.credential);
 
-    const valid = validarUsuario(false, email, data);
+    const { valid, userType } = validarUsuario(false, email, data);
 
     if (valid) {
 
@@ -43,7 +46,7 @@ export const useSignIn = () => {
     const stringWithNumbers = email;
     const matricula = stringWithNumbers.replace(/[^0-9]+/g, "");
 
-    login(given_name, aPaterno, aMaterno, email, matricula, picture, sub);
+    login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType);
     // login(name);
 
     navigate('/perfil', { replace: true });

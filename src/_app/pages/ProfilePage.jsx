@@ -35,7 +35,7 @@ export const ProfilePage = () => {
           <input type="text" className="form-control" id="inputMatricula" disabled readOnly value={misDatos?.matricula} />
         </div>
 
-        <div className="col-md-4">
+        <div className="col-md-4 mb-3">
           <label htmlFor="inputID" className="form-label">ID</label>
           <input type="text" className="form-control" id="inputID" disabled readOnly value={misDatos?.id} />
         </div>
