@@ -1,6 +1,4 @@
-import { useContext } from "react"
 import { Navigate, Route, Routes } from "react-router-dom"
-import { AuthContext } from "../../auth"
 import { Navbar } from "../../ui"
 import { CRUDPage, HeroesPage, ProfilePage, SearchPage, Error_404 } from "../pages"
 
@@ -19,7 +17,7 @@ export const MainRoutes = () => {
           <Route path="perfil" element={<ProfilePage />} />
 
           {
-            (userType) ? <Route path="crud" element={<CRUDPage />} /> : <Route path="search" element={<SearchPage />} />
+            (userType === 1) ? <Route path="crud" element={<CRUDPage />} /> : <Route path="search" element={<SearchPage />} />
 
           }
           <Route path="hero/:id" element={<HeroesPage />} />
