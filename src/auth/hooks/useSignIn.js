@@ -19,14 +19,10 @@ export const useSignIn = () => {
 
   const url = 'https://express-with-vercel-iota.vercel.app'
 
-  // const { data, isLoading, hasError } = useFetch('https://restserver-node-brian.herokuapp.com/api/usuarios/?limite=15&desde=0')
-
   //* Despierta la base de datos
-  // useFetch(`${url}/api/saludar`)
-  useFetch('https://express-with-vercel-iota.vercel.app/api/saludar')
+  useFetch(`${url}/api/saludar`)
 
-  // const { data, isLoading, hasError } = useFetch(`${url}/api/getUsers`)
-  const { data, isLoading, hasError } = useFetch('https://express-with-vercel-iota.vercel.app/api/getUsers')
+  const { data, isLoading, hasError } = useFetch(`${url}/api/getUsers`)
 
   const SignIn = (response) => {
 
@@ -59,33 +55,14 @@ export const useSignIn = () => {
       }
 
 
-      axios.post('http://897f-189-201-149-240.ngrok.io/api/saveUser', dataTest)
+      axios.post(`${url}/api/saveUser`, dataTest)
         .then(function (response) {
           console.log(response);
         })
         .catch(function (error) {
           console.log(error);
         });
-
-
-      // fetch(`${url}/api/saveUser`, {
-     /*  fetch(`http://897f-189-201-149-240.ngrok.io/api/saveUser`, {
-        method: 'POST',
-        body: JSON.stringify({
-          'nombre': 'Brian',
-          aPaterno,
-          aMaterno,
-          matricula,
-          email
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      })
-        .then((response) => response.json())
-        .then((json) => console.log(json));
-        //todo: hacer post a la base de datos
-        */
+        
         console.log('El usuario ha sido registrado')
     }
 
