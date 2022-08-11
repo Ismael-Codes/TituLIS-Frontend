@@ -1,12 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import PersonIcon from '@mui/icons-material/Person';
 
 export const StudentNavbar = () => {
   return (
     <>
       <li className="nav-pills">
         <NavLink
-          startIcon={<FontAwesomeIcon icon={PersonIcon} />}
           className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
 
           to="/perfil"
@@ -22,6 +20,16 @@ export const StudentNavbar = () => {
           to="/solicitud"
         >
           Solicitud
+        </NavLink>
+      </li>
+
+      <li className="nav-pills">
+        <NavLink
+          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+
+          to="/estado"
+        >
+          Estado
         </NavLink>
       </li>
     </>
