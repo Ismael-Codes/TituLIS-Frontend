@@ -20,7 +20,8 @@ export const useSignIn = () => {
   const url = 'https://express-with-vercel-iota.vercel.app'
 
   //* Despierta la base de datos
-  useFetch(`${url}/api/saludar`)
+  // useFetch(`${url}/api/saludar`)
+  useFetch(`${url}/api/getUsers`)
 
   const { data, isLoading, hasError } = useFetch(`${url}/api/getUsers`)
 
@@ -29,6 +30,8 @@ export const useSignIn = () => {
     const { email, given_name, family_name, picture, sub } = jwt_decode(response.credential);
 
     const { valid, userType } = validarUsuario(false, email, data);
+
+    console.log(userType)
 
     //* Divide los nombres
     const miCadena = family_name;
@@ -39,15 +42,14 @@ export const useSignIn = () => {
     //* Extraer la matricula de un email
     const stringWithNumbers = email;
     const matricula = stringWithNumbers.replace(/[^0-9]+/g, "");
+    let newUser = false;
 
     if (valid) {
-
       console.log('El usuario ya esta registrado')
     } else {
-
-
+      newUser = true;
       const dataTest = {
-        nombre: 'Brian',
+        nombre: given_name,
         aPaterno,
         aMaterno,
         matricula,
@@ -57,16 +59,14 @@ export const useSignIn = () => {
 
       axios.post(`${url}/api/saveUser`, dataTest)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
         })
         .catch(function (error) {
-          console.log(error);
+          // console.log(error);
         });
-        
-        console.log('El usuario ha sido registrado')
     }
 
-    login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType);
+    login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
     // login(name);
 
     navigate('/perfil', { replace: true });

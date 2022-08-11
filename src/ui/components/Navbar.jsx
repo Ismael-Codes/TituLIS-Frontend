@@ -3,6 +3,8 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth';
 import { AiOutlineLogout } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import { DocenteNavbar } from './DocenteNavbar';
+import { StudentNavbar } from './StudentNavbar';
 
 export const Navbar = () => {
 
@@ -29,38 +31,9 @@ export const Navbar = () => {
       </Link>
 
       <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        {/* <div className="navbar-nav"> */}
-
-        <li className="nav-pills">
-          <NavLink
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-
-            to="/perfil"
-          >
-            Perfil
-          </NavLink>
-        </li>
-
-        <li className="nav-pills">
-
-          <NavLink
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            to="/crud"
-          >
-            CRUD
-          </NavLink>
-        </li>
-
-        <li className="nav-pills">
-
-          <NavLink
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            to="/search"
-          >
-            Search
-          </NavLink>
-          {/* </div> */}
-        </li>
+        {
+          (user?.userType === 1) ? <StudentNavbar /> : <DocenteNavbar />
+        }
       </ul>
 
       <div className="col-md-3 text-end mx-4">
