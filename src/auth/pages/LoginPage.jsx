@@ -1,9 +1,14 @@
+import { useFetch } from '../../hook/useFetch';
 import { LoginButton } from './LoginButton';
-
 
 export const LoginPage = () => {
 
   //todo: token personalization, udemy video
+
+  const url = 'https://express-with-vercel-iota.vercel.app'
+
+  //* Despierta la base de datos
+  useFetch(`${url}/api/saludar`)
 
   return (
     <>

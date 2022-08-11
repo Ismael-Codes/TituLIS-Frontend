@@ -19,10 +19,6 @@ export const useSignIn = () => {
 
   const url = 'https://express-with-vercel-iota.vercel.app'
 
-  //* Despierta la base de datos
-  // useFetch(`${url}/api/saludar`)
-  useFetch(`${url}/api/getUsers`)
-
   const { data, isLoading, hasError } = useFetch(`${url}/api/getUsers`)
 
   const SignIn = (response) => {
