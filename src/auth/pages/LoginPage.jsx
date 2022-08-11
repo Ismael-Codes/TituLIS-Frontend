@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useFetch } from '../../hook/useFetch';
 import { LoginButton } from './LoginButton';
 
@@ -5,10 +6,10 @@ export const LoginPage = () => {
 
   //todo: token personalization, udemy video
 
-  const url = 'https://express-with-vercel-iota.vercel.app'
+  const url = 'https://express-with-vercel-ismael-codes.vercel.app'
 
   //* Despierta la base de datos
-  useFetch(`${url}/api/saludar`)
+  axios.get(`${url}/api/saludar`)
 
   return (
     <>
