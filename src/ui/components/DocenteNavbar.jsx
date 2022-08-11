@@ -1,4 +1,3 @@
-import PersonIcon from '@mui/icons-material/Person';
 import { NavLink } from 'react-router-dom';
 
 export const DocenteNavbar = () => {
@@ -7,7 +6,6 @@ export const DocenteNavbar = () => {
     <>
       <li className="nav-pills">
         <NavLink
-          // startIcon={<FontAwesomeIcon icon={PersonIcon} />}
           className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
 
           to="/perfil"

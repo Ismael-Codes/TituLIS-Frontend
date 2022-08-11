@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth';
 import { AiOutlineLogout } from "react-icons/ai";
 import { IconContext } from "react-icons";
