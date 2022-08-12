@@ -17,6 +17,7 @@ export const useSignIn = () => {
 
   let valid = false;
   let userType = 1
+  let newUser = false;
 
   const { login } = useContext(AuthContext)
   const navigate = useNavigate();
@@ -55,7 +56,6 @@ export const useSignIn = () => {
 
         if (valid) {//* Ya esta Registrado
 
-          const newUser = false;
           login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
 
         } else { //* No esta Registrado
@@ -69,7 +69,8 @@ export const useSignIn = () => {
           })
             .then(() => {
 
-              login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType);
+              newUser = false;
+              login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
 
             })
             .catch((error) => {
