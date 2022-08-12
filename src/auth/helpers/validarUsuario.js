@@ -1,12 +1,10 @@
-export const validarUsuario = (valid = false, email = '', data = '', userType = 2) => {
+export const validarUsuario = (valid = false, email, data, userType) => {
 
   const { message = ' ' } = data;
   
   for (let i = 0; i < message.length; i++) {
     if (message[i].email === email) {
-
-      console.log(message[i])
-      userType = message[i].email.id_tipoUsuario
+      userType = parseInt(message[i].id_tipoUsuario)
       valid = true
     }
   }

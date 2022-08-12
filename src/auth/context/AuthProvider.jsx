@@ -23,8 +23,8 @@ export const AuthProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, {}, init)
 
   //* Login, recibe los argumentos y hace el login
-  const login = async (given_name = ' ', aPaterno = ' ', aMaterno = ' ', email = ' ', matricula = ' ', picture = ' ', sub = '', userType = '') => {
-    const user = { id: sub, given_name, aPaterno, aMaterno, email, matricula, picture, userType }
+  const login = async (given_name = ' ', aPaterno = ' ', aMaterno = ' ', email = ' ', matricula = ' ', picture = ' ', sub = '', userType = '', newUser = ' ') => {
+    const user = { id: sub, given_name, aPaterno, aMaterno, email, matricula, picture, userType, newUser }
 
     // console.log(user);
 

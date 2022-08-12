@@ -1,45 +1,99 @@
-import { Modal } from '../../components/Modal';
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../auth';
+
+//? Material UI
+import Grid from '@mui/system/Unstable_Grid';
+import Avatar from '@mui/material/Avatar';
+import TextField from '@mui/material/TextField';
 
 export const ProfilePage = () => {
 
-  const misDatos = JSON.parse(localStorage.getItem('user'));
+  const { user } = useContext(AuthContext)
+
+  const [open, setOpen] = useState(user.newUser);
 
   return (
     <>
-      <form className="row g-3 mt-3">
-        <div className="col-12 text-center mb-3">
-          <img src={misDatos.picture} style={{ width: "10rem" }} />
-        </div>
-        <div className="col-md-4">
-          <label htmlFor="inputFirstN" className="form-label">Nombre</label>
-          <input type="text" className="form-control" id="inputFirstN" disabled readOnly value={misDatos?.given_name} />
-        </div>
+      <Grid container spacing={2} className="mb-3">
+        <Grid item='true' xs={12} md={12} align='center' className="mb-3">
+          {/* <Avatar
+            alt={user.given_name}
+            src={user.picture}
+            sx={{ width: 150, height: 150 }}
+          /> */}
+        </Grid>
 
-        <div className="col-md-4">
-          <label htmlFor="inputLasName1" className="form-label">Apellido Paterno</label>
-          <input type="text" className="form-control" id="inputLasName1" disabled readOnly value={misDatos?.aPaterno} />
-        </div>
+        <Grid item='true' xs={12} md={6}>
+          <TextField
+            sx={{ width: 1 }}
+            label="Nombre"
+            defaultValue={user.given_name + ' ' + user.aPaterno + ' ' + user.aMaterno}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
 
-        <div className="col-md-4">
-          <label htmlFor="inputLasName2" className="form-label">Apellido Materno</label>
-          <input type="text" className="form-control" id="inputLasName2" disabled readOnly value={misDatos?.aMaterno} />
-        </div>
+        <Grid item='true' xs={12} md={6}>
+          <TextField
+            sx={{ width: 1 }}
+            label="Correo"
+            defaultValue={user.email}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
 
-        <div className="col-md-4">
-          <label htmlFor="inputEmail4" className="form-label">Correo</label>
-          <input type="email" className="form-control" id="inputEmail4" disabled readOnly value={misDatos?.email} />
-        </div>
+        <Grid item='true' xs={4}>
+          <TextField
+            sx={{ width: 1 }}
+            label="Matricula"
+            defaultValue={user.matricula}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
 
-        <div className="col-md-4">
-          <label htmlFor="inputMatricula" className="form-label">Matricula</label>
-          <input type="text" className="form-control" id="inputMatricula" disabled readOnly value={misDatos?.matricula} />
-        </div>
+        <Grid item='true' xs={4}>
+          <TextField
+            sx={{ width: 1 }}
+            label="Tipo de Usuario"
+            defaultValue={user.userType}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
 
-        <div className="col-md-4 mb-3">
-          <label htmlFor="inputID" className="form-label">ID</label>
-          <input type="text" className="form-control" id="inputID" disabled readOnly value={misDatos?.id} />
-        </div>
-      </form>
+        <Grid item='true' xs={4}>
+          <Collapse in={open} className="col-md-4 mb-3" sx={{ width: 1 }}>
+            <Alert
+              variant="filled"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              // sx={{ mb: 8 }}
+            >
+              Usuario registrado con éxito!
+            </Alert>
+          </Collapse>
+        </Grid>
+      </Grid>
     </>
   )
 }
