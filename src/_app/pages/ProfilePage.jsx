@@ -23,160 +23,82 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
+      <Grid container spacing={2} className="mb-3">
+        <Grid item='true' xs={12} md={12} align='center'className="mb-3">
+          <Avatar
+            alt={user.given_name}
+            src={user.picture}
+            sx={{ width: 150, height: 150 }}
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item='true' xs={12} md={6}>
           <TextField
-            fullWidth
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-          />
-        </Grid>
-
-        <Grid item xs={4}>
-          <TextField
-            fullWidth
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-          />
-        </Grid>
-
-        <Grid item xs={4}>
-          <TextField
-            fullWidth
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-          />
-        </Grid>
-
-        <Grid item xs={4}>
-          <TextField
-            fullWidth
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-          />
-        </Grid>
-      </Grid>
-
-      <form className="row g-3 mt-3">
-        <div className="col-12 text-center mb-3">
-          <img src={user.picture} style={{ width: "10rem" }} />
-        </div>
-        <div className="col-md-4">
-
-          <TextField
-            fullWith={true}
-            id="outlined-read-only-input"
+            sx={{ width: 1 }}
             label="Nombre"
-            defaultValue={user.given_name}
+            defaultValue={user.given_name + ' ' + user.aPaterno + ' ' + user.aMaterno}
             InputProps={{
               readOnly: true,
             }}
           />
-        </div>
+        </Grid>
 
-        <div className="col-md-4">
-          <label htmlFor="inputLasName1" className="form-label">Apellido Paterno</label>
-          <input type="text" className="form-control" id="inputLasName1" disabled readOnly value={user?.aPaterno} />
-        </div>
+        <Grid item='true' xs={12} md={6}>
+          <TextField
+            sx={{ width: 1 }}
+            label="Correo"
+            defaultValue={user.email}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
 
-        <div className="col-md-4">
-          <label htmlFor="inputLasName2" className="form-label">Apellido Materno</label>
-          <input type="text" className="form-control" id="inputLasName2" disabled readOnly value={user?.aMaterno} />
-        </div>
+        <Grid item='true' xs={4}>
+          <TextField
+            sx={{ width: 1 }}
+            label="Matricula"
+            defaultValue={user.matricula}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
 
-        <div className="col-md-4">
-          <label htmlFor="inputEmail4" className="form-label">Correo</label>
-          <input type="email" className="form-control" id="inputEmail4" disabled readOnly value={user?.email} />
-        </div>
+        <Grid item='true' xs={4}>
+          <TextField
+            sx={{ width: 1 }}
+            label="Tipo de Usuario"
+            defaultValue={user.userType}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
 
-        <div className="col-md-4">
-          <label htmlFor="inputMatricula" className="form-label">Matricula</label>
-          <input type="text" className="form-control" id="inputMatricula" disabled readOnly value={user?.matricula} />
-        </div>
-
-        <div className="col-md-4 mb-3">
-          <label htmlFor="inputID" className="form-label">ID</label>
-          <input type="text" className="form-control" id="inputID" disabled readOnly value={user?.id} />
-        </div>
-      </form>
-
-      <TextField
-        fullWith
-        id="outlined-read-only-input"
-        label="Apellido Paterno"
-        defaultValue={user.aPaterno}
-        InputProps={{
-          readOnly: true,
-        }}
-      />
-      <TextField
-        fullWith
-        id="outlined-read-only-input"
-        label="Apellido Materno"
-        defaultValue={user.aMaterno}
-        InputProps={{
-          readOnly: true,
-        }}
-      />
-      <TextField
-        fullWith
-        id="outlined-read-only-input"
-        label="Matricula"
-        defaultValue={user.matricula}
-        InputProps={{
-          readOnly: true,
-        }}
-      />
-      <TextField
-        fullWith
-        id="outlined-read-only-input"
-        label="Correo"
-        defaultValue={user.email}
-        InputProps={{
-          readOnly: true,
-        }}
-      />
-      <Collapse in={open} className="col-md-4 mb-3">
-        <Alert
-          variant="filled"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setOpen(false);
-              }}
+        <Grid item='true' xs={4}>
+          <Collapse in={open} className="col-md-4 mb-3">
+            <Alert
+              variant="filled"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
             >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          Usuario registrado con éxito!
-        </Alert>
-      </Collapse>
-
-
-      <Avatar
-        justify="center"
-        alt={user.given_name}
-        src={user.picture}
-        sx={{ width: 150, height: 150 }}
-      />
+              Usuario registrado con éxito!
+            </Alert>
+          </Collapse>
+        </Grid>
+      </Grid>
     </>
   )
 }
