@@ -69,7 +69,7 @@ export const useSignIn = () => {
           })
             .then(() => {
 
-              newUser = false;
+              newUser = true;
               login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
 
             })
