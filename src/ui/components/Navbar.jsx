@@ -1,8 +1,10 @@
 import { useContext } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth';
-import { AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineLogout, AiOutlineUser } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import { DocenteNavbar } from './DocenteNavbar';
+import { StudentNavbar } from './StudentNavbar';
 
 export const Navbar = () => {
 
@@ -29,51 +31,18 @@ export const Navbar = () => {
       </Link>
 
       <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        {/* <div className="navbar-nav"> */}
-
-        <li className="nav-pills">
-          <NavLink
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-
-            to="/perfil"
-          >
-            Perfil
-          </NavLink>
-        </li>
-
-        <li className="nav-pills">
-
-          <NavLink
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            to="/crud"
-          >
-            CRUD
-          </NavLink>
-        </li>
-
-        <li className="nav-pills">
-
-          <NavLink
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            to="/search"
-          >
-            Search
-          </NavLink>
-          {/* </div> */}
-        </li>
+        {
+          (user?.userType === 1) ? <StudentNavbar /> : <DocenteNavbar />
+        }
       </ul>
 
       <div className="col-md-3 text-end mx-4">
         <button type="button" className="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 
-          {/* //? Image */}
-          <img src={user?.picture} alt="" width="32" height="32" className="rounded-circle" />
+          <IconContext.Provider value={{ color: "light", size: "1.3em" }}>
+            <AiOutlineUser />
+          </IconContext.Provider>
 
-          {/* //? Icon */}
-          {/* 
-            <IconContext.Provider value={{ color: "light", size: "1.5em" }}>
-              <AiOutlineUser />
-            </IconContext.Provider> */}
           <span className="ms-1">
             {`${user?.given_name} ${user?.aPaterno} ${user?.aMaterno}`}
           </span>
