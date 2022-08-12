@@ -12,19 +12,25 @@ import TextField from '@mui/material/TextField';
 
 export const ProfilePage = () => {
 
+  let tipoDeUsuario = 'Docente';
+
   const { user } = useContext(AuthContext)
 
   const [open, setOpen] = useState(user.newUser);
+
+  if(user.userType === 1){
+    tipoDeUsuario = 'Estudiante'
+  }
 
   return (
     <>
       <Grid container spacing={2} className="mb-3">
         <Grid item='true' xs={12} md={12} align='center' className="mb-3">
-          {/* <Avatar
+          <Avatar
             alt={user.given_name}
             src={user.picture}
             sx={{ width: 150, height: 150 }}
-          /> */}
+          />
         </Grid>
 
         <Grid item='true' xs={12} md={6}>
@@ -64,7 +70,7 @@ export const ProfilePage = () => {
           <TextField
             sx={{ width: 1 }}
             label="Tipo de Usuario"
-            defaultValue={user.userType}
+            defaultValue={tipoDeUsuario}
             InputProps={{
               readOnly: true,
             }}
@@ -87,7 +93,7 @@ export const ProfilePage = () => {
                   <CloseIcon fontSize="inherit" />
                 </IconButton>
               }
-              // sx={{ mb: 8 }}
+            // sx={{ mb: 8 }}
             >
               Usuario registrado con éxito!
             </Alert>
