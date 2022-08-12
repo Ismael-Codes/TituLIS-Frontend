@@ -5,15 +5,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../auth';
 
+//? Material UI
 import Grid from '@mui/system/Unstable_Grid';
-
-
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-
-import styled from '@mui/system/styled';
 
 export const ProfilePage = () => {
 
@@ -24,7 +19,7 @@ export const ProfilePage = () => {
   return (
     <>
       <Grid container spacing={2} className="mb-3">
-        <Grid item='true' xs={12} md={12} align='center'className="mb-3">
+        <Grid item='true' xs={12} md={12} align='center' className="mb-3">
           <Avatar
             alt={user.given_name}
             src={user.picture}
@@ -77,7 +72,7 @@ export const ProfilePage = () => {
         </Grid>
 
         <Grid item='true' xs={4}>
-          <Collapse in={open} className="col-md-4 mb-3">
+          <Collapse in={open} className="col-md-4 mb-3" sx={{ width: 1 }}>
             <Alert
               variant="filled"
               action={
@@ -92,7 +87,7 @@ export const ProfilePage = () => {
                   <CloseIcon fontSize="inherit" />
                 </IconButton>
               }
-              sx={{ mb: 2 }}
+              // sx={{ mb: 8 }}
             >
               Usuario registrado con éxito!
             </Alert>
