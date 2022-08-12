@@ -20,11 +20,11 @@ export const ProfilePage = () => {
     <>
       <Grid container spacing={2} className="mb-3">
         <Grid item='true' xs={12} md={12} align='center' className="mb-3">
-          <Avatar
+          {/* <Avatar
             alt={user.given_name}
             src={user.picture}
             sx={{ width: 150, height: 150 }}
-          />
+          /> */}
         </Grid>
 
         <Grid item='true' xs={12} md={6}>

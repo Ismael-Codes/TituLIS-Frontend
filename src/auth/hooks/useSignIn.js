@@ -17,7 +17,7 @@ export const useSignIn = () => {
   const { login } = useContext(AuthContext)
   const navigate = useNavigate();
 
-  const url = 'https://express-with-vercel-iota.vercel.app'
+  const url = 'https://express-with-vercel-ismael-codes.vercel.app'
 
   const { data, isLoading, hasError } = useFetch(`${url}/api/getUsers`)
 

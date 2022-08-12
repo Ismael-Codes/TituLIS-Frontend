@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth';
-import { AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineLogout, AiOutlineUser } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { DocenteNavbar } from './DocenteNavbar';
 import { StudentNavbar } from './StudentNavbar';
@@ -39,14 +39,10 @@ export const Navbar = () => {
       <div className="col-md-3 text-end mx-4">
         <button type="button" className="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 
-          {/* //? Image */}
-          <img src={user?.picture} alt="" width="32" height="32" className="rounded-circle" />
+          <IconContext.Provider value={{ color: "light", size: "1.3em" }}>
+            <AiOutlineUser />
+          </IconContext.Provider>
 
-          {/* //? Icon */}
-          {/* 
-            <IconContext.Provider value={{ color: "light", size: "1.5em" }}>
-              <AiOutlineUser />
-            </IconContext.Provider> */}
           <span className="ms-1">
             {`${user?.given_name} ${user?.aPaterno} ${user?.aMaterno}`}
           </span>
