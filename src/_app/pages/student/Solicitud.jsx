@@ -1,59 +1,98 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-// import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
+import { useForm } from "react-hook-form";
+import { useState } from 'react';
+import Grid from '@mui/system/Unstable_Grid';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { Controller } from "react-hook-form";
+
+//? Select
+const currencies = [
+  {
+    value: 'USD',
+    label: '$',
+  },
+  {
+    value: 'EUR',
+    label: '€',
+  },
+  {
+    value: 'BTC',
+    label: '฿',
+  },
+  {
+    value: 'JPY',
+    label: '¥',
+  },
+];
 
 export const Solicitud = () => {
 
-  const [age, setAge] = React.useState('');
-/* 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string)
-    console.log(age)
-  } */
+
+  const { formState, getValues, watch, register, handleSubmit } = useForm();
+  const { errors } = formState;
+
+  watch();
+
+  const onSubmit = (data) => alert(JSON.stringify(data, null, 4));
+
+
+
+  // const { register, handleSubmit, control } = useForm();
+  // const onSubmit = (data) => console.log(data);
 
   return (
     <>
-{/*<h1>Solicitud</h1>
-      <hr />
-      <div className="row">
-        <div className="col-md-4">
-          <label htmlFor="modalidadSelect" className="form-label">Seleccioné modalidad de titulación</label>
-          <select className="form-select" id="modalidadSelect">
-            <option value="0">Modalidades</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-        <div className="col-md-4">
-          <label htmlFor="asesorSelect" className="form-label">Seleccioné un Asesor</label>
-          <select className="form-select" id="asesorSelect">
-            <option value="0">Asesores</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-      </div> */}
-      {/* <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={age}
-          label="Age"
-          // onChange={handleChange}
-        >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    </Box> */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={2} className="mb-3">
+          <Grid item='true' xs={12} md={6}>
+            <TextField
+              sx={{ width: 1 }}
+              label="Nombre"
+              {...register("firstName")}
+            />
+          </Grid>
+          <Grid item='true' xs={12} md={6}>
+            <TextField
+              sx={{ width: 1 }}
+              label="Nombre 2"
+              {...register("firstName")}
+            />
+          </Grid>
+          <Grid item='true' xs={12} md={4}>
+            <TextField
+              select
+              fullWidth
+              defaultValue=""
+              label="Select"
+              inputProps={register('currency', {
+                required: 'Please enter currency',
+              })}
+              error={errors.currency}
+              helperText={errors.currency?.message}
+            >
+              {currencies.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item='true' xs={12} md={4}>
+            <Button type="submit" variant="contained" color="success" fullWidth size="large">
+              submit
+            </Button>
+          </Grid>
+
+          <Grid item='true' xs={12}>
+            <pre>{JSON.stringify(getValues(), null, 4)}</pre>
+          </Grid>
+        </Grid>
+      </form>
     </>
   )
 }
