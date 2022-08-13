@@ -1,5 +1,5 @@
 //? Primeros
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 //? Terceros
 import jwt_decode from 'jwt-decode';
@@ -8,8 +8,6 @@ import axios from 'axios';
 //?
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { useFetch } from '../../hook/useFetch';
-import { validarUsuario } from '../helpers/validarUsuario';
 import { url } from '../../config';
 
 //? Google Sign in
