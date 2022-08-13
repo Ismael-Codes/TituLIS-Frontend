@@ -1,14 +1,8 @@
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { useForm } from "react-hook-form";
-import { useState } from 'react';
 import Grid from '@mui/system/Unstable_Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Controller } from "react-hook-form";
 
 //? Select
 const currencies = [
@@ -54,13 +48,23 @@ export const Solicitud = () => {
               sx={{ width: 1 }}
               label="Nombre"
               {...register("firstName")}
+              inputProps={register('firstName', {
+                required: 'Please enter First Name',
+              })}
+              error={errors.firstName}
+              helperText={errors.firstName?.message}
             />
           </Grid>
           <Grid item='true' xs={12} md={6}>
             <TextField
               sx={{ width: 1 }}
-              label="Nombre 2"
-              {...register("firstName")}
+              label="Correo"
+              {...register("email")}
+              inputProps={register('email', {
+                required: 'Please enter email',
+              })}
+              error={errors.email}
+              helperText={errors.email?.message}
             />
           </Grid>
           <Grid item='true' xs={12} md={4}>
@@ -82,8 +86,8 @@ export const Solicitud = () => {
               ))}
             </TextField>
           </Grid>
-          <Grid item='true' xs={12} md={4}>
-            <Button type="submit" variant="contained" color="success" fullWidth size="large">
+          <Grid item='true' xs={12}>
+            <Button type="submit" variant="contained" color="success" size="large">
               submit
             </Button>
           </Grid>
