@@ -77,7 +77,7 @@ export const ProfilePage = () => {
           />
         </Grid>
 
-        <Grid item='true' xs={12} md={4}>
+        <Grid item='true' xs={12}>
           <Collapse in={open} className="col-md-4 mb-3" sx={{ width: 1 }}>
             <Alert
               variant="filled"
