@@ -18,7 +18,7 @@ export const ProfilePage = () => {
 
   const [open, setOpen] = useState(user.newUser);
 
-  if(user.userType === 1){
+  if (user.userType === 1) {
     tipoDeUsuario = 'Estudiante'
   }
 
@@ -55,7 +55,7 @@ export const ProfilePage = () => {
           />
         </Grid>
 
-        <Grid item='true' xs={4}>
+        <Grid item='true' xs={12} md={4}>
           <TextField
             sx={{ width: 1 }}
             label="Matricula"
@@ -66,7 +66,7 @@ export const ProfilePage = () => {
           />
         </Grid>
 
-        <Grid item='true' xs={4}>
+        <Grid item='true' xs={12} md={4}>
           <TextField
             sx={{ width: 1 }}
             label="Tipo de Usuario"
@@ -77,7 +77,7 @@ export const ProfilePage = () => {
           />
         </Grid>
 
-        <Grid item='true' xs={4}>
+        <Grid item='true' xs={12} md={4}>
           <Collapse in={open} className="col-md-4 mb-3" sx={{ width: 1 }}>
             <Alert
               variant="filled"
