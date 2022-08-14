@@ -54,17 +54,20 @@ export const ProfilePage = () => {
             }}
           />
         </Grid>
-
-        <Grid item='true' xs={12} md={4}>
-          <TextField
-            sx={{ width: 1 }}
-            label="Matricula"
-            defaultValue={user.matricula}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </Grid>
+        {
+          (user.userType == 2)
+            ? <></>
+            : <Grid item='true' xs={12} md={4}>
+              <TextField
+                sx={{ width: 1 }}
+                label="Matricula"
+                defaultValue={user.matricula}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+        }
 
         <Grid item='true' xs={12} md={4}>
           <TextField
