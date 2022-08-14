@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 import Grid from '@mui/system/Unstable_Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import CustomizedAccordions from '../../components/CustomizedAccordions';
 
 //? Select
 const forms = [
   {
     value: '1',
-    label: 'Elaboración Tesis',
+    label: 'Elaboración de Tesis',
   },
   {
     value: '2',
@@ -46,9 +47,13 @@ export const Solicitud = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2} className="mb-3">
+
+          {/* //? Titulo */}
           <Grid item='true' xs={12} textAlign="center">
             <h1>Proceso de Solicitud</h1>
           </Grid>
+
+          {/* //? Ejemplo 1 */}
           <Grid item='true' xs={12} md={6}>
             <TextField
               sx={{ width: 1 }}
@@ -61,6 +66,8 @@ export const Solicitud = () => {
               helperText={errors.ejemplo?.message}
             />
           </Grid>
+
+          {/* //? Ejemplo 2 */}
           <Grid item='true' xs={12} md={6}>
             <TextField
               sx={{ width: 1 }}
@@ -73,6 +80,8 @@ export const Solicitud = () => {
               helperText={errors.ejemplo2?.message}
             />
           </Grid>
+
+          {/* //? Modalidad de Titulacion */}
           <Grid item='true' xs={12} md={4}>
             <TextField
               select
@@ -91,6 +100,11 @@ export const Solicitud = () => {
               ))}
             </TextField>
           </Grid>
+          <Grid item='true' xs={12}>
+            <CustomizedAccordions />
+          </Grid>
+
+          {/* //? Boton de enviar */}
           <Grid item='true' xs={12}>
             <Button type="submit" variant="contained" color="success" size="large">
               enviar Solicitud
