@@ -23,20 +23,23 @@ export const Navbar = () => {
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
-      <Link
-        className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none mx-4"
-        to="/"
-      >
-        <span className="fw-bold fs-5 text-center">Plataforma para Control y Seguimiento de Titulación</span>
-      </Link>
-
-      <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+      <ul className="nav col-12 col-md-auto mb-2 mx-4 justify-content-center mb-0">
         {
           (user?.userType === 1) ? <StudentNavbar /> : <DocenteNavbar />
         }
       </ul>
 
-      <div className="col-md-3 text-end mx-4">
+
+
+      <Link
+        className="text-center col-3 mb-2 mb-md-0 text-dark text-decoration-none mx-4"
+        to="/"
+      >
+        <span className="fw-bold fs-5">Bienvenido</span>
+      </Link>
+
+
+      <div className="text-end mx-4">
         <button type="button" className="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 
           <IconContext.Provider value={{ color: "light", size: "1.3em" }}>

@@ -1,10 +1,11 @@
 import { Card } from "@mui/material"
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Fragment } from "react";
+import Grid from '@mui/system/Unstable_Grid';
 
 export const Estado = () => {
 
@@ -18,13 +19,13 @@ export const Estado = () => {
   );
 
   const card = (
-    <React.Fragment>
+    <Fragment>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
+          Modalidad
         </Typography>
         <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
+          Titulo
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           adjective
@@ -36,18 +37,24 @@ export const Estado = () => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button variant="contained" color="error" size="small">Cancelar</Button>
+        <Button variant="contained" size="small">Editar</Button>
       </CardActions>
-    </React.Fragment>
+    </Fragment>
   );
 
   return (
     <>
-      <h1>Estado</h1>
-      <hr />
-      <Box sx={{ minWidth: 275 }} className="col-6">
-        <Card variant="outlined">{card}</Card>
-      </Box>
+      <Grid container spacing={2} className="mb-3">
+        <Grid item='true' xs={12} textAlign="center">
+          <h1>Estado de Solicitud</h1>
+        </Grid>
+        <Grid item='true' xs={12} md={6}>
+          <Box sx={{ minWidth: 275 }} className="col-6">
+            <Card variant="outlined">{card}</Card>
+          </Box>
+        </Grid>
+      </Grid>
     </>
   )
 }

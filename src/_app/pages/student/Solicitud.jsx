@@ -1,59 +1,135 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-// import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useForm } from "react-hook-form";
+import Grid from '@mui/system/Unstable_Grid';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import CustomizedAccordions from '../../components/CustomizedAccordions';
+import { Alert, AlertTitle } from '@mui/material';
+
+//? Select
+const forms = [
+  {
+    value: '1',
+    label: 'Elaboración de Tesis',
+  },
+  {
+    value: '2',
+    label: 'Examen Teórico - Práctico',
+  },
+  {
+    value: '3',
+    label: 'Alto Rendimiento Académico',
+  },
+  {
+    value: '4',
+    label: 'Examen General de Egreso',
+  },
+  {
+    value: '5',
+    label: 'Realización de estudios de Maestría',
+  },
+  {
+    value: '6',
+    label: 'Realización de estudios de Doctorado',
+  },
+  {
+    value: '7',
+    label: 'Titulación como primer autor de artículo científico',
+  }
+];
 
 export const Solicitud = () => {
 
-  const [age, setAge] = React.useState('');
-/* 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string)
-    console.log(age)
-  } */
+  const { formState, getValues, watch, register, handleSubmit, reset } = useForm();
+  const { errors } = formState;
+
+  //^ No es necesario
+  watch();
+
+  //? Data extraida del form
+  const dataForm = getValues()
+
+  const onSubmit = (data) => alert(JSON.stringify(data, null, 4));
 
   return (
     <>
-{/*<h1>Solicitud</h1>
-      <hr />
-      <div className="row">
-        <div className="col-md-4">
-          <label htmlFor="modalidadSelect" className="form-label">Seleccioné modalidad de titulación</label>
-          <select className="form-select" id="modalidadSelect">
-            <option value="0">Modalidades</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-        <div className="col-md-4">
-          <label htmlFor="asesorSelect" className="form-label">Seleccioné un Asesor</label>
-          <select className="form-select" id="asesorSelect">
-            <option value="0">Asesores</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-      </div> */}
-      {/* <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={age}
-          label="Age"
-          // onChange={handleChange}
-        >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    </Box> */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={2} className="mb-3">
+
+          {/* //? Titulo */}
+          <Grid item='true' xs={12} textAlign="center">
+            <h1>Proceso de Solicitud</h1>
+          </Grid>
+
+          {/* //? Primero */}
+          <Grid spacing={2} xs={12} md={6} className="mb-3">
+
+            {/* //? Select */}
+            <Grid item='true' xs={12}>
+              <TextField
+                select
+                fullWidth
+                {...register("form")}
+                label="Modalidad de Titulación"
+                inputProps={register('form', {
+                  required: 'Por favor seleccione una modalidad',
+                })}
+                error={errors.form}
+                helperText={errors.form?.message}
+              >
+                {forms.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
+            {/* //? Alert */}
+            <Grid item='true' xs={12}>
+              <Alert severity="info" className="mb-2">
+                <AlertTitle>Info</AlertTitle>
+                Los <strong>requisitos</strong> y <strong>documentación</strong> varían dependiendo de la <strong>modalidad</strong>
+              </Alert>
+            </Grid>
+
+            {/* //? Ejemplo 1 */}
+            <Grid item='true' xs={12}>
+              <TextField
+                sx={{ width: 1 }}
+                label="Ejemplo"
+                {...register("ejemplo")}
+                inputProps={register('ejemplo', {
+                  required: 'Por favor ingrese un ejemplo',
+                })}
+                error={errors.ejemplo}
+                helperText={errors.ejemplo?.message}
+              />
+            </Grid>
+          </Grid>
+
+          {/*//? Segundo */}
+          <Grid spacing={2} xs={12} md={6} className="mb-3">
+
+            {/* //? Acordions */}
+            <Grid item='true' xs={12}>
+              {
+                (!dataForm.form == "") ? <CustomizedAccordions dataForm={dataForm} /> : <></>
+              }
+            </Grid>
+          </Grid>
+
+          {/* //? Boton de enviar */}
+          <Grid item='true' xs={12}>
+            <Button type="submit" variant="contained" color="success" size="large">
+              enviar Solicitud
+            </Button>
+          </Grid>
+          <Grid item='true' xs={12}>
+            <pre>{JSON.stringify(getValues(), null, 4)}</pre>
+          </Grid>
+        </Grid>
+      </form>
     </>
   )
 }
