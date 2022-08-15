@@ -4,6 +4,7 @@ import Grid from '@mui/system/Unstable_Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import CustomizedAccordions from '../../components/CustomizedAccordions';
+import { Alert, AlertTitle } from '@mui/material';
 
 //? Select
 const forms = [
@@ -21,25 +22,32 @@ const forms = [
   },
   {
     value: '4',
-    label: 'Realización de estudios de Maestría',
+    label: 'Examen General de Egreso',
   },
   {
     value: '5',
-    label: 'Realización de estudios de Doctorado',
+    label: 'Realización de estudios de Maestría',
   },
   {
     value: '6',
-    label: 'Titulación como primer autor de artículo científico<',
+    label: 'Realización de estudios de Doctorado',
+  },
+  {
+    value: '7',
+    label: 'Titulación como primer autor de artículo científico',
   }
 ];
 
 export const Solicitud = () => {
 
-  const { formState, getValues, watch, register, handleSubmit } = useForm();
+  const { formState, getValues, watch, register, handleSubmit, reset } = useForm();
   const { errors } = formState;
 
   //^ No es necesario
   watch();
+
+  //? Data extraida del form
+  const dataForm = getValues()
 
   const onSubmit = (data) => alert(JSON.stringify(data, null, 4));
 
@@ -53,55 +61,62 @@ export const Solicitud = () => {
             <h1>Proceso de Solicitud</h1>
           </Grid>
 
-          {/* //? Ejemplo 1 */}
-          <Grid item='true' xs={12} md={6}>
-            <TextField
-              sx={{ width: 1 }}
-              label="Ejemplo"
-              {...register("ejemplo")}
-              inputProps={register('ejemplo', {
-                required: 'Por favor ingrese un ejemplo',
-              })}
-              error={errors.ejemplo}
-              helperText={errors.ejemplo?.message}
-            />
+          {/* //? Primero */}
+          <Grid spacing={2} xs={12} md={6} className="mb-3">
+
+            {/* //? Select */}
+            <Grid item='true' xs={12}>
+              <TextField
+                select
+                fullWidth
+                {...register("form")}
+                label="Modalidad de Titulación"
+                inputProps={register('form', {
+                  required: 'Por favor seleccione una modalidad',
+                })}
+                error={errors.form}
+                helperText={errors.form?.message}
+              >
+                {forms.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
+            {/* //? Alert */}
+            <Grid item='true' xs={12}>
+              <Alert severity="info" className="mb-2">
+                <AlertTitle>Info</AlertTitle>
+                Los <strong>requisitos</strong> y <strong>documentación</strong> varían dependiendo de la <strong>modalidad</strong>
+              </Alert>
+            </Grid>
+
+            {/* //? Ejemplo 1 */}
+            <Grid item='true' xs={12}>
+              <TextField
+                sx={{ width: 1 }}
+                label="Ejemplo"
+                {...register("ejemplo")}
+                inputProps={register('ejemplo', {
+                  required: 'Por favor ingrese un ejemplo',
+                })}
+                error={errors.ejemplo}
+                helperText={errors.ejemplo?.message}
+              />
+            </Grid>
           </Grid>
 
-          {/* //? Ejemplo 2 */}
-          <Grid item='true' xs={12} md={6}>
-            <TextField
-              sx={{ width: 1 }}
-              label="Ejemplo 2"
-              {...register("ejemplo2")}
-              inputProps={register('ejemplo2', {
-                required: 'Por favor ingrese un ejemplo 2',
-              })}
-              error={errors.ejemplo2}
-              helperText={errors.ejemplo2?.message}
-            />
-          </Grid>
+          {/*//? Segundo */}
+          <Grid spacing={2} xs={12} md={6} className="mb-3">
 
-          {/* //? Modalidad de Titulacion */}
-          <Grid item='true' xs={12} md={4}>
-            <TextField
-              select
-              fullWidth
-              label="Modalidad de Titulación"
-              inputProps={register('form', {
-                required: 'Por favor seleccione una modalidad',
-              })}
-              error={errors.form}
-              helperText={errors.form?.message}
-            >
-              {forms.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item='true' xs={12}>
-            <CustomizedAccordions />
+            {/* //? Acordions */}
+            <Grid item='true' xs={12}>
+              {
+                (!dataForm.form == "") ? <CustomizedAccordions dataForm={dataForm} /> : <></>
+              }
+            </Grid>
           </Grid>
 
           {/* //? Boton de enviar */}
