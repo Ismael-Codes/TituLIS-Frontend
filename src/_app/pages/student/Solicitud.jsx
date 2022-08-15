@@ -114,7 +114,7 @@ export const Solicitud = () => {
             {/* //? Acordions */}
             <Grid item='true' xs={12}>
               {
-                (!dataForm.form == "") ? <CustomizedAccordions dataForm={dataForm} /> : <></>
+                (!dataForm.form == "") ? <CustomizedAccordions dataForm={dataForm} /> : <p className="text-end fs-2 fw-normal">Selecciona una modalidad para visualizar los documentos y requisitos</p>
               }
             </Grid>
           </Grid>

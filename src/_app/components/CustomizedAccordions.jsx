@@ -138,17 +138,13 @@ export default function CustomizedAccordions({ dataForm = "" }) {
               <li>Original de Constancias de liberación de Servicio Social y de Prácticas Profesionales (en caso de haber realizado esta última) expedidas por la Dirección de Servicio Social y Prácticas Profesionales (documentos no indispensables en caso de que tu certificado los contemple como una asignatura del mapa curricular);</li>
 
               <li>Original de los requisitos específicos de egreso y titulación de tu programa educativo,  consúltalos directamente con tu Coordinador del programa educativo en tu Escuela o Instituto;</li>
-
               {
                 (dataForm.form == 2) ? <li>Resultado del examen práctico;</li> : <></>
               }
-
               <li>Puntaje y testimonio del Examen General de Egreso (Acreditado). En caso de haber realizado el examen fuera de la UAEH, o si lo presentaste antes del año 2018, deberás solicitar la validación de este requisito a la Dirección General de Evaluación en el siguiente correo: egel_dgeuaeh@uaeh.edu.mx</li>
-
               {
                 (dataForm.form == 5) ? <li>Original del certificado parcial de la maestría, el cual deberá contener el 25% del total de créditos del programa educativo;</li> : (dataForm.form == 6) ? <li>Original del certificado parcial del doctorado, el cual deberá contar con el 15% del total de créditos del programa educativo;</li> : <></>
               }
-
               {
                 (dataForm.form == 7) ? <ArticuloDocumentacion /> : <></>
               }
@@ -156,7 +152,6 @@ export default function CustomizedAccordions({ dataForm = "" }) {
               <li>Comprobante electrónico generado en el sistema del CEDAI de la validación de tus fotografías para el título y acta de examen, que puedes descargar una vez que han sido editadas y codificadas éstas, y</li>
 
               <li>CURP actualizada y certificada por el RENAPO (Registro Nacional de Población) la cual no debe ser mayor a 3 meses su impresión, cabe señalar que en caso de encontrar otra CURP a tu nombre y que no tenga la unificación, el trámite será rechazado y deberás regularizar tu situación.</li>
-
             </ul>
           </Typography>
         </AccordionDetails>
