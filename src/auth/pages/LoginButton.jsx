@@ -1,8 +1,10 @@
 import { useSignIn } from "../hooks/useSignIn";
 import { GoogleLogin } from '@react-oauth/google';
+import { LoadingProgress } from "./CircularLoading";
+
 export const LoginButton = () => {
 
-  const { SignIn } = useSignIn()
+  const { SignIn, isLoading } = useSignIn()
 
   return (
     <>
@@ -12,20 +14,23 @@ export const LoginButton = () => {
           justifyContent: "center",
           alignItems: "center"
         }}
-        className="mb-4">
-
-        <GoogleLogin
-          /* onSuccess={credentialResponse => {
-            console.log(credentialResponse);
-          }} */
-          onSuccess={SignIn}
-          onError={() => {
-            console.log('Login Failed');
-          }}
-          theme="filled_black"
-          text="continue_with"
-          useOneTap={true}
-        />
+        className="mb-2">
+        {
+          (isLoading)
+            ? <LoadingProgress />
+            : <GoogleLogin
+              /* onSuccess={credentialResponse => {
+                console.log(credentialResponse);
+              }} */
+              onSuccess={SignIn}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+              theme="filled_black"
+              text="continue_with"
+              useOneTap={true}
+            />
+        }
       </div>
     </>
   )

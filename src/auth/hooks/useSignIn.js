@@ -1,5 +1,5 @@
 //? Primeros
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 //? Terceros
 import jwt_decode from 'jwt-decode';
@@ -13,6 +13,7 @@ import { url } from '../../config';
 //? Google Sign in
 export const useSignIn = () => {
 
+  const [isLoading, setIsLoading] = useState(false)
   let valid = false;
   let userType = 1
   let newUser = false;
@@ -24,6 +25,8 @@ export const useSignIn = () => {
   // console.log(data, 'after fetching users')
 
   const SignIn = async (response) => {
+
+    setIsLoading(true);
 
     await axios.get(`${url}/api/saludar`)
 
@@ -85,5 +88,5 @@ export const useSignIn = () => {
   }
   //? Google Sign in
 
-  return { SignIn }
+  return { SignIn, isLoading }
 }
