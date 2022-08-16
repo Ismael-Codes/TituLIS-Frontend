@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import CustomizedAccordions from '../../components/CustomizedAccordions';
 import { Alert, AlertTitle } from '@mui/material';
+import { useState } from 'react';
 
 //? Select
 const forms = [
@@ -40,8 +41,8 @@ const forms = [
 
 export const Solicitud = () => {
 
-  const { formState, getValues, watch, register, handleSubmit, reset } = useForm();
-  const { errors } = formState;
+  const { formState, getValues, watch, register = '', handleSubmit, reset } = useForm();
+  const { errors = false } = formState;
 
   //^ No es necesario
   watch();
@@ -69,13 +70,15 @@ export const Solicitud = () => {
               <TextField
                 select
                 fullWidth
-                {...register("form")}
                 label="Modalidad de Titulación"
+                defaultValue={''}
+                {...register("form")}
                 inputProps={register('form', {
                   required: 'Por favor seleccione una modalidad',
                 })}
-                error={errors.form}
-                helperText={errors.form?.message}
+                error={!!errors?.form}
+                helperText={errors?.form?.message}
+              // required={true}
               >
                 {forms.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -83,6 +86,7 @@ export const Solicitud = () => {
                   </MenuItem>
                 ))}
               </TextField>
+
             </Grid>
 
             {/* //? Alert */}
@@ -98,12 +102,14 @@ export const Solicitud = () => {
               <TextField
                 sx={{ width: 1 }}
                 label="Ejemplo"
+                defaultValue={''}
                 {...register("ejemplo")}
                 inputProps={register('ejemplo', {
                   required: 'Por favor ingrese un ejemplo',
                 })}
-                error={errors.ejemplo}
-                helperText={errors.ejemplo?.message}
+                error={!!errors.ejemplo}
+                helperText={errors?.ejemplo?.message}
+              // required={true}
               />
             </Grid>
           </Grid>
@@ -114,7 +120,7 @@ export const Solicitud = () => {
             {/* //? Acordions */}
             <Grid item='true' xs={12}>
               {
-                (!dataForm.form == "") ? <CustomizedAccordions dataForm={dataForm} /> : <p className="text-end fs-2 fw-normal">Selecciona una modalidad para visualizar los documentos y requisitos</p>
+                (!dataForm.form == "") ? <CustomizedAccordions dataForm={dataForm} /> : <span className="text-end fs-2 fw-normal">Selecciona una modalidad para visualizar los documentos y requisitos</span>
               }
             </Grid>
           </Grid>
