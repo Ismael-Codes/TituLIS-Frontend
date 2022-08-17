@@ -48,12 +48,13 @@ export const useSignIn = () => {
         const matricula = stringWithNumbers.replace(/[^0-9]+/g, "");
 
         //? Validacion con FrontEnd
-        for (let i = 0; i < message.length; i++) {
+        /* for (let i = 0; i < message.length; i++) {
           if (message[i].email === email) {
             userType = parseInt(message[i].id_tipoUsuario);
             valid = true;
           }
-        }
+        } */
+        valid = true; //todo quitar esta linea de codigo
 
         if (valid) {//* Ya esta Registrado
 
