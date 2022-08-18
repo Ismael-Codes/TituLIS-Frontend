@@ -55,7 +55,7 @@ export const ProfilePage = () => {
           />
         </Grid>
         {
-          (user.userType == 2)
+          (user.userType == 2 || user.matricula == "")
             ? <></>
             : <Grid item='true' xs={12} md={4}>
               <TextField

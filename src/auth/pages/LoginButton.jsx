@@ -28,7 +28,7 @@ export const LoginButton = () => {
               }}
               theme="filled_black"
               text="continue_with"
-              useOneTap={true}
+              useOneTap={false}
             />
         }
       </div>
