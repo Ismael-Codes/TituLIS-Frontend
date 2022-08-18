@@ -1,10 +1,11 @@
 import { useSignIn } from "../hooks/useSignIn";
 import { GoogleLogin } from '@react-oauth/google';
 import { LoadingProgress } from "./CircularLoading";
+import { Alert } from "@mui/material";
 
 export const LoginButton = () => {
 
-  const { SignIn, isLoading } = useSignIn()
+  const { SignIn, isLoading, errorAlert } = useSignIn()
 
   return (
     <>
@@ -32,6 +33,9 @@ export const LoginButton = () => {
             />
         }
       </div>
+      {
+        (errorAlert) ? <Alert variant="filled" severity="error">Ocurrió un error, inténtelo mas tarde!!</Alert> : <></>
+      }
     </>
   )
 }

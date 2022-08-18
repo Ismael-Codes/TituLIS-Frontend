@@ -14,7 +14,7 @@ import { url } from '../../config';
 export const useSignIn = () => {
 
   const [isLoading, setIsLoading] = useState(false)
-  let valid;
+  const [errorAlert, setErrorAlert] = useState(false)
   let userType = 1
   let newUser = false;
 
@@ -41,9 +41,7 @@ export const useSignIn = () => {
       await axios.post(`${url}/api/validateUser`, { email })
         .then((resp) => {
 
-          valid = resp.data.data
-
-          if (valid) {//* Ya esta Registrado
+          if (resp.data.data) {//* Ya esta Registrado
 
             axios.get(`${url}/api/getUserType/${email}`)
               .then((resp) => {
@@ -63,18 +61,16 @@ export const useSignIn = () => {
           }
 
         })
-        .catch((error) => {
-          console.log(error);
-        });
 
       login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
       navigate('/perfil', { replace: true });
 
     } catch (error) {
+      setErrorAlert(true);
       setIsLoading(false);
       console.log(error);
     }
 
   }
-  return { SignIn, isLoading }
+  return { SignIn, isLoading, errorAlert };
 }
