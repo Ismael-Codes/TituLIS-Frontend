@@ -149,7 +149,7 @@ export const Solicitud = () => {
             </Grid> */}
 
             <Grid item='true' xs={12}>
-              <Typography component={'h1'} align='center'>Subir Archivos</Typography>
+              <Typography component={'h1'} align='center'>Documentación</Typography>
             </Grid>
 
             <Box
@@ -170,17 +170,20 @@ export const Solicitud = () => {
                   <InputFile name={'Constancia Servicio Social'} code={'ConstanciaServicio'} condicion={dataForm?.ConstanciaServicio} fileName={dataForm?.ConstanciaServicio?.file.name} convertirBase64={convertirBase64} />
                 </Grid>
 
-                {/* //? CURP */}
-                <Grid item='true'>
-                  <InputFile name={'CURP'} code={'CURP'} condicion={dataForm?.CURP} fileName={dataForm?.CURP?.file.name} convertirBase64={convertirBase64} />
-                </Grid>
-
                 {/* //? Constacia Practicas */}
                 <Grid item='true'>
                   <InputFile name={'Constancia Practicas'} code={'ConstanciaPractica'} condicion={dataForm?.ConstanciaPractica} fileName={dataForm?.ConstanciaPractica?.file.name} convertirBase64={convertirBase64} />
                 </Grid>
 
+                {/* //? CURP */}
+                <Grid item='true'>
+                  <InputFile name={'CURP'} code={'CURP'} condicion={dataForm?.CURP} fileName={dataForm?.CURP?.file.name} convertirBase64={convertirBase64} />
+                </Grid>
 
+                {/* //? Comprobante CEDAI */}
+                <Grid item='true'>
+                  <InputFile name={'Comprobante CEDAI'} code={'ComprobanteCEDAI'} condicion={dataForm?.ComprobanteCEDA} fileName={dataForm?.ComprobanteCEDA?.file.name} convertirBase64={convertirBase64} />
+                </Grid>
 
               </Grid>
             </Box>
