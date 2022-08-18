@@ -1,5 +1,5 @@
 //? Primeros
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 //? Terceros
 import jwt_decode from 'jwt-decode';
@@ -13,77 +13,64 @@ import { url } from '../../config';
 //? Google Sign in
 export const useSignIn = () => {
 
-  let valid = false;
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorAlert, setErrorAlert] = useState(false)
   let userType = 1
   let newUser = false;
 
   const { login } = useContext(AuthContext)
   const navigate = useNavigate();
 
-  // const { data, isLoading, hasError } = useFetch(`${url}/api/getUsers`)
-  // console.log(data, 'after fetching users')
-
   const SignIn = async (response) => {
 
-    await axios.get(`${url}/api/saludar`)
+    try {
+      const { email, given_name, family_name, sub, picture } = jwt_decode(response.credential);
+      setIsLoading(true);
+      await axios.get(`${url}/api/saludar`)
 
-    await axios.get(`${url}/api/getUsers`)
-      .then((resp) => {
+      //* Divide los nombres
+      const miCadena = family_name;
+      const divisiones = miCadena.split(" ");
+      const aPaterno = divisiones[0];
+      const aMaterno = divisiones[1];
 
-        const { message } = resp.data;
+      //* Extraer la matricula de un email
+      const stringWithNumbers = email;
+      const matricula = stringWithNumbers.replace(/[^0-9]+/g, "");
 
-        const { email, given_name, family_name, sub, picture } = jwt_decode(response.credential);
+      await axios.post(`${url}/api/validateUser`, { email })
+        .then((resp) => {
 
-        //* Divide los nombres
-        const miCadena = family_name;
-        const divisiones = miCadena.split(" ");
-        const aPaterno = divisiones[0];
-        const aMaterno = divisiones[1];
+          if (resp.data.data) {//* Ya esta Registrado
 
-        //* Extraer la matricula de un email
-        const stringWithNumbers = email;
-        const matricula = stringWithNumbers.replace(/[^0-9]+/g, "");
+            axios.get(`${url}/api/getUserType/${email}`)
+              .then((resp) => {
+                userType = resp.data.data.tipoUsuario_id
+              })
 
-        //? Validacion con FrontEnd
-        for (let i = 0; i < message.length; i++) {
-          if (message[i].email === email) {
-            userType = parseInt(message[i].id_tipoUsuario);
-            valid = true;
-          }
-        }
+          } else { //* No esta Registrado
 
-        if (valid) {//* Ya esta Registrado
-
-          login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
-
-        } else { //* No esta Registrado
-
-          axios.post(`${url}/api/saveUser`, {
-            nombre: given_name,
-            aPaterno,
-            aMaterno,
-            matricula,
-            email
-          })
-            .then(() => {
-
-              newUser = true;
-              login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
-
+            newUser = true
+            axios.post(`${url}/api/saveUser`, {
+              nombre: given_name,
+              aPaterno,
+              aMaterno,
+              matricula,
+              email
             })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
+          }
 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        })
 
-    navigate('/perfil', { replace: true });
+      login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
+      navigate('/perfil', { replace: true });
+
+    } catch (error) {
+      setErrorAlert(true);
+      setIsLoading(false);
+      console.log(error);
+    }
+
   }
-  //? Google Sign in
-
-  return { SignIn }
+  return { SignIn, isLoading, errorAlert };
 }

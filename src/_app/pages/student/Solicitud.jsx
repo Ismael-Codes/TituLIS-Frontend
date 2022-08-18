@@ -4,7 +4,12 @@ import Grid from '@mui/system/Unstable_Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import CustomizedAccordions from '../../components/CustomizedAccordions';
-import { Alert, AlertTitle } from '@mui/material';
+import { Alert, AlertTitle, Box, Checkbox, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { useState } from 'react';
+import Collapse from '@mui/material/Collapse';
+import { InputFile } from '../../components';
 
 //? Select
 const forms = [
@@ -40,20 +45,38 @@ const forms = [
 
 export const Solicitud = () => {
 
-  const { formState, getValues, watch, register, handleSubmit, reset } = useForm();
-  const { errors } = formState;
+  const { formState, getValues, watch, register = '', handleSubmit, setValue } = useForm();
+  const { errors = false } = formState;
 
   //^ No es necesario
   watch();
 
   //? Data extraida del form
   const dataForm = getValues()
+  console.log(dataForm);
 
   const onSubmit = (data) => alert(JSON.stringify(data, null, 4));
+
+  //? Base 64
+  const convertirBase64 = (archivos, name) => {
+    Array.from(archivos).forEach((archivo) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(archivo);
+      reader.onload = () => {
+        let arrayAuxiliar = [];
+        let base64 = reader.result;
+        arrayAuxiliar = base64.split(',')
+        const file = { name: archivo.name, base64: arrayAuxiliar[1] }
+        setValue(name, { file })
+      }
+    })
+  }
+  const [open, setOpen] = useState(true);
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {/* <form> */}
         <Grid container spacing={2} className="mb-3">
 
           {/* //? Titulo */}
@@ -69,13 +92,15 @@ export const Solicitud = () => {
               <TextField
                 select
                 fullWidth
-                {...register("form")}
                 label="Modalidad de Titulación"
+                defaultValue={''}
+                {...register("form")}
                 inputProps={register('form', {
                   required: 'Por favor seleccione una modalidad',
                 })}
-                error={errors.form}
-                helperText={errors.form?.message}
+                error={!!errors?.form}
+                helperText={errors?.form?.message}
+              // required={true}
               >
                 {forms.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -83,50 +108,102 @@ export const Solicitud = () => {
                   </MenuItem>
                 ))}
               </TextField>
+
             </Grid>
 
             {/* //? Alert */}
-            <Grid item='true' xs={12}>
-              <Alert severity="info" className="mb-2">
-                <AlertTitle>Info</AlertTitle>
-                Los <strong>requisitos</strong> y <strong>documentación</strong> varían dependiendo de la <strong>modalidad</strong>
-              </Alert>
-            </Grid>
+            <Collapse in={open}>
+              <Grid item='true' xs={12}>
+                <Alert severity="info" className="mb-2" action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }>
+                  <AlertTitle>Info</AlertTitle>
+                  Los <strong>requisitos</strong> y <strong>documentación</strong> varían dependiendo de la <strong>modalidad</strong>
+                </Alert>
+              </Grid>
+            </Collapse>
 
             {/* //? Ejemplo 1 */}
-            <Grid item='true' xs={12}>
+            {/* <Grid item='true' xs={12}>
               <TextField
                 sx={{ width: 1 }}
                 label="Ejemplo"
+                defaultValue={''}
                 {...register("ejemplo")}
                 inputProps={register('ejemplo', {
                   required: 'Por favor ingrese un ejemplo',
                 })}
-                error={errors.ejemplo}
-                helperText={errors.ejemplo?.message}
+                error={!!errors.ejemplo}
+                helperText={errors?.ejemplo?.message}
+              // required={true}
               />
+            </Grid> */}
+
+            <Grid item='true' xs={12}>
+              <Typography component={'h1'} align='center'>Documentación</Typography>
             </Grid>
+
+            <Box
+              sx={{
+                // backgroundColor: 'white',
+                border: '1px dashed black',
+                borderRadius: '8px',
+              }}
+            >
+              <Grid spacing={1} container item='true' xs={12}>
+                {/* //? Input File */}
+                <Grid item='true' xs={12} align='center'>
+                  <h3>Subir Archivos</h3>
+                </Grid>
+
+                {/* //? Constacia de Servicio Social */}
+                <Grid item='true'>
+                  <InputFile name={'Constancia Servicio Social'} code={'ConstanciaServicio'} condicion={dataForm?.ConstanciaServicio} fileName={dataForm?.ConstanciaServicio?.file.name} convertirBase64={convertirBase64} />
+                </Grid>
+
+                {/* //? Constacia Practicas */}
+                <Grid item='true'>
+                  <InputFile name={'Constancia Practicas'} code={'ConstanciaPractica'} condicion={dataForm?.ConstanciaPractica} fileName={dataForm?.ConstanciaPractica?.file.name} convertirBase64={convertirBase64} />
+                </Grid>
+
+                {/* //? CURP */}
+                <Grid item='true'>
+                  <InputFile name={'CURP'} code={'CURP'} condicion={dataForm?.CURP} fileName={dataForm?.CURP?.file.name} convertirBase64={convertirBase64} />
+                </Grid>
+
+                {/* //? Comprobante CEDAI */}
+                <Grid item='true'>
+                  <InputFile name={'Comprobante CEDAI'} code={'ComprobanteCEDAI'} condicion={dataForm?.ComprobanteCEDA} fileName={dataForm?.ComprobanteCEDA?.file.name} convertirBase64={convertirBase64} />
+                </Grid>
+
+              </Grid>
+            </Box>
           </Grid>
 
           {/*//? Segundo */}
           <Grid spacing={2} xs={12} md={6} className="mb-3">
-
             {/* //? Acordions */}
             <Grid item='true' xs={12}>
               {
-                (!dataForm.form == "") ? <CustomizedAccordions dataForm={dataForm} /> : <></>
+                (!dataForm.form == "") ? <CustomizedAccordions dataForm={dataForm} /> : <span className="text-end fs-4 fw-normal">Selecciona una modalidad para visualizar los documentos y requisitos</span>
               }
             </Grid>
           </Grid>
 
           {/* //? Boton de enviar */}
           <Grid item='true' xs={12}>
-            <Button type="submit" variant="contained" color="success" size="large">
+            <Button variant="contained" color="success" size="large">
               enviar Solicitud
             </Button>
-          </Grid>
-          <Grid item='true' xs={12}>
-            <pre>{JSON.stringify(getValues(), null, 4)}</pre>
           </Grid>
         </Grid>
       </form>
