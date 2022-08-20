@@ -1,12 +1,30 @@
 import Button from '@mui/material/Button';
+import Grid from '@mui/system/Unstable_Grid';
 
-export const InputFile = ({ name = '', code = '', condicion, fileName = '', convertirBase64 }) => {
+export const InputFile = ({ name = '', code = '', setValue, dataForm = '' }) => {
+
+  //? Base 64
+  const convertirBase64 = (archivos, name) => {
+    Array.from(archivos).forEach((archivo) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(archivo);
+      reader.onload = () => {
+        let arrayAuxiliar = [];
+        let base64 = reader.result;
+        arrayAuxiliar = base64.split(',')
+        const file = { name: archivo.name, base64: arrayAuxiliar[1] }
+        setValue(name, { file })
+      }
+    })
+  }
 
   return (
-    <Button variant="outlined" color="inherit" component="label">
-      {name}
-      <input hidden type="file" onChange={(e) => convertirBase64(e.target.files, code)} />
-      {(condicion == undefined) ? <span className="ms-1 badge text-bg-danger text-lowercase">Sin Archivo</span> : <span className="ms-1 badge text-bg-success text-lowercase">{fileName}</span>}
-    </Button>
+    <Grid item='true'>
+      <Button variant="outlined" color="inherit" component="label">
+        {name}
+        <input hidden type="file" accept=".pdf, .doc,.docx" onChange={(e) => convertirBase64(e.target.files, code)} />
+        {(dataForm == "") ? <span className="ms-1 badge text-bg-danger text-lowercase">Sin Archivo</span> : <span className="ms-1 badge text-bg-success text-lowercase">{dataForm?.file.name}</span>}
+      </Button>
+    </Grid>
   )
 }
