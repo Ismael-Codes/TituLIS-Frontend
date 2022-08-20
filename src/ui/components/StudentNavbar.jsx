@@ -29,7 +29,7 @@ export const StudentNavbar = () => {
 
           to="/estado"
         >
-          Estado
+          Subir Archivo
         </NavLink>
       </li>
     </>

@@ -1,7 +1,0 @@
-export * from './ArticuloEspecifico'
-export * from './DoctoradoEspecifico'
-export * from './TesisEspecifico'
-export * from './ExamenTPEspecifico'
-export * from './MaestriaEspecifico'
-export * from './RendimientoEspecifico'
-export * from './ArticuloDocumentacion'

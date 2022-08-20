@@ -6,11 +6,11 @@ export const useFetch = (url) => {
   const [state, setState] = useState({
     data: {},
     isLoading: true,
-    hasError: null,
+    hasError: false,
   })
 
   let data = {}
-
+  let hasError = false
 
   const getFetch = async () => {
 
@@ -21,7 +21,7 @@ export const useFetch = (url) => {
         data = response.data
       })
       .catch((error) => {
-        console.log(error);
+        hasError = true;
       });
 
     // const data = await resp.json();
@@ -29,7 +29,7 @@ export const useFetch = (url) => {
     setState({
       data,
       isLoading: false,
-      hasError: null,
+      hasError,
     })
   }
 
