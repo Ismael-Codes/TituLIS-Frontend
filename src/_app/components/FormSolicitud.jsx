@@ -111,8 +111,8 @@ export const FormSolicitud = ({ message }) => {
               {
                 (inputs == undefined)
                   ? <Grid item='true' xs={12} align='center'> <Typography>Selecciona una modalidad para poder ingresar los documentos correspondientes</Typography> </Grid>
-                  : inputs.map((option) => (
-                    <InputFile key={option.value} name={option.name} code={option.code} setValue={setValue} dataForm={dataForm['ConstanciaPractica']} />
+                  : inputs.map((option, index) => (
+                    <InputFile key={index} name={option.name} code={option.code} setValue={setValue} dataForm={dataForm[option.code]} />
                   ))
               }
             </Grid>
