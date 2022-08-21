@@ -18,11 +18,12 @@ export const InputFile = ({ name = '', code = '', setValue, dataForm = '' }) => 
       }
     })
   }
+  
 
   return (
     <Grid item='true'>
       <Tooltip title="Clic izquierdo para agregar un archivo" placement="top">
-        <Button variant="outlined" color="inherit" component="label">
+        <Button variant="outlined" color="inherit" component="label" className="animate__animated animate__headShake">
           {name}
           <input hidden type="file" accept=".pdf, .doc,.docx" onChange={(e) => convertirBase64(e.target.files, code)} />
           {(dataForm == "") ? <span className="ms-1 badge text-bg-danger text-lowercase">Sin Archivo</span> : <span className="ms-1 badge text-bg-success text-lowercase">{dataForm?.file.name}</span>}
