@@ -78,7 +78,7 @@ export const FormSolicitud = ({ message }) => {
           {/* //? Alert */}
           <Collapse in={open}>
             <Grid item='true' xs={12}>
-              <Alert severity="info" className="mb-2" action={
+              <Alert severity="warning" className="mb-2" action={
                 <IconButton
                   aria-label="close"
                   color="inherit"
