@@ -96,6 +96,21 @@ export const FormSolicitud = ({ message }) => {
             </Grid>
           </Collapse>
 
+          {/* //? Ejemplo 1 */}
+          <Grid item='true' xs={12}>
+            <TextField
+              sx={{ width: 1 }}
+              label="Comentarios"
+              defaultValue={''}
+              {...register("comments")}
+              inputProps={register('comments', {
+                required: 'Por favor ingrese un ejemplo',
+              })}
+              error={!!errors.comments}
+              helperText={errors?.comments?.message}
+            />
+          </Grid>
+
           <Grid item='true' xs={12}>
             <Typography component={'h1'} align='center'>Documentación</Typography>
           </Grid>
