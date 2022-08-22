@@ -7,9 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import Collapse from '@mui/material/Collapse';
-import { InputFile, InputText } from '../components';
+import { InputFile, InputText, InputSelect } from '../components';
 import CustomizedAccordions from './CustomizedAccordions';
-
 
 export const FormSolicitud = ({ message }) => {
 
@@ -23,6 +22,7 @@ export const FormSolicitud = ({ message }) => {
   const dataForm = getValues()
   let inputFile = undefined;
   let inputText = undefined;
+  let inputSelect = undefined;
   let info = undefined;
   let label = undefined;
 
@@ -32,19 +32,24 @@ export const FormSolicitud = ({ message }) => {
   //* Extrae los inputText dependiendo de la modalidad
   (message[dataForm['form']]?.descripcion.inputText == undefined) ? inputText : inputText = message[dataForm['form']].descripcion.inputText;
 
+  //* Extrae el inputSelect dependiendo de la modalidad
+  (message[dataForm['form']]?.descripcion.inputSelect == undefined) ? inputSelect : inputSelect = message[dataForm['form']].descripcion.inputSelect;
+
   //* Extrae la info dependiendo de la modalidad
   (message[dataForm['form']]?.descripcion.info == undefined) ? info : info = message[dataForm['form']].descripcion.info;
 
   //* Extrae el label dependiendo de la modalidad
   (message[dataForm['form']]?.descripcion.label == undefined) ? label : label = message[dataForm['form']].descripcion.label;
 
-  console.log(dataForm);
+
+  // console.log(dataForm);
 
   const sendData = () => {
 
     let solicitud = [];
     let files = [];
     let inputText = [];
+    let inputSelect = [];
 
     //* Arvhicos que se enviaran
     if (message[dataForm['form']]?.descripcion.inputFile != undefined) {
@@ -52,7 +57,6 @@ export const FormSolicitud = ({ message }) => {
         const code = message[dataForm['form']].descripcion.inputFile[i].code;
         if (dataForm[code] != undefined) {
           const data = dataForm[code].file;
-          // solicitud = [...solicitud, { code, file: data }]
           files = [...files, { code, file: data }]
         }
       }
@@ -64,13 +68,23 @@ export const FormSolicitud = ({ message }) => {
         const code = message[dataForm['form']].descripcion.inputText[i].code;
         if (dataForm[code] != undefined) {
           const data = dataForm[code];
-          // solicitud = [...solicitud, { code, data }]
           inputText = [...inputText, { code, data }]
         }
       }
     }
 
-    solicitud = [inputText, files]
+    //* InputSelect que se enviaran
+    if (message[dataForm['form']]?.descripcion.inputSelect != undefined) {
+      for (let i = 0; i < message[dataForm['form']].descripcion.inputSelect.length; i++) {
+        const code = message[dataForm['form']].descripcion.inputSelect[i].code;
+        if (dataForm[code] != undefined) {
+          const data = dataForm[code];
+          inputSelect = [...inputSelect, { code, data }]
+        }
+      }
+    }
+
+    solicitud = [inputSelect, inputText, files]
     console.log(solicitud, 'Solicitud')
   }
 
@@ -95,7 +109,7 @@ export const FormSolicitud = ({ message }) => {
             <TextField
               select
               fullWidth
-              label="Modalidad de Titulación"
+              label="Seleccione Modalidad de Titulación"
               defaultValue={''}
               {...register("form")}
               inputProps={register('form', {
@@ -105,8 +119,8 @@ export const FormSolicitud = ({ message }) => {
               helperText={errors?.form?.message}
             // required={true}
             >
-              {message.map((option) => (
-                <MenuItem key={option.descripcion.value} value={option.descripcion.value}>
+              {message.map((option, index) => (
+                <MenuItem key={index} value={option.descripcion.value}>
                   {option.nombre}
                 </MenuItem>
               ))}
@@ -134,6 +148,17 @@ export const FormSolicitud = ({ message }) => {
             </Grid>
           </Collapse>
 
+
+          {/* //? InputSelect */}
+          {
+            (inputSelect == undefined)
+              ? <></>
+              : inputSelect.map((option, index) => (
+                <InputSelect key={index} url={option.url} name={option.name} code={option.code} setValue={setValue} register={register} errors={errors} />
+              ))
+          }
+
+          {/* //? InputText */}
           {
             (inputText == undefined)
               ? <></>
@@ -142,10 +167,12 @@ export const FormSolicitud = ({ message }) => {
               ))
           }
 
+          {/* //? Documentación Label */}
           <Grid item='true' xs={12}>
             <Typography component={'h1'} align='center'>Documentación</Typography>
           </Grid>
 
+          {/* //? InputFiles */}
           <Box
             sx={{
               // backgroundColor: 'white',
