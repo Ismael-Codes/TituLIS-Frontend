@@ -40,6 +40,25 @@ export const FormSolicitud = ({ message }) => {
 
   console.log(dataForm);
 
+  const sendData = () => {
+
+    let solicitud = [];
+
+    if (message[dataForm['form']]?.descripcion.inputFile != undefined) {
+      for (let i = 0; i < message[dataForm['form']].descripcion.inputFile.length; i++) {
+
+        const code = message[dataForm['form']].descripcion.inputFile[i].code;
+
+        if (dataForm[code] != undefined) {
+          const data = dataForm[code];
+          solicitud = [...solicitud, { code, data }]
+        }
+
+      }
+      console.log(solicitud, 'Solicitud')
+    }
+  }
+
   const onSubmit = (data) => alert(JSON.stringify(data, null, 4));
 
   const [open, setOpen] = useState(true);
@@ -144,7 +163,7 @@ export const FormSolicitud = ({ message }) => {
 
         {/* //? Boton de enviar */}
         <Grid item='true' xs={12}>
-          <Button type='submit'  variant="contained" color="success" size="large">
+          <Button type='submit' variant="contained" color="success" size="large" onClick={sendData}>
             enviar Solicitud
           </Button>
         </Grid>
