@@ -18,6 +18,8 @@ export const useSignIn = () => {
   let userType = 1
   let newUser = false;
 
+  //todo: tipo de usuario
+
   const { login } = useContext(AuthContext)
   const navigate = useNavigate();
 
@@ -26,7 +28,6 @@ export const useSignIn = () => {
     try {
       const { email, given_name, family_name, sub, picture } = jwt_decode(response.credential);
       setIsLoading(true);
-      await axios.get(`${url}/api/saludar`)
 
       //* Divide los nombres
       const miCadena = family_name;

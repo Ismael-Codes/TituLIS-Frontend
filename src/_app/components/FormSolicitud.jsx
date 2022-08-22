@@ -1,15 +1,15 @@
 import MenuItem from '@mui/material/MenuItem';
 import { useForm } from "react-hook-form";
 import Grid from '@mui/system/Unstable_Grid';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Alert, AlertTitle, Box, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, Button, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import Collapse from '@mui/material/Collapse';
-import { InputFile } from './InputFile';
+import { InputFile, InputText } from '../components';
 import CustomizedAccordions from './CustomizedAccordions';
+
 
 export const FormSolicitud = ({ message }) => {
 
@@ -21,20 +21,58 @@ export const FormSolicitud = ({ message }) => {
 
   //? Data extraida del form
   const dataForm = getValues()
-  let inputs = undefined;
+  let inputFile = undefined;
+  let inputText = undefined;
   let info = undefined;
   let label = undefined;
 
-  //* Extrae los inputs dependiendo de la modalidad
-  (message[dataForm['form']]?.descripcion.input_file == undefined) ? inputs : inputs = message[dataForm['form']].descripcion.input_file;
+  //* Extrae los inputFile dependiendo de la modalidad
+  (message[dataForm['form']]?.descripcion.inputFile == undefined) ? inputFile : inputFile = message[dataForm['form']].descripcion.inputFile;
+
+  //* Extrae los inputText dependiendo de la modalidad
+  (message[dataForm['form']]?.descripcion.inputText == undefined) ? inputText : inputText = message[dataForm['form']].descripcion.inputText;
 
   //* Extrae la info dependiendo de la modalidad
-  (message[dataForm['form']]?.descripcion.info == undefined) ? inputs : info = message[dataForm['form']].descripcion.info;
+  (message[dataForm['form']]?.descripcion.info == undefined) ? info : info = message[dataForm['form']].descripcion.info;
 
   //* Extrae el label dependiendo de la modalidad
-  (message[dataForm['form']]?.descripcion.label == undefined) ? inputs : label = message[dataForm['form']].descripcion.label;
+  (message[dataForm['form']]?.descripcion.label == undefined) ? label : label = message[dataForm['form']].descripcion.label;
 
   console.log(dataForm);
+
+  const sendData = () => {
+
+    let solicitud = [];
+    let files = [];
+    let inputText = [];
+
+    //* Arvhicos que se enviaran
+    if (message[dataForm['form']]?.descripcion.inputFile != undefined) {
+      for (let i = 0; i < message[dataForm['form']].descripcion.inputFile.length; i++) {
+        const code = message[dataForm['form']].descripcion.inputFile[i].code;
+        if (dataForm[code] != undefined) {
+          const data = dataForm[code].file;
+          // solicitud = [...solicitud, { code, file: data }]
+          files = [...files, { code, file: data }]
+        }
+      }
+    }
+
+    //* InputText que se enviaran
+    if (message[dataForm['form']]?.descripcion.inputText != undefined) {
+      for (let i = 0; i < message[dataForm['form']].descripcion.inputText.length; i++) {
+        const code = message[dataForm['form']].descripcion.inputText[i].code;
+        if (dataForm[code] != undefined) {
+          const data = dataForm[code];
+          // solicitud = [...solicitud, { code, data }]
+          inputText = [...inputText, { code, data }]
+        }
+      }
+    }
+
+    solicitud = [inputText, files]
+    console.log(solicitud, 'Solicitud')
+  }
 
   const onSubmit = (data) => alert(JSON.stringify(data, null, 4));
 
@@ -78,7 +116,7 @@ export const FormSolicitud = ({ message }) => {
           {/* //? Alert */}
           <Collapse in={open}>
             <Grid item='true' xs={12}>
-              <Alert severity="info" className="mb-2" action={
+              <Alert severity="warning" className="mb-2" action={
                 <IconButton
                   aria-label="close"
                   color="inherit"
@@ -96,6 +134,14 @@ export const FormSolicitud = ({ message }) => {
             </Grid>
           </Collapse>
 
+          {
+            (inputText == undefined)
+              ? <></>
+              : inputText.map((option, index) => (
+                <InputText key={index} name={option.name} code={option.code} setValue={setValue} register={register} errors={errors} />
+              ))
+          }
+
           <Grid item='true' xs={12}>
             <Typography component={'h1'} align='center'>Documentación</Typography>
           </Grid>
@@ -109,10 +155,10 @@ export const FormSolicitud = ({ message }) => {
           >
             <Grid spacing={1} container item='true' xs={12}>
               {
-                (inputs == undefined)
+                (inputFile == undefined)
                   ? <Grid item='true' xs={12} align='center'> <Typography>Selecciona una modalidad para poder ingresar los documentos correspondientes</Typography> </Grid>
-                  : inputs.map((option) => (
-                    <InputFile key={option.value} name={option.name} code={option.code} setValue={setValue} dataForm={dataForm['ConstanciaPractica']} />
+                  : inputFile.map((option, index) => (
+                    <InputFile key={index} name={option.name} code={option.code} setValue={setValue} dataForm={dataForm[option.code]} />
                   ))
               }
             </Grid>
@@ -131,11 +177,11 @@ export const FormSolicitud = ({ message }) => {
         </Grid>
 
         {/* //? Boton de enviar */}
-        {/* <Grid item='true' xs={12}>
-          <Button variant="contained" color="success" size="large">
+        <Grid item='true' xs={12}>
+          <Button type='submit' variant="contained" color="success" size="large" onClick={sendData}>
             enviar Solicitud
           </Button>
-        </Grid> */}
+        </Grid>
       </Grid>
     </form >
   )

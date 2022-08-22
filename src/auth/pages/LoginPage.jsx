@@ -6,7 +6,7 @@ export const LoginPage = () => {
 
   return (
     <>
-      <div className="Auth-form-container">
+      <div className="Auth-form-container backgroundLoginPage">
         <form className="Auth-form">
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>
