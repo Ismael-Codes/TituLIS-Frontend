@@ -9,6 +9,29 @@ import { useState } from 'react';
 import Collapse from '@mui/material/Collapse';
 import { InputFile, InputText, InputSelect } from '../components';
 import CustomizedAccordions from './CustomizedAccordions';
+import { sendData } from '../helpers';
+
+const steps = [
+  {
+    label: 'Select campaign settings',
+    description: `For each ad campaign that you create, you can control how much
+              you're willing to spend on clicks and conversions, which networks
+              and geographical locations you want your ads to show on, and more.`,
+  },
+  {
+    label: 'Create an ad group',
+    description:
+      'An ad group contains one or more ads which target a shared set of keywords.',
+  },
+  {
+    label: 'Create an ad',
+    description: `Try out different ad text to see what brings in the most customers,
+              and learn how to enhance your ads using features like ad extensions.
+              If you run into any problems with your ads, find out how to tell if
+              they're running and how to resolve approval issues.`,
+  },
+];
+
 
 export const FormSolicitud = ({ message }) => {
 
@@ -41,52 +64,7 @@ export const FormSolicitud = ({ message }) => {
   //* Extrae el label dependiendo de la modalidad
   (message[dataForm['form']]?.descripcion.label == undefined) ? label : label = message[dataForm['form']].descripcion.label;
 
-
   // console.log(dataForm);
-
-  const sendData = () => {
-
-    let solicitud = [];
-    let files = [];
-    let inputText = [];
-    let inputSelect = [];
-
-    //* Arvhicos que se enviaran
-    if (message[dataForm['form']]?.descripcion.inputFile != undefined) {
-      for (let i = 0; i < message[dataForm['form']].descripcion.inputFile.length; i++) {
-        const code = message[dataForm['form']].descripcion.inputFile[i].code;
-        if (dataForm[code] != undefined) {
-          const data = dataForm[code].file;
-          files = [...files, { code, file: data }]
-        }
-      }
-    }
-
-    //* InputText que se enviaran
-    if (message[dataForm['form']]?.descripcion.inputText != undefined) {
-      for (let i = 0; i < message[dataForm['form']].descripcion.inputText.length; i++) {
-        const code = message[dataForm['form']].descripcion.inputText[i].code;
-        if (dataForm[code] != undefined) {
-          const data = dataForm[code];
-          inputText = [...inputText, { code, data }]
-        }
-      }
-    }
-
-    //* InputSelect que se enviaran
-    if (message[dataForm['form']]?.descripcion.inputSelect != undefined) {
-      for (let i = 0; i < message[dataForm['form']].descripcion.inputSelect.length; i++) {
-        const code = message[dataForm['form']].descripcion.inputSelect[i].code;
-        if (dataForm[code] != undefined) {
-          const data = dataForm[code];
-          inputSelect = [...inputSelect, { code, data }]
-        }
-      }
-    }
-
-    solicitud = [inputSelect, inputText, files]
-    console.log(solicitud, 'Solicitud')
-  }
 
   const onSubmit = (data) => alert(JSON.stringify(data, null, 4));
 
@@ -205,7 +183,7 @@ export const FormSolicitud = ({ message }) => {
 
         {/* //? Boton de enviar */}
         <Grid item='true' xs={12}>
-          <Button type='submit' variant="contained" color="success" size="large" onClick={sendData}>
+          <Button type='submit' variant="contained" color="success" size="large" onClick={sendData(inputFile, inputText, inputSelect, dataForm)}>
             enviar Solicitud
           </Button>
         </Grid>
