@@ -18,6 +18,8 @@ export const useSignIn = () => {
   let userType = 1
   let newUser = false;
 
+  //todo: tipo de usuario
+
   const { login } = useContext(AuthContext)
   const navigate = useNavigate();
 

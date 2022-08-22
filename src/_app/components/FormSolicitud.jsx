@@ -43,20 +43,35 @@ export const FormSolicitud = ({ message }) => {
   const sendData = () => {
 
     let solicitud = [];
+    let files = [];
+    let inputText = [];
 
+    //* Arvhicos que se enviaran
     if (message[dataForm['form']]?.descripcion.inputFile != undefined) {
       for (let i = 0; i < message[dataForm['form']].descripcion.inputFile.length; i++) {
-
         const code = message[dataForm['form']].descripcion.inputFile[i].code;
+        if (dataForm[code] != undefined) {
+          const data = dataForm[code].file;
+          // solicitud = [...solicitud, { code, file: data }]
+          files = [...files, { code, file: data }]
+        }
+      }
+    }
 
+    //* InputText que se enviaran
+    if (message[dataForm['form']]?.descripcion.inputText != undefined) {
+      for (let i = 0; i < message[dataForm['form']].descripcion.inputText.length; i++) {
+        const code = message[dataForm['form']].descripcion.inputText[i].code;
         if (dataForm[code] != undefined) {
           const data = dataForm[code];
-          solicitud = [...solicitud, { code, data }]
+          // solicitud = [...solicitud, { code, data }]
+          inputText = [...inputText, { code, data }]
         }
-
       }
-      console.log(solicitud, 'Solicitud')
     }
+
+    solicitud = [inputText, files]
+    console.log(solicitud, 'Solicitud')
   }
 
   const onSubmit = (data) => alert(JSON.stringify(data, null, 4));
