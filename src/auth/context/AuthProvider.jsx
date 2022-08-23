@@ -22,6 +22,12 @@ export const AuthProvider = ({ children }) => {
 
   const [authState, dispatch] = useReducer(authReducer, {}, init)
 
+  const inputsData = async (label, info, inputFile, inputText, inputSelect) => {
+
+    const data = (label, info, inputFile, inputText, inputSelect);
+
+  }
+
   //* Login, recibe los argumentos y hace el login
   const login = async (given_name = ' ', aPaterno = ' ', aMaterno = ' ', email = ' ', matricula = ' ', picture = ' ', sub = '', userType = '', newUser) => {
 
@@ -51,6 +57,7 @@ export const AuthProvider = ({ children }) => {
       ...authState,
 
       //Methods
+      inputsData,
       login,
       logout
     }}>

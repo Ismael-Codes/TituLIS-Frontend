@@ -8,16 +8,7 @@ import Collapse from '@mui/material/Collapse';;
 import CustomizedAccordions from './CustomizedAccordions';
 import { useState } from 'react';
 
-export const FirstStep = ({ register, message, dataForm }) => {
-
-  let info = undefined;
-  let label = undefined;
-
-  //* Extrae el label dependiendo de la modalidad
-  (message[dataForm['form']]?.descripcion.label == undefined) ? label : label = message[dataForm['form']].descripcion.label;
-
-  //* Extrae la info dependiendo de la modalidad
-  (message[dataForm['form']]?.descripcion.info == undefined) ? info : info = message[dataForm['form']].descripcion.info;
+export const FirstStep = ({ register, message, dataForm, label, info }) => {
 
   const [open, setOpen] = useState(true);
 
@@ -28,7 +19,7 @@ export const FirstStep = ({ register, message, dataForm }) => {
         <TextField
           select
           fullWidth
-          label="Seleccione Modalidad de Titulación"
+          label="Modalidad de Titulación"
           defaultValue={''}
           {...register("form")}
         >

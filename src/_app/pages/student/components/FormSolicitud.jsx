@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Grid from '@mui/system/Unstable_Grid';
-import { Alert, Button, Collapse, IconButton } from '@mui/material';
+import { Alert, Button, Collapse, IconButton, AlertTitle } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
 import { sendData } from '../../../helpers';
@@ -12,11 +12,40 @@ import CloseIcon from '@mui/icons-material/Close';
 
 export const FormSolicitud = ({ message = '' }) => {
 
+  const { getValues, watch, register, setValue, unregister } = useForm();
+
+  const [second, setSecond] = useState('')
+
+  //? Mantiene el dataform Actualizado
+  watch();
+
+  //? Data extraida del form
+  const dataForm = getValues()
+
+  let errors = ''
+
+  let label = undefined;
+  message[dataForm['form']]?.descripcion.label !== undefined && (label = message[dataForm['form']].descripcion.label);
+
+  let info = undefined;
+  message[dataForm['form']]?.descripcion.info !== undefined && (info = message[dataForm['form']].descripcion.info);
+
+  let inputText = undefined;
+  message[dataForm['form']]?.descripcion.inputText !== undefined && (inputText = message[dataForm['form']].descripcion.inputText);
+
+  let inputSelect = undefined;
+  message[dataForm['form']]?.descripcion.inputSelect !== undefined && (inputSelect = message[dataForm['form']].descripcion.inputSelect);
+
+  let inputFile = undefined;
+  (message[dataForm['form']]?.descripcion.inputFile == undefined) ? inputFile : inputFile = message[dataForm['form']].descripcion.inputFile;
+
+
   const [open, setOpen] = useState(false);
 
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
+  //? Pimer Paso
+  const firstHandleNext = () => {
     (!dataForm.form == undefined || !dataForm.form == '')
       ? (
         setActiveStep((prevActiveStep) => prevActiveStep + 1),
@@ -25,12 +54,41 @@ export const FormSolicitud = ({ message = '' }) => {
       : setOpen(true)
   };
 
+  //? Segundo Paso
+  const secondHandleNext = () => {
+
+    let helper;
+    errors = ''
+
+    for (let i = 0; i < inputSelect.length; i++) {
+      (!dataForm[inputSelect[i].code] == undefined || !dataForm[inputSelect[i].code] == '') ? helper = true : (helper = false, errors += `${inputSelect[i].name}, `);
+    }
+
+    setSecond(errors);
+
+    (helper)
+      ? (
+        setActiveStep((prevActiveStep) => prevActiveStep + 1),
+        setOpen(false)
+      )
+      : setOpen(true)
+
+    // setActiveStep((prevActiveStep) => prevActiveStep + 1)
+  };
+
+  //? Segundo Paso
   const firstHandleBack = () => {
     unregister('');
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleBack = () => {
+  //? Tercer Paso
+  const thirdHandleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+  };
+
+  //? Tercer Paso
+  const thirdHandleBack = () => {
     const helper = dataForm.form;
     unregister('');
     setValue('form', helper)
@@ -41,14 +99,6 @@ export const FormSolicitud = ({ message = '' }) => {
     unregister('');
     setActiveStep(0);
   };
-
-  const { getValues, watch, register, setValue, unregister } = useForm();
-
-  //? Mantiene el dataform Actualizado
-  watch();
-
-  //? Data extraida del form
-  const dataForm = getValues()
 
   console.log(dataForm);
 
@@ -72,12 +122,12 @@ export const FormSolicitud = ({ message = '' }) => {
           <StepContent>
 
             {/* //? Primer Paso  */}
-            <FirstStep register={register} message={message} dataForm={dataForm} />
+            <FirstStep register={register} message={message} dataForm={dataForm} label={label} info={info} />
 
-            {/* //? Validator */}
+            {/* //? Alert */}
             <Collapse in={open}>
               <Alert
-                variant="filled"
+                // variant="filled"
                 severity="error"
                 action={
                   <IconButton
@@ -93,13 +143,14 @@ export const FormSolicitud = ({ message = '' }) => {
                 }
                 sx={{ mb: 2 }}
               >
-                Por favor Seleccione una modalidad
+                <AlertTitle>Error</AlertTitle>
+                Seleccione <strong>modalidad</strong>
               </Alert>
             </Collapse>
 
             <Button
               variant="contained"
-              onClick={handleNext}
+              onClick={firstHandleNext}
               sx={{ mt: 1, mr: 1 }}
             >
               Continuar
@@ -117,11 +168,35 @@ export const FormSolicitud = ({ message = '' }) => {
           <StepContent>
 
             {/* //?Segundo Paso */}
-            <SecondStep message={message} setValue={setValue} register={register} dataForm={dataForm} />
+            <SecondStep setValue={setValue} register={register} inputText={inputText} inputSelect={inputSelect} />
+
+            {/* //? Alert */}
+            <Collapse in={open}>
+              <Alert
+                // variant="filled"
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                <AlertTitle>Error</AlertTitle>
+                Seleccione <strong>{second}</strong>
+              </Alert>
+            </Collapse>
 
             <Button
               variant="contained"
-              onClick={handleNext}
+              onClick={secondHandleNext}
               sx={{ mt: 1, mr: 1 }}
             >
               Continuar
@@ -145,17 +220,17 @@ export const FormSolicitud = ({ message = '' }) => {
           <StepContent>
 
             {/* //?Tercer Paso */}
-            <ThirdStep setValue={setValue} dataForm={dataForm} message={message} />
+            <ThirdStep setValue={setValue} dataForm={dataForm} inputFile={inputFile} />
 
             <Button
               variant="contained"
-              onClick={handleNext}
+              onClick={thirdHandleNext}
               sx={{ mt: 1, mr: 1 }}
             >
               Continuar
             </Button>
             <Button
-              onClick={handleBack}
+              onClick={thirdHandleBack}
               sx={{ mt: 1, mr: 1 }}
             >
               Back

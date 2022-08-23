@@ -1,4 +1,4 @@
-import { Grid, MenuItem, TextField, Typography } from "@mui/material"
+import { CircularProgress, Grid, MenuItem, TextField, Typography } from "@mui/material"
 import { useFetch } from "../../../../hook/useFetch";
 
 export const InputSelect = ({ url, name, code, register }) => {
@@ -10,9 +10,8 @@ export const InputSelect = ({ url, name, code, register }) => {
   return (
     <>
       {
-        (isLoading)
-          ? <></>
-          : <TextField
+        (!isLoading)
+          ? (<TextField
             className='animate__animated animate__headShake my-2'
             select
             fullWidth
@@ -25,7 +24,8 @@ export const InputSelect = ({ url, name, code, register }) => {
                 {`${option.nombre} ${option.a_paterno} ${option.a_materno}`}
               </MenuItem>
             ))}
-          </TextField>
+          </TextField>)
+          : <CircularProgress />
       }
 
     </>

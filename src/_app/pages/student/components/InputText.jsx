@@ -6,7 +6,7 @@ export const InputText = ({ name = '', code = '', register }) => {
   return (
     <Grid item='true' xs={12}>
       <TextField
-        className='animate__animated animate__headShake'
+        className='animate__animated animate__headShake my-2'
         sx={{ width: 1 }}
         label={name}
         defaultValue={''}

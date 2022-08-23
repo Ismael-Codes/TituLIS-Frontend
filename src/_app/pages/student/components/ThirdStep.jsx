@@ -1,17 +1,12 @@
 import { Box, Grid, Typography } from "@mui/material"
 import { InputFile } from "./InputFile"
 
-export const ThirdStep = ({ setValue, dataForm, message }) => {
-
-  let inputFile = undefined;
-
-  //* Extrae los inputFile dependiendo de la modalidad
-  (message[dataForm['form']]?.descripcion.inputFile == undefined) ? inputFile : inputFile = message[dataForm['form']].descripcion.inputFile;
+export const ThirdStep = ({ setValue, dataForm, inputFile }) => {
 
   return (
     <>
       {/* //? Documentación Label */}
-        <Typography component={'h1'} align='center'>Documentación</Typography>
+      <Typography component={'h1'} align='center'>Documentación</Typography>
 
       {/* //? InputFiles */}
       <Box
