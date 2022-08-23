@@ -78,6 +78,7 @@ export const FormSolicitud = ({ message = '' }) => {
 
   //? Segundo Paso
   const firstHandleBack = () => {
+    setOpen(false)
     unregister('');
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
@@ -144,7 +145,7 @@ export const FormSolicitud = ({ message = '' }) => {
                 sx={{ mb: 2 }}
               >
                 <AlertTitle>Error</AlertTitle>
-                Seleccione <strong>modalidad</strong>
+                Seleccione <strong>modalidad</strong>, y podrás visualizar sus <strong>requisitos</strong> y <strong>documentación</strong>
               </Alert>
             </Collapse>
 
@@ -205,7 +206,7 @@ export const FormSolicitud = ({ message = '' }) => {
               onClick={firstHandleBack}
               sx={{ mt: 1, mr: 1 }}
             >
-              Back
+              Regresar
             </Button>
           </StepContent>
         </Step>
@@ -233,7 +234,7 @@ export const FormSolicitud = ({ message = '' }) => {
               onClick={thirdHandleBack}
               sx={{ mt: 1, mr: 1 }}
             >
-              Back
+              Regresar
             </Button>
           </StepContent>
         </Step>
