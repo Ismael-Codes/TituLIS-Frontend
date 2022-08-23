@@ -3,7 +3,7 @@ import Grid from '@mui/system/Unstable_Grid';
 import { Box, Button } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
-import { sendData } from '../helpers';
+import { sendData } from '../../../helpers';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';

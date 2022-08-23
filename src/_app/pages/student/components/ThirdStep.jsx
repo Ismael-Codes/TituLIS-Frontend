@@ -21,7 +21,7 @@ export const ThirdStep = ({ setValue, dataForm, message }) => {
           borderRadius: '8px',
         }}
       >
-        <Grid container item='true'>
+        <Grid container item={true}>
           {
             (inputFile == undefined)
               ? <Grid item='true' xs={12} align='center'> <Typography>Selecciona una modalidad para poder ingresar los documentos correspondientes</Typography> </Grid>
