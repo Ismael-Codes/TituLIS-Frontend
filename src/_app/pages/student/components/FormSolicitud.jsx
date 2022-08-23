@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Grid from '@mui/system/Unstable_Grid';
-import { Box, Button } from '@mui/material';
+import { Alert, Button, Collapse, IconButton } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
 import { sendData } from '../../../helpers';
@@ -8,19 +8,25 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const FormSolicitud = ({ message = '' }) => {
+
+  const [open, setOpen] = useState(false);
 
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
-    if (dataForm.form != undefined) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    (!dataForm.form == undefined || !dataForm.form == '')
+      ? (
+        setActiveStep((prevActiveStep) => prevActiveStep + 1),
+        setOpen(false)
+      )
+      : setOpen(true)
   };
 
   const firstHandleBack = () => {
-    unregister('form');
+    unregister('');
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -67,6 +73,29 @@ export const FormSolicitud = ({ message = '' }) => {
 
             {/* //? Primer Paso  */}
             <FirstStep register={register} message={message} dataForm={dataForm} />
+
+            {/* //? Validator */}
+            <Collapse in={open}>
+              <Alert
+                variant="filled"
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                Por favor Seleccione una modalidad
+              </Alert>
+            </Collapse>
 
             <Button
               variant="contained"
