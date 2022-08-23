@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Grid from '@mui/system/Unstable_Grid';
-import { Alert, Button, Collapse, IconButton, AlertTitle } from '@mui/material';
+import { Alert, Button, Collapse, IconButton, AlertTitle, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
 import { sendData } from '../../../helpers';
@@ -129,7 +129,7 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Primer Paso */}
         <Step>
           <StepLabel
-          // optional={<Typography variant="caption">Primer Paso</Typography>}
+          optional={<Typography variant="caption">Selecciona una Modalidad</Typography>}
           >
             Primer Paso
           </StepLabel>
@@ -163,7 +163,7 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Segundo Paso */}
         <Step>
           <StepLabel
-          // optional={<Typography variant="caption">Last step</Typography>}
+          optional={<Typography variant="caption">Paso Intermedio</Typography>}
           >
             Segundo Paso
           </StepLabel>
@@ -202,14 +202,18 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Tercer Paso */}
         <Step>
           <StepLabel
-          // optional={<Typography variant="caption">Last step</Typography>}
+          optional={<Typography variant="caption">Sube tus Archivos</Typography>}
           >
             Tercer Paso
           </StepLabel>
           <StepContent>
 
             {/* //?Tercer Paso */}
-            <ThirdStep setValue={setValue} dataForm={dataForm} inputFile={inputFile} />
+            <ThirdStep
+              setValue={setValue}
+              dataForm={dataForm}
+              inputFile={inputFile}
+            />
 
             <Button
               variant="contained"
@@ -236,14 +240,6 @@ export const FormSolicitud = ({ message = '' }) => {
           </StepContent>
         </Step>
       </Stepper>
-      {/* {activeStep === steps.length && (
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-        </Paper>
-      )} */}
     </>
   )
 }
