@@ -4,7 +4,7 @@ import Grid from '@mui/system/Unstable_Grid';
 export const InputText = ({ name = '', code = '', register }) => {
 
   return (
-    <Grid item='true' xs={12}>
+    <Grid xs={12}>
       <TextField
         className='animate__animated animate__headShake my-2'
         sx={{ width: 1 }}

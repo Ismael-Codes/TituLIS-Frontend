@@ -14,15 +14,13 @@ export const FormSolicitud = ({ message = '' }) => {
 
   const { getValues, watch, register, setValue, unregister } = useForm();
 
-  const [second, setSecond] = useState('')
+  const [second, setSecond] = useState('no errors')
 
   //? Mantiene el dataform Actualizado
   watch();
 
   //? Data extraida del form
   const dataForm = getValues()
-
-  let errors = ''
 
   let label = undefined;
   message[dataForm['form']]?.descripcion.label !== undefined && (label = message[dataForm['form']].descripcion.label);
@@ -37,7 +35,7 @@ export const FormSolicitud = ({ message = '' }) => {
   message[dataForm['form']]?.descripcion.inputSelect !== undefined && (inputSelect = message[dataForm['form']].descripcion.inputSelect);
 
   let inputFile = undefined;
-  (message[dataForm['form']]?.descripcion.inputFile == undefined) ? inputFile : inputFile = message[dataForm['form']].descripcion.inputFile;
+  (message[dataForm['form']]?.descripcion.inputFile !== undefined) && (inputFile = message[dataForm['form']].descripcion.inputFile);
 
 
   const [open, setOpen] = useState(false);
@@ -58,34 +56,49 @@ export const FormSolicitud = ({ message = '' }) => {
   const secondHandleNext = () => {
 
     let helper;
-    errors = ''
+    let helperText = [];
+    let helperSelect = [];
 
-    for (let i = 0; i < inputSelect.length; i++) {
-      (!dataForm[inputSelect[i].code] == undefined || !dataForm[inputSelect[i].code] == '') ? helper = true : (helper = false, errors += `${inputSelect[i].name}, `);
-    }
+    inputSelect.forEach((input, index) => {
+      (input.required == true)
+        && ((dataForm[input.code] == '' || dataForm[input.code] == undefined)
+          ? helperSelect[index] = input.name + ', '
+          : delete helperSelect[dataForm[input.name]])
+    })
 
-    setSecond(errors);
+    inputText.forEach((input, index) => {
+      (input.required == true)
+        && ((dataForm[input.code] == '' || dataForm[input.code] == undefined)
+          ? helperText[index] = input.name + ', '
+          : delete helperText[dataForm[input.name]])
+    })
+
+    helperSelect == '' && helperText == '' && (helper = true)
+
+    let newArreglo = (helperSelect + helperText).slice(0, -2) + '.';
 
     (helper)
       ? (
         setActiveStep((prevActiveStep) => prevActiveStep + 1),
         setOpen(false)
       )
-      : setOpen(true)
-
-    // setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      : (setSecond(newArreglo), setOpen(true))
   };
 
   //? Segundo Paso
   const firstHandleBack = () => {
     setOpen(false)
     unregister('');
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => {
+      setValue('form', '')
+      return prevActiveStep - 1
+    });
   };
 
   //? Tercer Paso
   const thirdHandleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+
+    // setActiveStep((prevActiveStep) => prevActiveStep + 1)
   };
 
   //? Tercer Paso
@@ -106,7 +119,7 @@ export const FormSolicitud = ({ message = '' }) => {
   return (
     <>
       {/* //? Titulo */}
-      <Grid item='true' xs={12} textAlign="center">
+      <Grid xs={12} textAlign="center">
         <h1>Proceso de Solicitud</h1>
       </Grid>
 
@@ -130,26 +143,14 @@ export const FormSolicitud = ({ message = '' }) => {
               <Alert
                 // variant="filled"
                 severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                }
-                sx={{ mb: 2 }}
               >
                 <AlertTitle>Error</AlertTitle>
-                Seleccione <strong>modalidad</strong>, y podrás visualizar sus <strong>requisitos</strong> y <strong>documentación</strong>
+                Seleccione <strong>modalidad</strong>, para poder visualizar sus <strong>requisitos</strong> y <strong>documentación</strong>
               </Alert>
             </Collapse>
 
             <Button
+              className='animate__animated animate__headShake'
               variant="contained"
               onClick={firstHandleNext}
               sx={{ mt: 1, mr: 1 }}
@@ -176,19 +177,6 @@ export const FormSolicitud = ({ message = '' }) => {
               <Alert
                 // variant="filled"
                 severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                }
-                sx={{ mb: 2 }}
               >
                 <AlertTitle>Error</AlertTitle>
                 Seleccione <strong>{second}</strong>
@@ -225,10 +213,19 @@ export const FormSolicitud = ({ message = '' }) => {
 
             <Button
               variant="contained"
+              color="error"
+              onClick={handleReset}
+              sx={{ mt: 1, mr: 1 }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
               onClick={thirdHandleNext}
               sx={{ mt: 1, mr: 1 }}
             >
-              Continuar
+              Enviar
             </Button>
             <Button
               onClick={thirdHandleBack}
