@@ -1,7 +1,6 @@
 import { useFetch } from '../../../hook/useFetch';
 import { url } from '../../../../src/config';
-import { FormSolicitud } from '../../components/FormSolicitud';
-import { LoadingSpinner2 } from '../../components/LoadingSpinner2';
+import { LoadingSpinner2, FormSolicitud } from './components';
 import { Alert } from '@mui/material';
 
 export const Solicitud = () => {
