@@ -12,7 +12,7 @@ export const InputSelect = ({ url, name, code, register }) => {
       {
         (!isLoading)
           ? (<TextField
-            className='animate__animated animate__headShake my-2'
+            className='animate__animated animate__headShake'
             select
             fullWidth
             label={name}
@@ -27,7 +27,6 @@ export const InputSelect = ({ url, name, code, register }) => {
           </TextField>)
           : <CircularProgress />
       }
-
     </>
   )
 }

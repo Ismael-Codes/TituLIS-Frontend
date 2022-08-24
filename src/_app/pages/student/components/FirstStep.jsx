@@ -11,7 +11,7 @@ export const FirstStep = ({ register, message, dataForm, label, info }) => {
   return (
     <>
       {/* //? Select */}
-      <Grid xs={12} className='my-2'>
+      <Grid xs={12} className='mt-3 mb-2'>
         <TextField
           className='animate__animated animate__headShake'
           select
