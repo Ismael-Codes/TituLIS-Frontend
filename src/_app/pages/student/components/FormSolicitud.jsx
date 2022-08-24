@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Grid from '@mui/system/Unstable_Grid';
-import { Alert, Button, Collapse, IconButton, AlertTitle, Typography } from '@mui/material';
+import { Alert, Button, Collapse, AlertTitle, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
 import { sendData } from '../../../helpers';
@@ -8,39 +8,26 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
-import CloseIcon from '@mui/icons-material/Close';
+import { validarSecond } from "../helper/validarSecond";
+import { mainData } from "../helper";
 
 export const FormSolicitud = ({ message = '' }) => {
 
   const { getValues, watch, register, setValue, unregister } = useForm();
 
-  const [second, setSecond] = useState('no errors')
+  const [second, setSecond] = useState('')
+  const [open, setOpen] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
 
-  //? Mantiene el dataform Actualizado
+
+  //* Mantiene el dataform Actualizado
   watch();
 
   //? Data extraida del form
   const dataForm = getValues()
 
-  let label = undefined;
-  message[dataForm['form']]?.descripcion.label !== undefined && (label = message[dataForm['form']].descripcion.label);
-
-  let info = undefined;
-  message[dataForm['form']]?.descripcion.info !== undefined && (info = message[dataForm['form']].descripcion.info);
-
-  let inputText = undefined;
-  message[dataForm['form']]?.descripcion.inputText !== undefined && (inputText = message[dataForm['form']].descripcion.inputText);
-
-  let inputSelect = undefined;
-  message[dataForm['form']]?.descripcion.inputSelect !== undefined && (inputSelect = message[dataForm['form']].descripcion.inputSelect);
-
-  let inputFile = undefined;
-  (message[dataForm['form']]?.descripcion.inputFile !== undefined) && (inputFile = message[dataForm['form']].descripcion.inputFile);
-
-
-  const [open, setOpen] = useState(false);
-
-  const [activeStep, setActiveStep] = useState(0);
+  //* Extrae la data que sera mostrada
+  const { label, info, inputText, inputSelect, inputFile } = mainData(message, dataForm)
 
   //? Pimer Paso
   const firstHandleNext = () => {
@@ -55,29 +42,14 @@ export const FormSolicitud = ({ message = '' }) => {
   //? Segundo Paso
   const secondHandleNext = () => {
 
-    let helper;
-    let helperText = [];
-    let helperSelect = [];
+    //* Valida los 'required = true'
+    const helperText = validarSecond(inputText, dataForm)
+    const helperSelect = validarSecond(inputSelect, dataForm)
 
-    inputSelect.forEach((input, index) => {
-      (input.required == true)
-        && ((dataForm[input.code] == '' || dataForm[input.code] == undefined)
-          ? helperSelect[index] = input.name + ', '
-          : delete helperSelect[dataForm[input.name]])
-    })
+    let newArreglo = (helperSelect.helperArray + helperText.helperArray).slice(0, -2) + '.';
 
-    inputText.forEach((input, index) => {
-      (input.required == true)
-        && ((dataForm[input.code] == '' || dataForm[input.code] == undefined)
-          ? helperText[index] = input.name + ', '
-          : delete helperText[dataForm[input.name]])
-    })
 
-    helperSelect == '' && helperText == '' && (helper = true)
-
-    let newArreglo = (helperSelect + helperText).slice(0, -2) + '.';
-
-    (helper)
+    (helperSelect.helper && helperText.helper)
       ? (
         setActiveStep((prevActiveStep) => prevActiveStep + 1),
         setOpen(false)
@@ -97,7 +69,6 @@ export const FormSolicitud = ({ message = '' }) => {
 
   //? Tercer Paso
   const thirdHandleNext = () => {
-
     // setActiveStep((prevActiveStep) => prevActiveStep + 1)
   };
 
@@ -129,7 +100,7 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Primer Paso */}
         <Step>
           <StepLabel
-          optional={<Typography variant="caption">Selecciona una Modalidad</Typography>}
+            optional={<Typography variant="caption">Selecciona una Modalidad</Typography>}
           >
             Primer Paso
           </StepLabel>
@@ -163,7 +134,7 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Segundo Paso */}
         <Step>
           <StepLabel
-          optional={<Typography variant="caption">Paso Intermedio</Typography>}
+            optional={<Typography variant="caption">Paso Intermedio</Typography>}
           >
             Segundo Paso
           </StepLabel>
@@ -202,7 +173,7 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Tercer Paso */}
         <Step>
           <StepLabel
-          optional={<Typography variant="caption">Sube tus Archivos</Typography>}
+            optional={<Typography variant="caption">Sube tus Archivos</Typography>}
           >
             Tercer Paso
           </StepLabel>
