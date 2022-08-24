@@ -1,10 +1,6 @@
 import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/system/Unstable_Grid';
 import TextField from '@mui/material/TextField';
-import { Alert, AlertTitle, Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Collapse from '@mui/material/Collapse';;
 import CustomizedAccordions from './CustomizedAccordions';
 import { useState } from 'react';
 
@@ -15,8 +11,9 @@ export const FirstStep = ({ register, message, dataForm, label, info }) => {
   return (
     <>
       {/* //? Select */}
-      <Grid item='true' xs={12} className='my-2'>
+      <Grid xs={12} className='my-2'>
         <TextField
+          className='animate__animated animate__headShake'
           select
           fullWidth
           label="Modalidad de Titulación"
@@ -31,31 +28,10 @@ export const FirstStep = ({ register, message, dataForm, label, info }) => {
         </TextField>
       </Grid>
 
-      {/* //? Alert */}
-      <Collapse in={open}>
-        <Grid item='true' xs={12} className='my-2'>
-          <Alert severity="warning" className="mb-2" action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setOpen(false);
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }>
-            <AlertTitle>Info</AlertTitle>
-            Los <strong>requisitos</strong> y <strong>documentación</strong> varían dependiendo de la <strong>modalidad</strong>
-          </Alert>
-        </Grid>
-      </Collapse>
-
       {/* //? Acordions */}
-      <Grid item='true' xs={12} className='mb-3'>
+      <Grid xs={12} className='mb-3'>
         {
-          (!dataForm.form == "") ? <CustomizedAccordions info={info} label={label} /> : <Typography variant="body1" align="center">Selecciona una modalidad para poder visualizar los requisitos generales, específicos y documentación correspondiente a la modalidad</Typography>
+          !dataForm.form == "" && <CustomizedAccordions info={info} label={label} />
         }
       </Grid>
     </>

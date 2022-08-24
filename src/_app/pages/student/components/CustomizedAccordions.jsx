@@ -54,7 +54,7 @@ export default function CustomizedAccordions({ info, label }) {
     <>
       <span className="fw-bold fs-6">{label}<p className="fw-normal">Requisitos y Documentación</p></span>
 
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className='animate__animated animate__headShake'>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography component={'span'}>Requisitos generales</Typography>
         </AccordionSummary>
@@ -72,7 +72,7 @@ export default function CustomizedAccordions({ info, label }) {
       </Accordion>
 
 
-      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} className='animate__animated animate__headShake'>
         <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
           <Typography component={'span'}>Requisitos específicos de la modalidad</Typography>
         </AccordionSummary>
@@ -88,7 +88,7 @@ export default function CustomizedAccordions({ info, label }) {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className='animate__animated animate__headShake'>
         <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
           <Typography component={'span'}>Documentación solicitada para integrar expediente</Typography>
         </AccordionSummary>

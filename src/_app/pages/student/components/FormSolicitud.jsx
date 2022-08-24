@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Grid from '@mui/system/Unstable_Grid';
-import { Alert, Button, Collapse, IconButton, AlertTitle } from '@mui/material';
+import { Alert, Button, Collapse, AlertTitle, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
 import { sendData } from '../../../helpers';
@@ -8,43 +8,36 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
-import CloseIcon from '@mui/icons-material/Close';
+import { validarSecond } from "../helper/validarSecond";
+import { mainData } from "../helper";
 
 export const FormSolicitud = ({ message = '' }) => {
 
   const { getValues, watch, register, setValue, unregister } = useForm();
 
-  const [second, setSecond] = useState('')
+  const [open, setOpen] = useState(false);
+  const [openWarning, setOpenWarning] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
 
-  //? Mantiene el dataform Actualizado
+  //* Almacena los empty
+  const [inputsEmpty, setInputsEmpty] = useState('')
+  const [selectsEmpty, setSelectsEmpty] = useState('')
+
+  //* Almacena los required
+  const [inputsRequired, setInputsRequired] = useState('')
+  const [selectsRequired, setSelectsRequired] = useState('')
+
+
+  //* Mantiene el dataform Actualizado
   watch();
 
   //? Data extraida del form
   const dataForm = getValues()
 
-  let errors = ''
+  //* Extrae la data que sera mostrada
+  const { label, info, inputText, inputSelect, inputFile } = mainData(message, dataForm)
 
-  let label = undefined;
-  message[dataForm['form']]?.descripcion.label !== undefined && (label = message[dataForm['form']].descripcion.label);
-
-  let info = undefined;
-  message[dataForm['form']]?.descripcion.info !== undefined && (info = message[dataForm['form']].descripcion.info);
-
-  let inputText = undefined;
-  message[dataForm['form']]?.descripcion.inputText !== undefined && (inputText = message[dataForm['form']].descripcion.inputText);
-
-  let inputSelect = undefined;
-  message[dataForm['form']]?.descripcion.inputSelect !== undefined && (inputSelect = message[dataForm['form']].descripcion.inputSelect);
-
-  let inputFile = undefined;
-  (message[dataForm['form']]?.descripcion.inputFile == undefined) ? inputFile : inputFile = message[dataForm['form']].descripcion.inputFile;
-
-
-  const [open, setOpen] = useState(false);
-
-  const [activeStep, setActiveStep] = useState(0);
-
-  //? Pimer Paso
+  //? Pimer Paso Boton Siguiente
   const firstHandleNext = () => {
     (!dataForm.form == undefined || !dataForm.form == '')
       ? (
@@ -54,41 +47,51 @@ export const FormSolicitud = ({ message = '' }) => {
       : setOpen(true)
   };
 
-  //? Segundo Paso
+  //? Segundo Paso Boton Siguiente
   const secondHandleNext = () => {
 
-    let helper;
-    errors = ''
+    //* Valida los 'required = true'
+    const helperText = validarSecond(inputText, dataForm)
+    const helperSelect = validarSecond(inputSelect, dataForm)
 
-    for (let i = 0; i < inputSelect.length; i++) {
-      (!dataForm[inputSelect[i].code] == undefined || !dataForm[inputSelect[i].code] == '') ? helper = true : (helper = false, errors += `${inputSelect[i].name}, `);
+    setInputsEmpty(helperText.helperArrayEmpty.join())
+    setSelectsEmpty(helperSelect.helperArrayEmpty.join())
+
+    setInputsRequired(helperText.helperArrayRequired.join())
+    setSelectsRequired(helperSelect.helperArrayRequired.join())
+
+    if (helperSelect.helperRequired && helperText.helperRequired) {
+      setOpenWarning(false)
+      setOpen(false)
+      if (!helperSelect.helperArrayEmpty && !helperText.helperArrayEmpty) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      } else {
+        setOpenWarning(true)
+      }
+    } else {
+      setOpen(true)
     }
+  };
 
-    setSecond(errors);
+  //? Segundo Paso Boton Regresar
+  const firstHandleBack = () => {
+    setOpenWarning(false)
+    setOpen(false)
+    unregister('');
+    setActiveStep((prevActiveStep) => {
+      setValue('form', '')
+      return prevActiveStep - 1
+    });
+  };
 
-    (helper)
-      ? (
-        setActiveStep((prevActiveStep) => prevActiveStep + 1),
-        setOpen(false)
-      )
-      : setOpen(true)
-
+  //? Tercer Paso Boton Siguiente
+  const thirdHandleNext = () => {
     // setActiveStep((prevActiveStep) => prevActiveStep + 1)
   };
 
-  //? Segundo Paso
-  const firstHandleBack = () => {
-    unregister('');
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  //? Tercer Paso
-  const thirdHandleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-  };
-
-  //? Tercer Paso
+  //? Tercer Paso Boton Regresar
   const thirdHandleBack = () => {
+    setOpenWarning(false)
     const helper = dataForm.form;
     unregister('');
     setValue('form', helper)
@@ -96,16 +99,21 @@ export const FormSolicitud = ({ message = '' }) => {
   };
 
   const handleReset = () => {
+    setOpenWarning(false)
     unregister('');
     setActiveStep(0);
   };
+
+  const alertWarningButton = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+  }
 
   console.log(dataForm);
 
   return (
     <>
       {/* //? Titulo */}
-      <Grid item='true' xs={12} textAlign="center">
+      <Grid xs={12} textAlign="center">
         <h1>Proceso de Solicitud</h1>
       </Grid>
 
@@ -115,7 +123,7 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Primer Paso */}
         <Step>
           <StepLabel
-          // optional={<Typography variant="caption">Primer Paso</Typography>}
+            optional={<Typography variant="caption">Selecciona una Modalidad</Typography>}
           >
             Primer Paso
           </StepLabel>
@@ -124,31 +132,19 @@ export const FormSolicitud = ({ message = '' }) => {
             {/* //? Primer Paso  */}
             <FirstStep register={register} message={message} dataForm={dataForm} label={label} info={info} />
 
-            {/* //? Alert */}
+            {/* //? Alert required */}
             <Collapse in={open}>
               <Alert
                 // variant="filled"
                 severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                }
-                sx={{ mb: 2 }}
               >
                 <AlertTitle>Error</AlertTitle>
-                Seleccione <strong>modalidad</strong>
+                Seleccione <strong>modalidad</strong>, para poder visualizar sus <strong>requisitos</strong> y <strong>documentación</strong>
               </Alert>
             </Collapse>
 
             <Button
+              className='animate__animated animate__headShake'
               variant="contained"
               onClick={firstHandleNext}
               sx={{ mt: 1, mr: 1 }}
@@ -161,7 +157,7 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Segundo Paso */}
         <Step>
           <StepLabel
-          // optional={<Typography variant="caption">Last step</Typography>}
+            optional={<Typography variant="caption">Paso Intermedio</Typography>}
           >
             Segundo Paso
           </StepLabel>
@@ -175,22 +171,37 @@ export const FormSolicitud = ({ message = '' }) => {
               <Alert
                 // variant="filled"
                 severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                }
-                sx={{ mb: 2 }}
               >
                 <AlertTitle>Error</AlertTitle>
-                Seleccione <strong>{second}</strong>
+                <Grid className="mt-1">Campos obligatorios</Grid>
+                {
+                  selectsRequired != '' && (<Grid>Selectores: <strong>{selectsRequired}.</strong></Grid>)
+                }
+                {
+                  inputsRequired != '' && (<Grid>Caja\s de texto: <strong>{inputsRequired}.</strong></Grid>)
+                }
+              </Alert>
+            </Collapse>
+
+            {/* //? Alert empty*/}
+            <Collapse in={openWarning}>
+              <Alert
+                // variant="filled"
+                severity="warning"
+                className="mt-2"
+              >
+                <AlertTitle>Advertencia</AlertTitle>
+                <Grid>Campos <strong>no obligatorios</strong> pero vacíos, da clic en continuar si deseas dejarlo así</Grid>
+                {
+                  selectsEmpty != '' && (<Grid>Selectores: <strong>{selectsEmpty}.</strong></Grid>)
+                }
+                {
+                  inputsEmpty != '' && (<Grid>Caja\s de texto: <strong>{inputsEmpty}.</strong></Grid>)
+                }
+                <Grid className="mt-1">
+                  <Button variant="outlined" color="warning" onClick={alertWarningButton}>Clic para continuar</Button>
+                </Grid>
+
               </Alert>
             </Collapse>
 
@@ -205,7 +216,7 @@ export const FormSolicitud = ({ message = '' }) => {
               onClick={firstHandleBack}
               sx={{ mt: 1, mr: 1 }}
             >
-              Back
+              Regresar
             </Button>
           </StepContent>
         </Step>
@@ -213,39 +224,44 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Tercer Paso */}
         <Step>
           <StepLabel
-          // optional={<Typography variant="caption">Last step</Typography>}
+            optional={<Typography variant="caption">Sube tus Archivos</Typography>}
           >
             Tercer Paso
           </StepLabel>
           <StepContent>
 
             {/* //?Tercer Paso */}
-            <ThirdStep setValue={setValue} dataForm={dataForm} inputFile={inputFile} />
+            <ThirdStep
+              setValue={setValue}
+              dataForm={dataForm}
+              inputFile={inputFile}
+            />
 
             <Button
               variant="contained"
+              color="error"
+              onClick={handleReset}
+              sx={{ mt: 1, mr: 1 }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
               onClick={thirdHandleNext}
               sx={{ mt: 1, mr: 1 }}
             >
-              Continuar
+              Enviar
             </Button>
             <Button
               onClick={thirdHandleBack}
               sx={{ mt: 1, mr: 1 }}
             >
-              Back
+              Regresar
             </Button>
           </StepContent>
         </Step>
       </Stepper>
-      {/* {activeStep === steps.length && (
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-        </Paper>
-      )} */}
     </>
   )
 }

@@ -18,10 +18,10 @@ export const InputFile = ({ name = '', code = '', setValue, dataForm = '' }) => 
       }
     })
   }
-  
+
 
   return (
-    <Grid item='true' className='mx-2 my-2'>
+    <Grid className='mx-2 my-2'>
       <Tooltip title="Clic izquierdo para agregar un archivo" placement="top">
         <Button variant="outlined" color="inherit" component="label" className="animate__animated animate__headShake">
           {name}

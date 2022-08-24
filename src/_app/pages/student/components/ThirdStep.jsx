@@ -19,7 +19,7 @@ export const ThirdStep = ({ setValue, dataForm, inputFile }) => {
         <Grid container item={true}>
           {
             (inputFile == undefined)
-              ? <Grid item='true' xs={12} align='center'> <Typography>Selecciona una modalidad para poder ingresar los documentos correspondientes</Typography> </Grid>
+              ? <Grid item xs={12} align='center'> <Typography>Selecciona una modalidad para poder ingresar los documentos correspondientes</Typography> </Grid>
               : inputFile.map((option, index) => (
                 <InputFile key={index} name={option.name} code={option.code} setValue={setValue} dataForm={dataForm[option.code]} />
               ))

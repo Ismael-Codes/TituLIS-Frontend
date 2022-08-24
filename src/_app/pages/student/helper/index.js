@@ -1,2 +1,3 @@
-export * from './validaSelect'
-export * from './validaText'
+export * from './validarSecond';
+export * from './dataExtraction';
+export * from './mainData';
