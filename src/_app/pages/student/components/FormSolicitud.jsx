@@ -52,14 +52,11 @@ export const FormSolicitud = ({ message = '' }) => {
     const helperText = validarSecond(inputText, dataForm)
     const helperSelect = validarSecond(inputSelect, dataForm)
 
-    setInputsEmpty(helperSelect.helperArrayEmpty)
-    setSelectsEmpty(helperText.helperArrayEmpty)
+    setInputsEmpty(helperSelect.helperArrayEmpty.join())
+    setSelectsEmpty(helperText.helperArrayEmpty.join())
 
-    setInputsRequired(helperText.helperArrayRequired)
-    setSelectsRequired(helperSelect.helperArrayRequired)
-
-    console.log(helperSelect.helperArrayRequired)
-
+    setInputsRequired(helperText.helperArrayRequired.join())
+    setSelectsRequired(helperSelect.helperArrayRequired.join())
 
     if (helperSelect.helperRequired && helperText.helperRequired) {
       setOpen(false)
@@ -175,10 +172,10 @@ export const FormSolicitud = ({ message = '' }) => {
                 <AlertTitle>Error</AlertTitle>
                 <Grid className="mt-1">Campos obligatorios</Grid>
                 {
-                  inputsRequired != '' && (<Grid>Caja\s de texto: <strong>{inputsRequired}</strong></Grid>)
+                  inputsRequired != '' && (<Grid>Caja\s de texto: <strong>{inputsRequired}.</strong></Grid>)
                 }
                 {
-                  selectsRequired != '' && (<Grid>Selectores: <strong>{selectsRequired}</strong></Grid>)
+                  selectsRequired != '' && (<Grid>Selectores: <strong>{selectsRequired}.</strong></Grid>)
                 }
               </Alert>
             </Collapse>
@@ -193,10 +190,10 @@ export const FormSolicitud = ({ message = '' }) => {
                 <AlertTitle>Advertencia</AlertTitle>
                 <Grid>Campos no obligatorios pero vacíos, da clic en continuar si deseas dejarlo así</Grid>
                 {
-                  inputsEmpty != '' && (<Grid>Caja\s de texto vacíos: <strong>{inputsEmpty}</strong></Grid>)
+                  inputsEmpty != '' && (<Grid>Caja\s de texto vacíos: <strong>{inputsEmpty}.</strong></Grid>)
                 }
                 {
-                  selectsEmpty != '' && (<Grid>Selectores vacíos: <strong>{selectsEmpty}</strong></Grid>)
+                  selectsEmpty != '' && (<Grid>Selectores vacíos: <strong>{selectsEmpty}.</strong></Grid>)
                 }
                 <Grid className="mt-1">
                   <Button variant="outlined" color="warning" onClick={alertWarningButton}>Clic para continuar</Button>
