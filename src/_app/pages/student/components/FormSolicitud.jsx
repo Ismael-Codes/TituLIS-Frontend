@@ -63,7 +63,7 @@ export const FormSolicitud = ({ message = '' }) => {
     if (helperSelect.helperRequired && helperText.helperRequired) {
       setOpenWarning(false)
       setOpen(false)
-      if (!helperSelect.helperArrayEmpty && !helperText.helperArrayEmpty) {
+      if (helperSelect.helperEmpty && helperText.helperEmpty) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
       } else {
         setOpenWarning(true)
@@ -149,7 +149,7 @@ export const FormSolicitud = ({ message = '' }) => {
               onClick={firstHandleNext}
               sx={{ mt: 1, mr: 1 }}
             >
-              Continuar
+              Verificar y Continuar
             </Button>
           </StepContent>
         </Step>
@@ -171,14 +171,15 @@ export const FormSolicitud = ({ message = '' }) => {
               <Alert
                 // variant="filled"
                 severity="error"
+                className="my-2"
               >
                 <AlertTitle>Error</AlertTitle>
-                <Grid className="mt-1">Campos obligatorios</Grid>
+                <Grid className="mt-1">Campos obligatorios:</Grid>
                 {
-                  selectsRequired != '' && (<Grid>Selectores: <strong>{selectsRequired}.</strong></Grid>)
+                  selectsRequired != '' && (<Grid>- Selector\es: <strong>{selectsRequired}.</strong></Grid>)
                 }
                 {
-                  inputsRequired != '' && (<Grid>Caja\s de texto: <strong>{inputsRequired}.</strong></Grid>)
+                  inputsRequired != '' && (<Grid>- Caja\s de texto: <strong>{inputsRequired}.</strong></Grid>)
                 }
               </Alert>
             </Collapse>
@@ -188,18 +189,18 @@ export const FormSolicitud = ({ message = '' }) => {
               <Alert
                 // variant="filled"
                 severity="warning"
-                className="mt-2"
+                className="my-2"
               >
                 <AlertTitle>Advertencia</AlertTitle>
-                <Grid>Campos <strong>no obligatorios</strong> pero vacíos, da clic en continuar si deseas dejarlo así</Grid>
+                <Grid className="mt-1">Campos <strong>no obligatorios</strong> pero vacíos:</Grid>
                 {
-                  selectsEmpty != '' && (<Grid>Selectores: <strong>{selectsEmpty}.</strong></Grid>)
+                  selectsEmpty != '' && (<Grid>- Selector\es: <strong>{selectsEmpty}.</strong></Grid>)
                 }
                 {
-                  inputsEmpty != '' && (<Grid>Caja\s de texto: <strong>{inputsEmpty}.</strong></Grid>)
+                  inputsEmpty != '' && (<Grid>- Caja\s de texto: <strong>{inputsEmpty}.</strong></Grid>)
                 }
                 <Grid className="mt-1">
-                  <Button variant="outlined" color="warning" onClick={alertWarningButton}>Clic para continuar</Button>
+                  <Button variant="outlined" color="warning" onClick={alertWarningButton}>Continuar de todos modos</Button>
                 </Grid>
 
               </Alert>
@@ -210,7 +211,7 @@ export const FormSolicitud = ({ message = '' }) => {
               onClick={secondHandleNext}
               sx={{ mt: 1, mr: 1 }}
             >
-              Continuar
+              Verificar y Continuar
             </Button>
             <Button
               onClick={firstHandleBack}
