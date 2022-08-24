@@ -63,7 +63,7 @@ export const FormSolicitud = ({ message = '' }) => {
     if (helperSelect.helperRequired && helperText.helperRequired) {
       setOpenWarning(false)
       setOpen(false)
-      if (!helperSelect.helperArrayEmpty && !helperText.helperArrayEmpty) {
+      if (helperSelect.helperEmpty && helperText.helperEmpty) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
       } else {
         setOpenWarning(true)
