@@ -36,7 +36,7 @@ export const FormSolicitud = ({ message = '' }) => {
 
   //* Extrae la data que sera mostrada
   const { label, info, inputText, inputSelect, inputFile } = mainData(message, dataForm)
-
+  
   //? Pimer Paso Boton Siguiente
   const firstHandleNext = () => {
     (!dataForm.form == undefined || !dataForm.form == '')
@@ -51,26 +51,28 @@ export const FormSolicitud = ({ message = '' }) => {
   const secondHandleNext = () => {
 
     //* Valida los 'required = true'
-    const helperText = validarSecond(inputText, dataForm)
-    const helperSelect = validarSecond(inputSelect, dataForm)
+    if (inputText != undefined || inputSelect != undefined) {
+      const helperText = validarSecond(inputText, dataForm)
+      const helperSelect = validarSecond(inputSelect, dataForm)
 
-    setInputsEmpty(helperText.helperArrayEmpty.join())
-    setSelectsEmpty(helperSelect.helperArrayEmpty.join())
+      setInputsEmpty(helperText.helperArrayEmpty.join())
+      setSelectsEmpty(helperSelect.helperArrayEmpty.join())
 
-    setInputsRequired(helperText.helperArrayRequired.join())
-    setSelectsRequired(helperSelect.helperArrayRequired.join())
+      setInputsRequired(helperText.helperArrayRequired.join())
+      setSelectsRequired(helperSelect.helperArrayRequired.join())
 
-    if (helperSelect.helperRequired && helperText.helperRequired) {
-      setOpenWarning(false)
-      setOpen(false)
-      if (helperSelect.helperEmpty && helperText.helperEmpty) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      if (helperSelect.helperRequired && helperText.helperRequired) {
+        setOpenWarning(false)
+        setOpen(false)
+        if (helperSelect.helperEmpty && helperText.helperEmpty) {
+          setActiveStep((prevActiveStep) => prevActiveStep + 1)
+        } else {
+          setOpenWarning(true)
+        }
       } else {
-        setOpenWarning(true)
+        setOpen(true)
       }
-    } else {
-      setOpen(true)
-    }
+    } else { setActiveStep((prevActiveStep) => prevActiveStep + 1) }
   };
 
   //? Segundo Paso Boton Regresar
@@ -157,14 +159,18 @@ export const FormSolicitud = ({ message = '' }) => {
         {/* //? Segundo Paso */}
         <Step>
           <StepLabel
-            optional={<Typography variant="caption">Paso Intermedio</Typography>}
+            optional={<Typography variant="caption">Información Extra</Typography>}
           >
             Segundo Paso
           </StepLabel>
           <StepContent>
 
             {/* //?Segundo Paso */}
-            <SecondStep setValue={setValue} register={register} inputText={inputText} inputSelect={inputSelect} />
+            {
+              (inputSelect == undefined && inputText == undefined)
+                ? <Typography className="my-4 fs-4" align="center">Esta modalidad no requiere ninguna <strong>Información extra</strong>.</Typography>
+                : <SecondStep setValue={setValue} register={register} inputText={inputText} inputSelect={inputSelect} />
+            }
 
             {/* //? Alert */}
             <Collapse in={open}>
