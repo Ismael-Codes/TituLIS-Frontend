@@ -15,9 +15,15 @@ export const FormSolicitud = ({ message = '' }) => {
 
   const { getValues, watch, register, setValue, unregister } = useForm();
 
-  const [second, setSecond] = useState('')
   const [open, setOpen] = useState(false);
+  const [openWarning, setOpenWarning] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+
+  const [inputsEmpty, setInputsEmpty] = useState('')
+  const [selectsEmpty, setSelectsEmpty] = useState('')
+
+  const [inputsRequired, setInputsRequired] = useState('')
+  const [selectsRequired, setSelectsRequired] = useState('')
 
 
   //* Mantiene el dataform Actualizado
@@ -29,7 +35,7 @@ export const FormSolicitud = ({ message = '' }) => {
   //* Extrae la data que sera mostrada
   const { label, info, inputText, inputSelect, inputFile } = mainData(message, dataForm)
 
-  //? Pimer Paso
+  //? Pimer Paso Boton Siguiente
   const firstHandleNext = () => {
     (!dataForm.form == undefined || !dataForm.form == '')
       ? (
@@ -39,26 +45,37 @@ export const FormSolicitud = ({ message = '' }) => {
       : setOpen(true)
   };
 
-  //? Segundo Paso
+  //? Segundo Paso Boton Siguiente
   const secondHandleNext = () => {
 
     //* Valida los 'required = true'
     const helperText = validarSecond(inputText, dataForm)
     const helperSelect = validarSecond(inputSelect, dataForm)
 
-    let newArreglo = (helperSelect.helperArray + helperText.helperArray).slice(0, -2) + '.';
+    setInputsEmpty(helperSelect.helperArrayEmpty)
+    setSelectsEmpty(helperText.helperArrayEmpty)
+
+    setInputsRequired(helperText.helperArrayRequired)
+    setSelectsRequired(helperSelect.helperArrayRequired)
+
+    console.log(helperSelect.helperArrayRequired)
 
 
-    (helperSelect.helper && helperText.helper)
-      ? (
-        setActiveStep((prevActiveStep) => prevActiveStep + 1),
-        setOpen(false)
-      )
-      : (setSecond(newArreglo), setOpen(true))
+    if (helperSelect.helperRequired && helperText.helperRequired) {
+      setOpen(false)
+      if (helperSelect.helperArrayEmpty || helperText.helperArrayEmpty) {
+        setOpenWarning(true)
+      } else {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      }
+    } else {
+      setOpen(true)
+    }
   };
 
-  //? Segundo Paso
+  //? Segundo Paso Boton Regresar
   const firstHandleBack = () => {
+    setOpenWarning(false)
     setOpen(false)
     unregister('');
     setActiveStep((prevActiveStep) => {
@@ -67,13 +84,14 @@ export const FormSolicitud = ({ message = '' }) => {
     });
   };
 
-  //? Tercer Paso
+  //? Tercer Paso Boton Siguiente
   const thirdHandleNext = () => {
     // setActiveStep((prevActiveStep) => prevActiveStep + 1)
   };
 
-  //? Tercer Paso
+  //? Tercer Paso Boton Regresar
   const thirdHandleBack = () => {
+    setOpenWarning(false)
     const helper = dataForm.form;
     unregister('');
     setValue('form', helper)
@@ -81,9 +99,14 @@ export const FormSolicitud = ({ message = '' }) => {
   };
 
   const handleReset = () => {
+    setOpenWarning(false)
     unregister('');
     setActiveStep(0);
   };
+
+  const alertWarningButton = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+  }
 
   console.log(dataForm);
 
@@ -109,7 +132,7 @@ export const FormSolicitud = ({ message = '' }) => {
             {/* //? Primer Paso  */}
             <FirstStep register={register} message={message} dataForm={dataForm} label={label} info={info} />
 
-            {/* //? Alert */}
+            {/* //? Alert required */}
             <Collapse in={open}>
               <Alert
                 // variant="filled"
@@ -150,7 +173,35 @@ export const FormSolicitud = ({ message = '' }) => {
                 severity="error"
               >
                 <AlertTitle>Error</AlertTitle>
-                Seleccione <strong>{second}</strong>
+                <Grid className="mt-1">Campos obligatorios</Grid>
+                {
+                  inputsRequired != '' && (<Grid>Caja\s de texto: <strong>{inputsRequired}</strong></Grid>)
+                }
+                {
+                  selectsRequired != '' && (<Grid>Selectores: <strong>{selectsRequired}</strong></Grid>)
+                }
+              </Alert>
+            </Collapse>
+
+            {/* //? Alert empty*/}
+            <Collapse in={openWarning}>
+              <Alert
+                // variant="filled"
+                severity="warning"
+                className="mt-2"
+              >
+                <AlertTitle>Advertencia</AlertTitle>
+                <Grid>Campos no obligatorios pero vacíos, da clic en continuar si deseas dejarlo así</Grid>
+                {
+                  inputsEmpty != '' && (<Grid>Caja\s de texto vacíos: <strong>{inputsEmpty}</strong></Grid>)
+                }
+                {
+                  selectsEmpty != '' && (<Grid>Selectores vacíos: <strong>{selectsEmpty}</strong></Grid>)
+                }
+                <Grid className="mt-1">
+                  <Button variant="outlined" color="warning" onClick={alertWarningButton}>Clic para continuar</Button>
+                </Grid>
+
               </Alert>
             </Collapse>
 

@@ -1,16 +1,26 @@
 export const validarSecond = (data = '', dataForm = '') => {
 
-  let helper = false
-  let helperArray = [];
+  let helperRequired = false
+  let helperEmpty = false
+  let helperArrayRequired = {};
+  let helperArrayEmpty = {};
 
   data.forEach((input, index) => {
     (input.required == true)
-      && ((dataForm[input.code] == '' || dataForm[input.code] == undefined)
-        ? helperArray[index] = input.name + ', '
-        : delete helperArray[dataForm[input.name]])
+      ? ((dataForm[input.code] == '' || dataForm[input.code] === undefined)
+        ? (helperArrayRequired[index] = input.name)
+        : delete helperArrayRequired[dataForm[input.name]])
+      : ((dataForm[input.code] == '' || dataForm[input.code] === undefined)
+        ? (helperArrayEmpty[index] = input.name)
+        : delete helperArrayEmpty[dataForm[input.name]])
   })
 
-  helperArray == '' && (helper = true)
+  helperArrayRequired = Object.values(helperArrayRequired)
+  helperArrayEmpty = Object.values(helperArrayEmpty)
 
-  return { helper, helperArray };
+  helperArrayRequired == '' && (helperRequired = true);
+
+  helperArrayEmpty == '' && (helperEmpty = true)
+
+  return { helperEmpty, helperRequired, helperArrayRequired, helperArrayEmpty };
 }

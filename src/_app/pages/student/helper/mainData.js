@@ -3,7 +3,6 @@ import { dataExtraction } from "./dataExtraction";
 export const mainData = (message, dataForm) => {
 
   const label = dataExtraction(message[dataForm['form']]?.descripcion.label, 'label');
-  console.log(label);
 
   const info = dataExtraction(message[dataForm['form']]?.descripcion.info, 'info')
 
