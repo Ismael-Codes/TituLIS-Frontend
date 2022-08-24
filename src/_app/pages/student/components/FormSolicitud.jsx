@@ -19,9 +19,11 @@ export const FormSolicitud = ({ message = '' }) => {
   const [openWarning, setOpenWarning] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
+  //* Almacena los empty
   const [inputsEmpty, setInputsEmpty] = useState('')
   const [selectsEmpty, setSelectsEmpty] = useState('')
 
+  //* Almacena los required
   const [inputsRequired, setInputsRequired] = useState('')
   const [selectsRequired, setSelectsRequired] = useState('')
 
@@ -52,18 +54,19 @@ export const FormSolicitud = ({ message = '' }) => {
     const helperText = validarSecond(inputText, dataForm)
     const helperSelect = validarSecond(inputSelect, dataForm)
 
-    setInputsEmpty(helperSelect.helperArrayEmpty.join())
-    setSelectsEmpty(helperText.helperArrayEmpty.join())
+    setInputsEmpty(helperText.helperArrayEmpty.join())
+    setSelectsEmpty(helperSelect.helperArrayEmpty.join())
 
     setInputsRequired(helperText.helperArrayRequired.join())
     setSelectsRequired(helperSelect.helperArrayRequired.join())
 
     if (helperSelect.helperRequired && helperText.helperRequired) {
+      setOpenWarning(false)
       setOpen(false)
-      if (helperSelect.helperArrayEmpty || helperText.helperArrayEmpty) {
-        setOpenWarning(true)
-      } else {
+      if (!helperSelect.helperArrayEmpty && !helperText.helperArrayEmpty) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      } else {
+        setOpenWarning(true)
       }
     } else {
       setOpen(true)
@@ -172,10 +175,10 @@ export const FormSolicitud = ({ message = '' }) => {
                 <AlertTitle>Error</AlertTitle>
                 <Grid className="mt-1">Campos obligatorios</Grid>
                 {
-                  inputsRequired != '' && (<Grid>Caja\s de texto: <strong>{inputsRequired}.</strong></Grid>)
+                  selectsRequired != '' && (<Grid>Selectores: <strong>{selectsRequired}.</strong></Grid>)
                 }
                 {
-                  selectsRequired != '' && (<Grid>Selectores: <strong>{selectsRequired}.</strong></Grid>)
+                  inputsRequired != '' && (<Grid>Caja\s de texto: <strong>{inputsRequired}.</strong></Grid>)
                 }
               </Alert>
             </Collapse>
@@ -188,12 +191,12 @@ export const FormSolicitud = ({ message = '' }) => {
                 className="mt-2"
               >
                 <AlertTitle>Advertencia</AlertTitle>
-                <Grid>Campos no obligatorios pero vacíos, da clic en continuar si deseas dejarlo así</Grid>
+                <Grid>Campos <strong>no obligatorios</strong> pero vacíos, da clic en continuar si deseas dejarlo así</Grid>
                 {
-                  inputsEmpty != '' && (<Grid>Caja\s de texto vacíos: <strong>{inputsEmpty}.</strong></Grid>)
+                  selectsEmpty != '' && (<Grid>Selectores: <strong>{selectsEmpty}.</strong></Grid>)
                 }
                 {
-                  selectsEmpty != '' && (<Grid>Selectores vacíos: <strong>{selectsEmpty}.</strong></Grid>)
+                  inputsEmpty != '' && (<Grid>Caja\s de texto: <strong>{inputsEmpty}.</strong></Grid>)
                 }
                 <Grid className="mt-1">
                   <Button variant="outlined" color="warning" onClick={alertWarningButton}>Clic para continuar</Button>
