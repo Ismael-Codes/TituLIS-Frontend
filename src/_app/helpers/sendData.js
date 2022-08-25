@@ -26,7 +26,7 @@ export const sendData = (inputFileData, inputTextData, inputSelectData, dataForm
   if (inputTextData != undefined) {
     for (let i = 0; i < inputTextData.length; i++) {
       const code = inputTextData[i].code;
-      if (dataForm[code] != undefined) {
+      if (dataForm[code] != undefined && dataForm[code] != '') {
         const helper = inputTextData[i].name
         const data = dataForm[code];
         inputText = [...inputText, { code, data }]
@@ -39,7 +39,7 @@ export const sendData = (inputFileData, inputTextData, inputSelectData, dataForm
   if (inputSelectData != undefined) {
     for (let i = 0; i < inputSelectData.length; i++) {
       const code = inputSelectData[i].code;
-      if (dataForm[code] != undefined) {
+      if (dataForm[code] != undefined && dataForm[code] != '') {
         const helper = inputSelectData[i].name
         const data = dataForm[code];
         inputSelect = [...inputSelect, { code, data }]
