@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Grid from '@mui/system/Unstable_Grid';
-import { Alert, Button, Collapse, AlertTitle, Typography } from '@mui/material';
+import { Alert, Button, Collapse, AlertTitle, Typography, Paper, CardContent, CardActions, Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
 import { sendData } from '../../../helpers';
@@ -8,10 +8,14 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
-import { validarSecond } from "../helper/validarSecond";
-import { mainData } from "../helper";
+import { mainData, validarSecond } from "../helper";
+import { useContext } from 'react';
+import { AuthContext } from "../../../../auth/context/AuthContext";
+import { CardSolicitud } from "./CardSolicitud";
 
 export const FormSolicitud = ({ message = '' }) => {
+
+  const { user } = useContext(AuthContext)
 
   const { getValues, watch, register, setValue, unregister } = useForm();
 
@@ -19,13 +23,21 @@ export const FormSolicitud = ({ message = '' }) => {
   const [openWarning, setOpenWarning] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
+  const [finalData, setFinalData] = useState({
+    select: null,
+    input: null,
+    files: null,
+  })
+
   //* Almacena los empty
   const [inputsEmpty, setInputsEmpty] = useState('')
   const [selectsEmpty, setSelectsEmpty] = useState('')
+  const [filesEmpty, setFilesEmpty] = useState('')
 
   //* Almacena los required
   const [inputsRequired, setInputsRequired] = useState('')
   const [selectsRequired, setSelectsRequired] = useState('')
+  const [filesRequired, setFilesRequired] = useState('')
 
 
   //* Mantiene el dataform Actualizado
@@ -36,7 +48,7 @@ export const FormSolicitud = ({ message = '' }) => {
 
   //* Extrae la data que sera mostrada
   const { label, info, inputText, inputSelect, inputFile } = mainData(message, dataForm)
-  
+
   //? Pimer Paso Boton Siguiente
   const firstHandleNext = () => {
     (!dataForm.form == undefined || !dataForm.form == '')
@@ -88,18 +100,52 @@ export const FormSolicitud = ({ message = '' }) => {
 
   //? Tercer Paso Boton Siguiente
   const thirdHandleNext = () => {
-    // setActiveStep((prevActiveStep) => prevActiveStep + 1)
+
+    if (inputFile != undefined) {
+
+      const helperFiles = validarSecond(inputFile, dataForm)
+
+      setFilesEmpty(helperFiles.helperArrayEmpty.join())
+      setFilesRequired(helperFiles.helperArrayRequired.join())
+
+      if (helperFiles.helperRequired) {
+        setOpenWarning(false)
+        setOpen(false)
+        if (helperFiles.helperEmpty) {
+          setActiveStep((prevActiveStep) => prevActiveStep + 1)
+          const data = sendData(inputFile, inputText, inputSelect, dataForm)
+          setFinalData({
+            select: data[6],
+            input: data[5],
+            files: data[4]
+          })
+        } else {
+          setOpenWarning(true)
+        }
+      } else {
+        setOpen(true)
+      }
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      const data = sendData(inputFile, inputText, inputSelect, dataForm)
+      setFinalData({
+        select: data[6],
+        input: data[5],
+        files: data[4]
+      })
+    }
   };
 
   //? Tercer Paso Boton Regresar
   const thirdHandleBack = () => {
     setOpenWarning(false)
-    const helper = dataForm.form;
-    unregister('');
-    setValue('form', helper)
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setOpen(false)
+    setActiveStep((prevActiveStep) => {
+      return prevActiveStep - 1
+    });
   };
 
+  //? Reset
   const handleReset = () => {
     setOpenWarning(false)
     unregister('');
@@ -108,9 +154,27 @@ export const FormSolicitud = ({ message = '' }) => {
 
   const alertWarningButton = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    const data = sendData(inputFile, inputText, inputSelect, dataForm)
+    setFinalData({
+      select: data[6],
+      input: data[5],
+      files: data[4]
+    })
+    setOpenWarning(false)
   }
 
-  console.log(dataForm);
+  const enviarSolicitud = () => {
+
+    const data = sendData(inputFile, inputText, inputSelect, dataForm)
+
+    console.log(`Usuario: ${user.given_name} ${user.aPaterno} ${user.aMaterno}, Matricula: ${user.matricula}`);
+    console.log('Información que se enviara');
+    console.log('Inputs:', data[1])
+    console.log('Selects', data[0])
+    console.log('Archivos', data[2])
+    console.log('Forma', label, ' ', data[3])
+  }
+
 
   return (
     <>
@@ -168,7 +232,7 @@ export const FormSolicitud = ({ message = '' }) => {
             {/* //?Segundo Paso */}
             {
               (inputSelect == undefined && inputText == undefined)
-                ? <Typography className="my-4 fs-4" align="center">Esta modalidad no requiere ninguna <strong>Información extra</strong>.</Typography>
+                ? <Typography className="my-4 fs-4" align="center">Esta modalidad no requiere <strong>Información extra</strong>puedes continuar sin ningún problema.</Typography>
                 : <SecondStep setValue={setValue} register={register} inputText={inputText} inputSelect={inputSelect} />
             }
 
@@ -238,27 +302,57 @@ export const FormSolicitud = ({ message = '' }) => {
           <StepContent>
 
             {/* //?Tercer Paso */}
-            <ThirdStep
-              setValue={setValue}
-              dataForm={dataForm}
-              inputFile={inputFile}
-            />
+            {
+              (inputFile == undefined)
+                ? <Typography className="my-4 fs-4" align="center">Esta modalidad no requiere <strong>documentación</strong>, puedes continuar sin ningún problema.</Typography>
+                : <ThirdStep
+                  setValue={setValue}
+                  dataForm={dataForm}
+                  inputFile={inputFile}
+                />
+            }
+
+
+            {/* //? Alert */}
+            <Collapse in={open}>
+              <Alert
+                // variant="filled"
+                severity="error"
+                className="my-2"
+              >
+                <AlertTitle>Error</AlertTitle>
+                <Grid className="mt-1">Archivos obligatorios:</Grid>
+                {
+                  filesRequired != '' && (<Grid>- Selector\es: <strong>{filesRequired}.</strong></Grid>)
+                }
+              </Alert>
+            </Collapse>
+
+            {/* //? Alert empty*/}
+            <Collapse in={openWarning}>
+              <Alert
+                // variant="filled"
+                severity="warning"
+                className="my-2"
+              >
+                <AlertTitle>Advertencia</AlertTitle>
+                <Grid className="mt-1">Archivos <strong>no obligatorios</strong> pero vacíos:</Grid>
+                {
+                  filesEmpty != '' && (<Grid>- Selector\es: <strong>{filesEmpty}.</strong></Grid>)
+                }
+                <Grid className="mt-1">
+                  <Button variant="outlined" color="warning" onClick={alertWarningButton}>Continuar de todos modos</Button>
+                </Grid>
+
+              </Alert>
+            </Collapse>
 
             <Button
               variant="contained"
-              color="error"
-              onClick={handleReset}
-              sx={{ mt: 1, mr: 1 }}
-            >
-              Cancelar
-            </Button>
-            <Button
-              variant="contained"
-              color="success"
               onClick={thirdHandleNext}
               sx={{ mt: 1, mr: 1 }}
             >
-              Enviar
+              Continuar
             </Button>
             <Button
               onClick={thirdHandleBack}
@@ -269,6 +363,40 @@ export const FormSolicitud = ({ message = '' }) => {
           </StepContent>
         </Step>
       </Stepper>
+
+      {/* //? Ultimo Paso */}
+      {activeStep == 3 && (
+        <>
+          <Typography variant="h5" component="div" align="center" className="my-2">
+            Solicitud
+          </Typography>
+
+          <CardSolicitud label={label} user={user} finalData={finalData} />
+
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleReset}
+            sx={{ mt: 1, mr: 1 }}
+          >
+            Cancelar Solicitud
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={enviarSolicitud}
+            sx={{ mt: 1, mr: 1 }}
+          >
+            Enviar Solicitud
+          </Button>
+          <Button
+            onClick={thirdHandleBack}
+            sx={{ mt: 1, mr: 1 }}
+          >
+            Regresar
+          </Button>
+        </>
+      )}
     </>
   )
 }

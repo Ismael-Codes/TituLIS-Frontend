@@ -10,8 +10,9 @@ export const InputSelect = ({ url, name, code, register }) => {
   return (
     <>
       {
-        (!isLoading)
-          ? (<TextField
+        (isLoading)
+          ? <CircularProgress />
+          : (!hasError) ? (<TextField
             className='animate__animated animate__headShake'
             select
             fullWidth
@@ -24,8 +25,7 @@ export const InputSelect = ({ url, name, code, register }) => {
                 {`${option.nombre} ${option.a_paterno} ${option.a_materno}`}
               </MenuItem>
             ))}
-          </TextField>)
-          : <CircularProgress />
+          </TextField>) : <Alert variant="filled" severity="error">Ocurrió un error, inténtelo mas tarde!!</Alert>
       }
     </>
   )
