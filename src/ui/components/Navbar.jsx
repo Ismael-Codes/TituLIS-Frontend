@@ -29,16 +29,6 @@ export const Navbar = () => {
         }
       </ul>
 
-
-
-      <Link
-        className="text-center col-3 mb-2 mb-md-0 text-dark text-decoration-none mx-4"
-        to="/"
-      >
-        <span className="fw-bold fs-5">Bienvenido</span>
-      </Link>
-
-
       <div className="text-end mx-4">
         <button type="button" className="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 

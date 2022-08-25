@@ -8,30 +8,34 @@ export const CardSolicitud = ({ label, user, finalData }) => {
         <Typography variant="h5" component="div">
           {label}
         </Typography>
-        <Typography sx={{ mt: 1 }} color="text.secondary">
+        <Typography sx={{ mt: 2 }} color="text.secondary">
           <strong>Nombre:</strong> {`${user.given_name} ${user.aMaterno} ${user.aPaterno}`}
         </Typography>
         <Typography sx={{ mb: 1 }} color="text.secondary">
           <strong>Matricula:</strong> {user.matricula}
         </Typography>
-        {finalData.select.map((option) => (
-          <Typography variant="body2">
+        {finalData.select.map((option, index) => (
+          <Typography variant="body2" key={index} color="text.secondary">
             <strong>{option.helper}:</strong> {option.data}
           </Typography>
         ))}
-        {finalData.input.map((option) => (
-          <Typography variant="body2">
+        {finalData.input.map((option, index) => (
+          <Typography variant="body2" key={index} color="text.secondary">
             <strong>{option.helper}:</strong> {option.data}
           </Typography>
         ))}
         {
-          finalData.files != [] && (<Typography variant="body2" sx={{ mt: 1 }}>
-            <strong>Archivo\s:</strong>
-          </Typography>)
+          (finalData.files == [])
+            ? (<Typography variant="body2" sx={{ mt: 1 }} color="text.secondary">
+              <strong>Archivo\s:</strong>
+            </Typography>)
+            : <Typography variant="body2" sx={{ mt: 1 }} color="text.secondary">
+              <strong>Sin Archivo\s</strong>
+            </Typography>
         }
         {
-          finalData.files.map((option) => (
-            <Typography variant="body2">{option}</Typography>
+          finalData.files.map((option, index) => (
+            <Typography variant="body2" key={index} color="text.secondary">{option}</Typography>
           ))
         }
 
