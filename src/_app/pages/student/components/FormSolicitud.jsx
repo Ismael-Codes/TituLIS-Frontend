@@ -1,17 +1,17 @@
 import { useForm } from "react-hook-form";
-import Grid from '@mui/system/Unstable_Grid';
-import { Alert, Button, Collapse, AlertTitle, Typography, Paper, CardContent, CardActions, Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Alert, Button, Collapse, AlertTitle, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
-import { sendData } from '../../../helpers';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
-import { mainData, validarSecond } from "../helper";
 import { useContext } from 'react';
 import { AuthContext } from "../../../../auth/context/AuthContext";
 import { CardSolicitud } from "./CardSolicitud";
+import { alertWarningButton, firstHandleBack, firstHandleNext, handleResetHelper, mainData, secondHandleNext, sendData, thirdHandleBack, thirdHandleNext } from "../helper";
+import { AlertEmpty } from "./AlertEmpty";
+import { AlertRequired } from "./AlertRequired";
 
 export const FormSolicitud = ({ message = '' }) => {
 
@@ -23,6 +23,7 @@ export const FormSolicitud = ({ message = '' }) => {
   const [openWarning, setOpenWarning] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
+  //* Información que se mostrara al final
   const [finalData, setFinalData] = useState({
     select: null,
     input: null,
@@ -49,118 +50,17 @@ export const FormSolicitud = ({ message = '' }) => {
   //* Extrae la data que sera mostrada
   const { label, info, inputText, inputSelect, inputFile } = mainData(message, dataForm)
 
-  //? Pimer Paso Boton Siguiente
-  const firstHandleNext = () => {
-    (!dataForm.form == undefined || !dataForm.form == '')
-      ? (
-        setActiveStep((prevActiveStep) => prevActiveStep + 1),
-        setOpen(false)
-      )
-      : setOpen(true)
-  };
+  //* Almacena data
+  const helperData = { inputSelect, inputText, inputFile, dataForm }
 
-  //? Segundo Paso Boton Siguiente
-  const secondHandleNext = () => {
+  //* Almacena Opens
+  const helperOpens = { setOpen, setActiveStep, setOpenWarning }
 
-    //* Valida los 'required = true'
-    if (inputText != undefined || inputSelect != undefined) {
-      const helperText = validarSecond(inputText, dataForm)
-      const helperSelect = validarSecond(inputSelect, dataForm)
+  //* Almacena validators
+  const helperValidators = { setInputsEmpty, setSelectsEmpty, setInputsRequired, setSelectsRequired, setFilesEmpty, setFilesRequired }
 
-      setInputsEmpty(helperText.helperArrayEmpty.join())
-      setSelectsEmpty(helperSelect.helperArrayEmpty.join())
-
-      setInputsRequired(helperText.helperArrayRequired.join())
-      setSelectsRequired(helperSelect.helperArrayRequired.join())
-
-      if (helperSelect.helperRequired && helperText.helperRequired) {
-        setOpenWarning(false)
-        setOpen(false)
-        if (helperSelect.helperEmpty && helperText.helperEmpty) {
-          setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        } else {
-          setOpenWarning(true)
-        }
-      } else {
-        setOpen(true)
-      }
-    } else { setActiveStep((prevActiveStep) => prevActiveStep + 1) }
-  };
-
-  //? Segundo Paso Boton Regresar
-  const firstHandleBack = () => {
-    setOpenWarning(false)
-    setOpen(false)
-    unregister('');
-    setActiveStep((prevActiveStep) => {
-      setValue('form', '')
-      return prevActiveStep - 1
-    });
-  };
-
-  //? Tercer Paso Boton Siguiente
-  const thirdHandleNext = () => {
-
-    if (inputFile != undefined) {
-
-      const helperFiles = validarSecond(inputFile, dataForm)
-
-      setFilesEmpty(helperFiles.helperArrayEmpty.join())
-      setFilesRequired(helperFiles.helperArrayRequired.join())
-
-      if (helperFiles.helperRequired) {
-        setOpenWarning(false)
-        setOpen(false)
-        if (helperFiles.helperEmpty) {
-          setActiveStep((prevActiveStep) => prevActiveStep + 1)
-          const data = sendData(inputFile, inputText, inputSelect, dataForm)
-          setFinalData({
-            select: data[6],
-            input: data[5],
-            files: data[4]
-          })
-        } else {
-          setOpenWarning(true)
-        }
-      } else {
-        setOpen(true)
-      }
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1)
-      const data = sendData(inputFile, inputText, inputSelect, dataForm)
-      setFinalData({
-        select: data[6],
-        input: data[5],
-        files: data[4]
-      })
-    }
-  };
-
-  //? Tercer Paso Boton Regresar
-  const thirdHandleBack = () => {
-    setOpenWarning(false)
-    setOpen(false)
-    setActiveStep((prevActiveStep) => {
-      return prevActiveStep - 1
-    });
-  };
-
-  //? Reset
-  const handleReset = () => {
-    setOpenWarning(false)
-    unregister('');
-    setActiveStep(0);
-  };
-
-  const alertWarningButton = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-    const data = sendData(inputFile, inputText, inputSelect, dataForm)
-    setFinalData({
-      select: data[6],
-      input: data[5],
-      files: data[4]
-    })
-    setOpenWarning(false)
+  const preFinalData = () => {
+    alertWarningButton(helperData, setActiveStep, setOpenWarning, setFinalData)
   }
 
   const enviarSolicitud = () => {
@@ -170,18 +70,17 @@ export const FormSolicitud = ({ message = '' }) => {
     console.log(`Usuario: ${user.given_name} ${user.aPaterno} ${user.aMaterno}, Matricula: ${user.matricula}`);
     console.log('Información que se enviara');
     console.log('Inputs:', data[1])
-    console.log('Selects', data[0])
-    console.log('Archivos', data[2])
-    console.log('Forma', label, ' ', data[3])
+    console.log('Selects:', data[0])
+    console.log('Archivos:', data[2])
+    console.log('Forma:', label, ' ', data[3])
   }
-
 
   return (
     <>
       {/* //? Titulo */}
-      <Grid xs={12} textAlign="center">
-        <h1>Proceso de Solicitud</h1>
-      </Grid>
+      <Typography variant="h4" textAlign="center">
+        Proceso de Solicitud
+      </Typography>
 
       {/* //? Pasos */}
       <Stepper activeStep={activeStep} orientation="vertical" >
@@ -195,13 +94,11 @@ export const FormSolicitud = ({ message = '' }) => {
           </StepLabel>
           <StepContent>
 
-            {/* //? Primer Paso  */}
             <FirstStep register={register} message={message} dataForm={dataForm} label={label} info={info} />
 
             {/* //? Alert required */}
             <Collapse in={open}>
               <Alert
-                // variant="filled"
                 severity="error"
               >
                 <AlertTitle>Error</AlertTitle>
@@ -212,7 +109,7 @@ export const FormSolicitud = ({ message = '' }) => {
             <Button
               className='animate__animated animate__headShake'
               variant="contained"
-              onClick={firstHandleNext}
+              onClick={() => firstHandleNext(dataForm['form'], helperOpens)}
               sx={{ mt: 1, mr: 1 }}
             >
               Verificar y Continuar
@@ -228,7 +125,6 @@ export const FormSolicitud = ({ message = '' }) => {
             Segundo Paso
           </StepLabel>
           <StepContent>
-
             {/* //?Segundo Paso */}
             {
               (inputSelect == undefined && inputText == undefined)
@@ -236,55 +132,19 @@ export const FormSolicitud = ({ message = '' }) => {
                 : <SecondStep setValue={setValue} register={register} inputText={inputText} inputSelect={inputSelect} />
             }
 
-            {/* //? Alert */}
-            <Collapse in={open}>
-              <Alert
-                // variant="filled"
-                severity="error"
-                className="my-2"
-              >
-                <AlertTitle>Error</AlertTitle>
-                <Grid className="mt-1">Campos obligatorios:</Grid>
-                {
-                  selectsRequired != '' && (<Grid>- Selector\es: <strong>{selectsRequired}.</strong></Grid>)
-                }
-                {
-                  inputsRequired != '' && (<Grid>- Caja\s de texto: <strong>{inputsRequired}.</strong></Grid>)
-                }
-              </Alert>
-            </Collapse>
+            <AlertRequired open={open} filesRequired={filesRequired} selectsRequired={selectsRequired} inputsRequired={inputsRequired} />
 
-            {/* //? Alert empty*/}
-            <Collapse in={openWarning}>
-              <Alert
-                // variant="filled"
-                severity="warning"
-                className="my-2"
-              >
-                <AlertTitle>Advertencia</AlertTitle>
-                <Grid className="mt-1">Campos <strong>no obligatorios</strong> pero vacíos:</Grid>
-                {
-                  selectsEmpty != '' && (<Grid>- Selector\es: <strong>{selectsEmpty}.</strong></Grid>)
-                }
-                {
-                  inputsEmpty != '' && (<Grid>- Caja\s de texto: <strong>{inputsEmpty}.</strong></Grid>)
-                }
-                <Grid className="mt-1">
-                  <Button variant="outlined" color="warning" onClick={alertWarningButton}>Continuar de todos modos</Button>
-                </Grid>
-
-              </Alert>
-            </Collapse>
+            <AlertEmpty openWarning={openWarning} selectsEmpty={selectsEmpty} inputsEmpty={inputsEmpty} preFinalData={preFinalData} />
 
             <Button
               variant="contained"
-              onClick={secondHandleNext}
+              onClick={() => secondHandleNext(helperData, helperOpens, helperValidators)}
               sx={{ mt: 1, mr: 1 }}
             >
               Verificar y Continuar
             </Button>
             <Button
-              onClick={firstHandleBack}
+              onClick={() => firstHandleBack(helperOpens, unregister, setValue)}
               sx={{ mt: 1, mr: 1 }}
             >
               Regresar
@@ -313,49 +173,20 @@ export const FormSolicitud = ({ message = '' }) => {
             }
 
 
-            {/* //? Alert */}
-            <Collapse in={open}>
-              <Alert
-                // variant="filled"
-                severity="error"
-                className="my-2"
-              >
-                <AlertTitle>Error</AlertTitle>
-                <Grid className="mt-1">Archivos obligatorios:</Grid>
-                {
-                  filesRequired != '' && (<Grid>- Selector\es: <strong>{filesRequired}.</strong></Grid>)
-                }
-              </Alert>
-            </Collapse>
+            <AlertRequired open={open} filesRequired={filesRequired} selectsRequired={selectsRequired} inputsRequired={inputsRequired} />
 
-            {/* //? Alert empty*/}
-            <Collapse in={openWarning}>
-              <Alert
-                // variant="filled"
-                severity="warning"
-                className="my-2"
-              >
-                <AlertTitle>Advertencia</AlertTitle>
-                <Grid className="mt-1">Archivos <strong>no obligatorios</strong> pero vacíos:</Grid>
-                {
-                  filesEmpty != '' && (<Grid>- Selector\es: <strong>{filesEmpty}.</strong></Grid>)
-                }
-                <Grid className="mt-1">
-                  <Button variant="outlined" color="warning" onClick={alertWarningButton}>Continuar de todos modos</Button>
-                </Grid>
+            <AlertEmpty openWarning={openWarning} filesEmpty={filesEmpty} selectsEmpty={selectsEmpty} inputsEmpty={inputsEmpty} preFinalData={preFinalData} />
 
-              </Alert>
-            </Collapse>
 
             <Button
               variant="contained"
-              onClick={thirdHandleNext}
+              onClick={() => thirdHandleNext(helperData, helperOpens, setFilesEmpty, setFilesRequired, setFinalData)}
               sx={{ mt: 1, mr: 1 }}
             >
               Continuar
             </Button>
             <Button
-              onClick={thirdHandleBack}
+              onClick={() => thirdHandleBack(helperOpens, unregister, setValue, dataForm)}
               sx={{ mt: 1, mr: 1 }}
             >
               Regresar
@@ -376,7 +207,7 @@ export const FormSolicitud = ({ message = '' }) => {
           <Button
             variant="contained"
             color="error"
-            onClick={handleReset}
+            onClick={() => handleResetHelper(setOpenWarning, unregister, setActiveStep)}
             sx={{ mt: 1, mr: 1 }}
           >
             Cancelar Solicitud
@@ -390,7 +221,7 @@ export const FormSolicitud = ({ message = '' }) => {
             Enviar Solicitud
           </Button>
           <Button
-            onClick={thirdHandleBack}
+            onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
             sx={{ mt: 1, mr: 1 }}
           >
             Regresar
