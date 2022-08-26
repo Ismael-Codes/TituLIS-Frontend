@@ -1,9 +1,7 @@
 import { useForm } from "react-hook-form";
-import Grid from '@mui/system/Unstable_Grid';
 import { Alert, Button, Collapse, AlertTitle, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
-import { sendData } from '../../../helpers';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -11,7 +9,7 @@ import StepContent from '@mui/material/StepContent';
 import { useContext } from 'react';
 import { AuthContext } from "../../../../auth/context/AuthContext";
 import { CardSolicitud } from "./CardSolicitud";
-import { alertWarningButton, firstHandleBack, firstHandleNext, handleResetHelper, mainData, secondHandleNext, thirdHandleBack, thirdHandleNext } from "../helper";
+import { alertWarningButton, firstHandleBack, firstHandleNext, handleResetHelper, mainData, secondHandleNext, sendData, thirdHandleBack, thirdHandleNext } from "../helper";
 import { AlertEmpty } from "./AlertEmpty";
 import { AlertRequired } from "./AlertRequired";
 
@@ -188,7 +186,7 @@ export const FormSolicitud = ({ message = '' }) => {
               Continuar
             </Button>
             <Button
-              onClick={() => secondHandleNext(helperData, helperOpens, helperValidators)}
+              onClick={() => thirdHandleBack(helperOpens, unregister, setValue, dataForm)}
               sx={{ mt: 1, mr: 1 }}
             >
               Regresar

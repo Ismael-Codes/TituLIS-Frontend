@@ -25,13 +25,13 @@ export const CardSolicitud = ({ label, user, finalData }) => {
           </Typography>
         ))}
         {
-          (finalData.files == [])
-            ? (<Typography variant="body2" sx={{ mt: 1 }} color="text.secondary">
-              <strong>Archivo\s:</strong>
-            </Typography>)
-            : <Typography variant="body2" sx={{ mt: 1 }} color="text.secondary">
+          (finalData.files == '')
+            ? <Typography variant="body2" sx={{ mt: 1 }} color="text.secondary">
               <strong>Sin Archivo\s</strong>
             </Typography>
+            : (<Typography variant="body2" sx={{ mt: 1 }} color="text.secondary">
+              <strong>Archivo\s:</strong>
+            </Typography>)
         }
         {
           finalData.files.map((option, index) => (
