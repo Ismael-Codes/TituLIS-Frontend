@@ -1,3 +1,5 @@
+//* Extrae la data que sera mostrada
+
 import { dataExtraction } from "./dataExtraction";
 
 export const mainData = (message, dataForm) => {

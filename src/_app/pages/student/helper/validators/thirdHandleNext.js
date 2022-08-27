@@ -6,6 +6,8 @@ export const thirdHandleNext = (helperData, helperOpens, setFilesEmpty, setFiles
   const { inputSelect, inputText, inputFile, dataForm } = helperData;
   const { setOpen, setActiveStep, setOpenWarning } = helperOpens;
 
+  const data = sendData(inputFile, inputText, inputSelect, dataForm)
+
   if (inputFile != undefined) {
 
     const helperFiles = validarSecond(inputFile, dataForm)
@@ -17,22 +19,19 @@ export const thirdHandleNext = (helperData, helperOpens, setFilesEmpty, setFiles
       setOpen(false)
       if (helperFiles.helperEmpty) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        const data = sendData(inputFile, inputText, inputSelect, dataForm)
         setFinalData({
-          select: data[6],
-          input: data[5],
-          files: data[4]
+          inputSelect: data[0],
+          inputText: data[1],
+          inputFile: data[2]
         })
       } else { setOpenWarning(true) }
     } else { setOpen(true) }
   } else {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
-    const data = sendData(inputFile, inputText, inputSelect, dataForm)
     setFinalData({
-      select: data[6],
-      input: data[5],
-      files: data[4]
+      inputSelect: data[0],
+      inputText: data[1],
+      inputFile: data[2]
     })
   }
-
 }

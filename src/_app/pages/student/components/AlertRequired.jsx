@@ -1,6 +1,7 @@
 import { Alert, AlertTitle, Collapse, Grid } from "@mui/material"
 
 export const AlertRequired = ({ open, filesRequired, selectsRequired, inputsRequired }) => {
+
   return (
     <Collapse in={open}>
       <Alert

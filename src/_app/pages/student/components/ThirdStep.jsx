@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material"
 import { InputFile } from "./InputFile"
 
-export const ThirdStep = ({ setValue, dataForm, inputFile }) => {
+export const ThirdStep = ({ setValue, dataForm, inputFile, register }) => {
 
   return (
     <>
@@ -21,8 +21,8 @@ export const ThirdStep = ({ setValue, dataForm, inputFile }) => {
             (inputFile == undefined)
               ? <Grid item xs={12} align='center'> <Typography>Selecciona una modalidad para poder ingresar los documentos correspondientes</Typography> </Grid>
               : inputFile.map((option, index) => (
-                <InputFile key={index} name={option.name} code={option.code} setValue={setValue} dataForm={dataForm[option.code]} />
-              ))
+                <InputFile key={index} name={option.name} code={option.code} setValue={setValue} dataForm={dataForm[option.code]} register={register} />
+          ))
           }
         </Grid>
       </Box>

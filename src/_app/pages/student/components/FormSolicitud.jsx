@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Alert, Button, Collapse, AlertTitle, Typography } from '@mui/material';
+import { Alert, Button, Collapse, AlertTitle, Typography, Grid } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
 import Stepper from '@mui/material/Stepper';
@@ -40,7 +40,6 @@ export const FormSolicitud = ({ message = '' }) => {
   const [selectsRequired, setSelectsRequired] = useState('')
   const [filesRequired, setFilesRequired] = useState('')
 
-
   //* Mantiene el dataform Actualizado
   watch();
 
@@ -59,20 +58,14 @@ export const FormSolicitud = ({ message = '' }) => {
   //* Almacena validators
   const helperValidators = { setInputsEmpty, setSelectsEmpty, setInputsRequired, setSelectsRequired, setFilesEmpty, setFilesRequired }
 
+
   const preFinalData = () => {
     alertWarningButton(helperData, setActiveStep, setOpenWarning, setFinalData)
   }
 
+
   const enviarSolicitud = () => {
 
-    const data = sendData(inputFile, inputText, inputSelect, dataForm)
-
-    console.log(`Usuario: ${user.given_name} ${user.aPaterno} ${user.aMaterno}, Matricula: ${user.matricula}`);
-    console.log('Información que se enviara');
-    console.log('Inputs:', data[1])
-    console.log('Selects:', data[0])
-    console.log('Archivos:', data[2])
-    console.log('Forma:', label, ' ', data[3])
   }
 
   return (
@@ -169,6 +162,7 @@ export const FormSolicitud = ({ message = '' }) => {
                   setValue={setValue}
                   dataForm={dataForm}
                   inputFile={inputFile}
+                  register={register}
                 />
             }
 
@@ -183,7 +177,7 @@ export const FormSolicitud = ({ message = '' }) => {
               onClick={() => thirdHandleNext(helperData, helperOpens, setFilesEmpty, setFilesRequired, setFinalData)}
               sx={{ mt: 1, mr: 1 }}
             >
-              Continuar
+              Verificar y Continuar
             </Button>
             <Button
               onClick={() => thirdHandleBack(helperOpens, unregister, setValue, dataForm)}
@@ -196,38 +190,43 @@ export const FormSolicitud = ({ message = '' }) => {
       </Stepper>
 
       {/* //? Ultimo Paso */}
-      {activeStep == 3 && (
-        <>
-          <Typography variant="h5" component="div" align="center" className="my-2">
-            Solicitud
-          </Typography>
+      {
+        activeStep == 3 && (
+          <>
+            <Grid className='mb-3'>
 
-          <CardSolicitud label={label} user={user} finalData={finalData} />
+              <Typography variant="h5" component="div" align="center" className="my-2">
+                Solicitud
+              </Typography>
 
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => handleResetHelper(setOpenWarning, unregister, setActiveStep)}
-            sx={{ mt: 1, mr: 1 }}
-          >
-            Cancelar Solicitud
-          </Button>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={enviarSolicitud}
-            sx={{ mt: 1, mr: 1 }}
-          >
-            Enviar Solicitud
-          </Button>
-          <Button
-            onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
-            sx={{ mt: 1, mr: 1 }}
-          >
-            Regresar
-          </Button>
-        </>
-      )}
+              <CardSolicitud label={label} user={user} finalData={finalData} />
+
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleResetHelper(setOpenWarning, unregister, setActiveStep, setFinalData)}
+                sx={{ mt: 1, mr: 1 }}
+              >
+                Reiniciar Solicitud
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={enviarSolicitud}
+                sx={{ mt: 1, mr: 1 }}
+              >
+                Enviar Solicitud
+              </Button>
+              <Button
+                onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
+                sx={{ mt: 1, mr: 1 }}
+              >
+                Regresar
+              </Button>
+            </Grid>
+          </>
+        )
+      }
     </>
   )
 }
