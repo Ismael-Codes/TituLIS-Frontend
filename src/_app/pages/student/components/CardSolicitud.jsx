@@ -7,21 +7,21 @@ export const CardSolicitud = ({ label, user, finalData }) => {
 
   return (
     <div className="card">
-      <h5 class="card-header">{label}</h5>
+      <h5 className="card-header">{label}</h5>
       <div className="card-body">
         <Grid container spacing={2}>
 
-          <Grid item='true' xs={12} md={4} >
+          <Grid item xs={12} md={4} >
             <h6 className="card-subtitle">Nombre del Solicitante:</h6>
             <p className="card-text">{`${user.given_name} ${user.aMaterno} ${user.aPaterno}`}</p>
           </Grid>
 
-          <Grid item='true' xs={12} md={4}>
+          <Grid item xs={12} md={4}>
             <h6 className="card-subtitle">Matricula:</h6>
             <p className="card-text">{user.matricula}</p>
           </Grid>
 
-          <Grid item='true' xs={12} md={4}>
+          <Grid item xs={12} md={4}>
             <h6 className="card-subtitle">Correo:</h6>
             <p className="card-text">{user.email}</p>
           </Grid>
