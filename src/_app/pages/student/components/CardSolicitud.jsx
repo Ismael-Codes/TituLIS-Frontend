@@ -2,44 +2,61 @@ import { CardContent, Grid, Typography } from "@mui/material"
 
 export const CardSolicitud = ({ label, user, finalData }) => {
 
-  return (
-    <Grid sx={{ backgroundColor: 'white', borderRadius: 2 }} className="mb-2">
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {label}
-        </Typography>
-        <Typography sx={{ mt: 2 }} color="text.secondary">
-          <strong>Nombre:</strong> {`${user.given_name} ${user.aMaterno} ${user.aPaterno}`}
-        </Typography>
-        <Typography sx={{ mb: 1 }} color="text.secondary">
-          <strong>Matricula:</strong> {user.matricula}
-        </Typography>
-        {finalData.select.map((option, index) => (
-          <Typography variant="body2" key={index} color="text.secondary">
-            <strong>{option.helper}:</strong> {option.data}
-          </Typography>
-        ))}
-        {finalData.input.map((option, index) => (
-          <Typography variant="body2" key={index} color="text.secondary">
-            <strong>{option.helper}:</strong> {option.data}
-          </Typography>
-        ))}
-        {
-          (finalData.files == '')
-            ? <Typography variant="body2" sx={{ mt: 1 }} color="text.secondary">
-              <strong>Sin Archivo\s</strong>
-            </Typography>
-            : (<Typography variant="body2" sx={{ mt: 1 }} color="text.secondary">
-              <strong>Archivo\s:</strong>
-            </Typography>)
-        }
-        {
-          finalData.files.map((option, index) => (
-            <Typography variant="body2" key={index} color="text.secondary">{option}</Typography>
-          ))
-        }
+  const { inputSelect, inputFile, inputText } = finalData;
 
-      </CardContent>
-    </Grid >
+  return (
+    <div className="card">
+      <h5 class="card-header">{label}</h5>
+      <div className="card-body">
+        <Grid container spacing={2}>
+
+          <Grid item='true' xs={12} md={6} >
+            <h6 className="card-subtitle">Nombre del Solicitante:</h6>
+            <p className="card-text">{`${user.given_name} ${user.aMaterno} ${user.aPaterno}`}</p>
+          </Grid>
+
+          <Grid item='true' xs={12} md={6}>
+            <h6 className="card-subtitle">Matricula:</h6>
+            <p className="card-text">{user.matricula}</p>
+          </Grid>
+
+          <Grid item='true' xs={12} md={6}>
+            <h6 className="card-subtitle">Correo:</h6>
+            <p className="card-text">{user.email}</p>
+          </Grid>
+        </Grid>
+        <hr />
+        <Grid container spacing={2}>
+          {inputSelect.map((option, index) => (
+            <Grid item key={index} xs={12} md={6} >
+              <h6 className="card-subtitle">{option.inputName}:</h6>
+              <p className="card-text">{option.data}</p>
+            </Grid>
+          ))}
+
+          {inputText.map((option, index) => (
+            <Grid item key={index} xs={12} md={6} >
+              <h6 className="card-subtitle">{option.inputName}:</h6>
+              <p className="card-text">{option.data}</p>
+            </Grid>
+          ))}
+        </Grid>
+        <hr />
+        <Grid container spacing={2}>
+          {
+            inputFile == ''
+            && (<Grid item xs={12} ><Typography variant="h6" color="text.secondary" align="center">
+              <strong>Sin Archivo\s</strong>
+            </Typography> </Grid>)
+          }
+          {inputFile.map((option, index) => (
+            <Grid item key={index} xs={12} md={6} >
+              <h6 className="card-subtitle">{option.inputName}:</h6>
+              <p className="card-text">{option.fileName}</p>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
+    </div>
   )
 }

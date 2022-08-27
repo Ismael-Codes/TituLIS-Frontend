@@ -7,9 +7,9 @@ export const alertWarningButton = (helperData, setActiveStep, setOpenWarning, se
   setActiveStep((prevActiveStep) => prevActiveStep + 1)
   const data = sendData(inputFile, inputText, inputSelect, dataForm)
   setFinalData({
-    select: data[6],
-    input: data[5],
-    files: data[4]
+    inputSelect: data[0],
+    inputText: data[1],
+    inputFile: data[2]
   })
   setOpenWarning(false)
 }
