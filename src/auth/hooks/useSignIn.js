@@ -51,13 +51,16 @@ export const useSignIn = () => {
 
           } else { //* No esta Registrado
 
+            (matricula == "" || matricula == undefined) && (userType == 2)
+
             newUser = true
             axios.post(`${url}/api/saveUser`, {
               nombre: given_name,
               aPaterno,
               aMaterno,
               matricula,
-              email
+              email,
+              userType
             })
           }
 
