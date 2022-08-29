@@ -146,7 +146,7 @@ export const FormSolicitud = ({ message = '' }) => {
         </Step>
 
         {/* //? Tercer Paso */}
-        <Step>
+        <Step className="mb-3">
           <StepLabel
             optional={<Typography variant="caption">Sube tus Archivos</Typography>}
           >
