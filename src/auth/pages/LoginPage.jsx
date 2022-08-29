@@ -9,7 +9,7 @@ export const LoginPage = () => {
       <div className="Auth-form-container backgroundLoginPage">
         <form className="Auth-form">
           <div className="Auth-form-content">
-            <h3 className="Auth-form-title">Sign In</h3>
+            <h3 className="Auth-form-title">Iniciar Sesión</h3>
             <p className="fs-5 text-center">Solo se admiten cuentas con el siguiente dominio: <span className="fw-bold">uaeh.edu.mx</span></p>
             <div id="loginButton">
               <LoginButton />
