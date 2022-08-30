@@ -34,14 +34,14 @@ export const Estado = () => {
       <h1>Subir Archivo A Google Drive</h1>
       <hr />
 
-      <Button
+     {/*  <Button
         variant="contained"
         color="success"
         onClick={sendData}
         sx={{ mt: 1, mr: 1 }}
       >
         Enviar Solicitud
-      </Button>
+      </Button> */}
 
     </>
   )
