@@ -15,7 +15,7 @@ export const useSignIn = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [errorAlert, setErrorAlert] = useState(false)
-  let userType = 1
+  let userType;
   let newUser = false;
 
   //todo: tipo de usuario
@@ -44,9 +44,11 @@ export const useSignIn = () => {
 
           userType = resp.data.data.tipoUsuario_id
 
-          if (!resp.data.data) {//* Ya esta Registrado
+          if (!resp.data.data) {//* No esta Registrado
 
-            (matricula == "" || matricula == undefined) && (userType == 2)
+            (matricula == "" || matricula == undefined)
+              ? userType = 2
+              : userType = 1
 
             newUser = true
             axios.post(`${url}/api/saveUser`, {
@@ -55,7 +57,7 @@ export const useSignIn = () => {
               aMaterno,
               matricula,
               email,
-              userType
+              tipo: userType
             })
           }
 
