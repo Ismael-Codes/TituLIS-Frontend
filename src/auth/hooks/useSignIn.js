@@ -39,17 +39,12 @@ export const useSignIn = () => {
       const stringWithNumbers = email;
       const matricula = stringWithNumbers.replace(/[^0-9]+/g, "");
 
-      await axios.post(`${url}/api/validateUser`, { email })
+      await axios.get(`${url}/api/getUserType/${email}`)
         .then((resp) => {
 
-          if (resp.data.data) {//* Ya esta Registrado
+          userType = resp.data.data.tipoUsuario_id
 
-            axios.get(`${url}/api/getUserType/${email}`)
-              .then((resp) => {
-                userType = resp.data.data.tipoUsuario_id
-              })
-
-          } else { //* No esta Registrado
+          if (!resp.data.data) {//* Ya esta Registrado
 
             (matricula == "" || matricula == undefined) && (userType == 2)
 
