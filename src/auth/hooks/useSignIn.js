@@ -15,7 +15,7 @@ export const useSignIn = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [errorAlert, setErrorAlert] = useState(false)
-  let userType = 1
+  let userType;
   let newUser = false;
 
   //todo: tipo de usuario
@@ -39,17 +39,16 @@ export const useSignIn = () => {
       const stringWithNumbers = email;
       const matricula = stringWithNumbers.replace(/[^0-9]+/g, "");
 
-      await axios.post(`${url}/api/validateUser`, { email })
+      await axios.get(`${url}/api/getUserType/${email}`)
         .then((resp) => {
 
-          if (resp.data.data) {//* Ya esta Registrado
+          userType = resp.data.data.tipoUsuario_id
 
-            axios.get(`${url}/api/getUserType/${email}`)
-              .then((resp) => {
-                userType = resp.data.data.tipoUsuario_id
-              })
+          if (!resp.data.data) {//* No esta Registrado
 
-          } else { //* No esta Registrado
+            (matricula == "" || matricula == undefined)
+              ? userType = 2
+              : userType = 1
 
             newUser = true
             axios.post(`${url}/api/saveUser`, {
@@ -57,7 +56,8 @@ export const useSignIn = () => {
               aPaterno,
               aMaterno,
               matricula,
-              email
+              email,
+              tipo: userType
             })
           }
 

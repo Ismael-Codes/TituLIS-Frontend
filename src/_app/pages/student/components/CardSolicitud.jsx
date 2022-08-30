@@ -42,8 +42,10 @@ export const CardSolicitud = ({ label, user, finalData }) => {
             </Grid>
           ))}
         </Grid>
-        <hr />
-        <Grid container spacing={2}>
+        {
+          (inputText != '' && inputSelect != '') && (<hr />)
+        }
+        <Grid container spacing={2} className="mt-2">
           {
             inputFile == ''
             && (<Grid item xs={12} ><Typography variant="h6" color="text.secondary" align="center">
@@ -53,7 +55,8 @@ export const CardSolicitud = ({ label, user, finalData }) => {
           {inputFile.map((option, index) => (
             <Grid item key={index} xs={12} md={6} >
               <h6 className="card-subtitle">{option.inputName}:</h6>
-              <p className="card-text"><DescriptionIcon sx={{ color: 'action.active' }} />{option.fileName}</p>
+              <a href={option.url} target="_blank" rel="noopener noreferrer"><DescriptionIcon sx={{ color: 'action.active' }} />{option.fileName}</a>
+              {/* <p className="card-text"><DescriptionIcon sx={{ color: 'action.active' }} />{option.fileName}</p> */}
             </Grid>
           ))}
         </Grid>

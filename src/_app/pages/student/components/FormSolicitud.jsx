@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Alert, Button, Collapse, AlertTitle, Typography, Grid } from '@mui/material';
+import { Alert, Button, Collapse, AlertTitle, Typography, Grid, CircularProgress } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
 import Stepper from '@mui/material/Stepper';
@@ -44,7 +44,9 @@ export const FormSolicitud = ({ message = '' }) => {
   watch();
 
   //? Data extraida del form
-  const dataForm = getValues()
+  const dataForm = getValues();
+
+  console.log(dataForm);
 
   //* Extrae la data que sera mostrada
   const { label, info, inputText, inputSelect, inputFile } = mainData(message, dataForm)
@@ -121,7 +123,7 @@ export const FormSolicitud = ({ message = '' }) => {
             {/* //?Segundo Paso */}
             {
               (inputSelect == undefined && inputText == undefined)
-                ? <Typography className="my-4 fs-4" align="center">Esta modalidad no requiere <strong>Información extra</strong>puedes continuar sin ningún problema.</Typography>
+                ? <Typography className="my-4 fs-4" align="center">Esta modalidad no requiere <strong>Información extra</strong> puedes continuar sin ningún problema.</Typography>
                 : <SecondStep setValue={setValue} register={register} inputText={inputText} inputSelect={inputSelect} />
             }
 
@@ -165,7 +167,6 @@ export const FormSolicitud = ({ message = '' }) => {
                   register={register}
                 />
             }
-
 
             <AlertRequired open={open} filesRequired={filesRequired} selectsRequired={selectsRequired} inputsRequired={inputsRequired} />
 

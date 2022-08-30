@@ -12,8 +12,8 @@ export const sendData = (inputFileData, inputTextData, inputSelectData, dataForm
       const code = inputFileData[i].code;
       const inputName = inputFileData[i].name;
       if (dataForm[code] != undefined) {
-        const { name, base64 } = dataForm[code];
-        inputFile = [...inputFile, { inputName, code, fileName: name, base64 }]
+        const { name, url, id } = dataForm[code];
+        inputFile = [...inputFile, { inputName, code, fileName: name, url, id }]
       }
     }
   }
