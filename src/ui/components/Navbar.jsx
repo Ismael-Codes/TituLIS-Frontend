@@ -5,6 +5,7 @@ import { AiOutlineLogout, AiOutlineUser } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { DocenteNavbar } from './DocenteNavbar';
 import { StudentNavbar } from './StudentNavbar';
+import { AdminNavbar } from './AdminNavbar';
 
 export const Navbar = () => {
 
@@ -25,7 +26,9 @@ export const Navbar = () => {
 
       <ul className="nav col-12 col-md-auto mb-2 mx-4 justify-content-center mb-0">
         {
-          (user?.userType === 1) ? <StudentNavbar /> : <DocenteNavbar />
+          (user?.userType == 3)
+            ? <AdminNavbar />
+            : (user?.userType == 2) ? <DocenteNavbar /> : <StudentNavbar />
         }
       </ul>
 
