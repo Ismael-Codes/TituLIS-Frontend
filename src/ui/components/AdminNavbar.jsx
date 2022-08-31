@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-export const DocenteNavbar = () => {
+export const AdminNavbar = () => {
 
   return (
     <>
@@ -18,9 +18,9 @@ export const DocenteNavbar = () => {
 
         <NavLink
           className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          to="/crud"
+          to="/usuarios"
         >
-          CRUD Docente
+          Usuarios
         </NavLink>
       </li>
 
@@ -28,9 +28,9 @@ export const DocenteNavbar = () => {
 
         <NavLink
           className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          to="/search"
+          to="/solicitudes"
         >
-          Search
+          Solicitudes
         </NavLink>
       </li>
     </>

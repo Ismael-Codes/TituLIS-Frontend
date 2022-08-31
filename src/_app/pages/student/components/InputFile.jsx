@@ -7,12 +7,13 @@ import { AuthContext } from "../../../../auth/context/AuthContext";
 
 export const InputFile = ({ name = '', code = '', setValue, dataForm, register }) => {
 
+  const { user } = useContext(AuthContext);
 
-  const { user } = useContext(AuthContext)
+  let nameFolder;
 
-
-  let nameFolder = user.matricula;
-
+  (user.matricula != '')
+    ? nameFolder = user.matricula
+    : nameFolder = 'Default Name';
 
   function guardarArchivo(e) {
     var file = e.target.files[0] //the file

@@ -18,8 +18,11 @@ export const ProfilePage = () => {
 
   const [open, setOpen] = useState(user.newUser);
 
-  if (user.userType === 1) {
+  if (user.userType == 1) {
     tipoDeUsuario = 'Estudiante'
+  } else if (user.userType == 3) {
+    tipoDeUsuario = 'Administrador'
+
   }
 
   return (
@@ -55,7 +58,7 @@ export const ProfilePage = () => {
           />
         </Grid>
         {
-          (user.userType == 2 || user.matricula == "")
+          (user.userType == 2 || user.userType == 3)
             ? <></>
             : <Grid item='true' xs={12} md={4}>
               <TextField
