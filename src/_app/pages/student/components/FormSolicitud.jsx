@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Alert, Button, Collapse, AlertTitle, Typography, Grid, CircularProgress } from '@mui/material';
+import { Alert, Button, Collapse, AlertTitle, Typography, Grid } from '@mui/material';
 import { useState } from 'react';
 import { FirstStep, SecondStep, ThirdStep } from '../components';
 import Stepper from '@mui/material/Stepper';
@@ -45,8 +45,6 @@ export const FormSolicitud = ({ message = '' }) => {
 
   //? Data extraida del form
   const dataForm = getValues();
-
-  console.log(dataForm);
 
   //* Extrae la data que sera mostrada
   const { label, info, inputText, inputSelect, inputFile } = mainData(message, dataForm)
