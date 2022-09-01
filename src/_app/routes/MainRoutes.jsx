@@ -14,9 +14,9 @@ export const MainRoutes = () => {
       <Navbar />
       <div className="container">
         {
-          (user?.userType == 3)
+          (user.userType == 3)
             ? <Admin />
-            : (user?.userType == 2) ? <Student /> : <Docente />
+            : (user.userType == 2) ? <Docente /> : <Student />
         }
       </div>
     </>

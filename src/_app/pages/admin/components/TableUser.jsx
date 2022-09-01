@@ -1,12 +1,8 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import SchoolIcon from '@mui/icons-material/School';
-import FaceIcon from '@mui/icons-material/Face';
-import CoPresentIcon from '@mui/icons-material/CoPresent';
+import { AdminPanelSettingsIcon, SchoolIcon, CoPresentIcon } from '@mui/icons-material';
 
 export const TableUser = ({ message }) => {
 
