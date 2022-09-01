@@ -19,7 +19,7 @@ export const MesaDeTrabajo = ({ message }) => {
 
   return (
     <>
-      <Grid container>
+      <Grid container className="mb-3">
         <Graficas result={result} label={label} />
         <TableUser message={message} />
       </Grid>

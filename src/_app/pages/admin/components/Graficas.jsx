@@ -16,7 +16,7 @@ export const Graficas = ({ result, label }) => {
         <Box sx={{
           backgroundColor: '#FFFFFF', borderRadius: '10px', padding: '10px', height: '100%'
         }}>
-          <Typography variant="h4" align="center">Sin Data</Typography>
+          <Typography variant="h4" align="center">Hola, Soy una box vacía!!</Typography>
         </Box>
       </Grid>
     </Grid>
