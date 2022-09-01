@@ -1,6 +1,6 @@
 import { Avatar, Grid, MenuItem, TextField } from "@mui/material";
 
-export const UserInformation = ({ userData, openEdit, register }) => {
+export const UserInformation = ({ userData, openEdit, register, success }) => {
 
   let tipoDeUsuario = 'Docente';
   let matricula;
@@ -42,7 +42,7 @@ export const UserInformation = ({ userData, openEdit, register }) => {
             label="Correo"
             defaultValue={userData.email}
             InputProps={{
-              readOnly: true,
+              disabled: true,
             }}
           />
         </Grid>
@@ -70,6 +70,9 @@ export const UserInformation = ({ userData, openEdit, register }) => {
                 label='Tipo de Usuario'
                 {...register("tipoUsuario_id", userData.tipoUsuario_id)}
                 defaultValue={userData.tipoUsuario_id}
+                InputProps={{
+                  readOnly: success,
+                }}
               >
                 <MenuItem value='1' >
                   Estudiante
