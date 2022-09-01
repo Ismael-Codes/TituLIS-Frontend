@@ -1,22 +1,20 @@
-import { Avatar, Button, Grid, TextField } from "@mui/material";
-import { useMemo } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Avatar, Grid, TextField } from "@mui/material";
 
-export const UserInformation = ({ message, id }) => {
+export const UserInformation = ({ userData }) => {
 
-  let user;
   let tipoDeUsuario = 'Docente';
+  let matricula;
 
+  (userData.matricula == '')
+    ? matricula = 'No tiene Matricula'
+    : matricula = userData.matricula;
 
-  message.map((option, index) => {
-    (option.id == id) && (user = option)
-  })
+  console.log(userData)
 
-  if (user.userType == 1) {
+  if (userData.tipoUsuario_id == 1) {
     tipoDeUsuario = 'Estudiante'
-  } else if (user.userType == 3) {
+  } else if (userData.tipoUsuario_id == 3) {
     tipoDeUsuario = 'Administrador'
-
   }
 
   return (
@@ -33,7 +31,7 @@ export const UserInformation = ({ message, id }) => {
           <TextField
             sx={{ width: 1 }}
             label="Nombre"
-            defaultValue={user.nombre}
+            defaultValue={`${userData.nombre} ${userData.a_paterno} ${userData.a_materno}`}
             InputProps={{
               readOnly: true,
             }}
@@ -44,20 +42,20 @@ export const UserInformation = ({ message, id }) => {
           <TextField
             sx={{ width: 1 }}
             label="Correo"
-            defaultValue={user.email}
+            defaultValue={userData.email}
             InputProps={{
               readOnly: true,
             }}
           />
         </Grid>
         {
-          (user.tipoUsuario_id == 2 || user.tipoUsuario_id == 3)
+          (userData.tipoUsuario_id == 2 || userData.tipoUsuario_id == 3)
             ? <></>
             : <Grid item xs={12} md={4}>
               <TextField
                 sx={{ width: 1 }}
                 label="Matricula"
-                defaultValue={user.matricula}
+                defaultValue={matricula}
                 InputProps={{
                   readOnly: true,
                 }}

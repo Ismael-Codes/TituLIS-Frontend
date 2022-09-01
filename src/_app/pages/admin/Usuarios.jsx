@@ -1,9 +1,5 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
-import { Alert, Button, Grid, Typography } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import { useFetch } from '../../../hook';
-import { Link } from 'react-router-dom';
 import { url } from '../../../config';
 import { TableUser } from './components/TableUser';
 import { LoadingSpinner2 } from '../student/components/LoadingSpinner2';
