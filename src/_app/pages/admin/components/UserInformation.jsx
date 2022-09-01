@@ -1,6 +1,6 @@
-import { Avatar, Grid, TextField } from "@mui/material";
+import { Avatar, Grid, MenuItem, TextField } from "@mui/material";
 
-export const UserInformation = ({ userData }) => {
+export const UserInformation = ({ userData, openEdit, register }) => {
 
   let tipoDeUsuario = 'Docente';
   let matricula;
@@ -8,8 +8,6 @@ export const UserInformation = ({ userData }) => {
   (userData.matricula == '')
     ? matricula = 'No tiene Matricula'
     : matricula = userData.matricula;
-
-  console.log(userData)
 
   if (userData.tipoUsuario_id == 1) {
     tipoDeUsuario = 'Estudiante'
@@ -64,16 +62,36 @@ export const UserInformation = ({ userData }) => {
         }
 
         <Grid item xs={12} md={4}>
-          <TextField
-            sx={{ width: 1 }}
-            label="Tipo de Usuario"
-            defaultValue={tipoDeUsuario}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
+          {
+            (openEdit)
+              ? <TextField
+                select
+                fullWidth
+                variant='standard'
+                label='Tipo de Usuario'
+                {...register("tipoUsuario_id", userData.tipoUsuario_id)}
+                defaultValue={userData.tipoUsuario_id}
+              >
+                <MenuItem value='1' >
+                  Estudiante
+                </MenuItem>
+                <MenuItem value='2' >
+                  Docente
+                </MenuItem>
+                <MenuItem value='3' >
+                  Administrador
+                </MenuItem>
+              </TextField>
+              : <TextField
+                sx={{ width: 1 }}
+                label="Tipo de Usuario"
+                defaultValue={tipoDeUsuario}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+          }
         </Grid>
-
       </Grid>
     </>
 
