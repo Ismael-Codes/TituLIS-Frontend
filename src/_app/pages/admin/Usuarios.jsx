@@ -12,7 +12,7 @@ export const Usuarios = () => {
 
   return (
     <>
-      <Typography variant="h4" textAlign="center">Usuarios</Typography>
+      {/* <Typography variant="h4" textAlign="center">Usuarios</Typography> */}
       {
         (isLoading)
           ? <LoadingSpinner2 />

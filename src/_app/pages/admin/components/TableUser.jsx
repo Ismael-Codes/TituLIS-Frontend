@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
-import { AdminPanelSettingsIcon, SchoolIcon, CoPresentIcon } from '@mui/icons-material';
+import { AdminPanelSettingsOutlined, CoPresentOutlined, SchoolOutlined } from '@mui/icons-material';
 
 export const TableUser = ({ message }) => {
 
@@ -17,10 +17,10 @@ export const TableUser = ({ message }) => {
       <>
         {
           (params.row.tipoUsuario_id == 3)
-            ? <Chip icon={<AdminPanelSettingsIcon />} label='Administrador' />
+            ? <Chip icon={<AdminPanelSettingsOutlined />} label='Administrador' />
             : (params.row.tipoUsuario_id == 2)
-              ? <Chip icon={<CoPresentIcon />} label='Docente' />
-              : <Chip icon={<SchoolIcon />} label='Estudiante' />
+              ? <Chip icon={<CoPresentOutlined />} label='Docente' />
+              : <Chip icon={<SchoolOutlined />} label='Estudiante' />
         }
       </>
     )
@@ -29,15 +29,15 @@ export const TableUser = ({ message }) => {
   const columns = [
     {
       field: 'nombre',
-      headerName: 'Nombre', minWidth: 140, flex: 1,
+      headerName: 'Nombre', minWidth: 140, maxWidth: 230, flex: 1,
     },
     {
       field: 'a_paterno',
-      headerName: 'Apellido Paterno', minWidth: 170, flex: 1,
+      headerName: 'Apellido Paterno', minWidth: 170, maxWidth: 240, flex: 1,
     },
     {
       field: 'a_materno',
-      headerName: 'Apellido Materno', minWidth: 170, flex: 1,
+      headerName: 'Apellido Materno', minWidth: 170, maxWidth: 240, flex: 1,
     },
     {
       field: 'email',
@@ -48,7 +48,7 @@ export const TableUser = ({ message }) => {
     },
     {
       field: 'tipoUsuario_id',
-      headerName: 'Tipo de Usuario', minWidth: 100, flex: 1,
+      headerName: 'Tipo de Usuario', minWidth: 155, maxWidth: 180, flex: 1,
       renderCell: iconChip,
       valueGetter: (params) =>
         (params.row.tipoUsuario_id == 3)
@@ -58,7 +58,7 @@ export const TableUser = ({ message }) => {
     },
     {
       field: 'id',
-      headerName: '', minWidth: 100, flex: 1,
+      headerName: '', minWidth: 110,
       renderCell: renderDetailsButton,
       disableClickEventBubbling: true,
       sortable: false,
@@ -67,7 +67,7 @@ export const TableUser = ({ message }) => {
   ];
 
   return (
-    <Box sx={{ height: 600, width: '100%', backgroundColor: '#FFFFFF', borderRadius: '10px', marginTop: '30px', padding: '10px' }}>
+    <Box sx={{ height: 660, width: '100%', backgroundColor: '#FFFFFF', borderRadius: '10px', marginTop: '30px', padding: '10px' }}>
       <DataGrid
         rows={message}
         columns={columns}
