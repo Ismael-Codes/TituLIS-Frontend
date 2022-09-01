@@ -126,7 +126,7 @@ export const UsuarioPage = () => {
         (hasError) && (<Alert severity='error' className='mt-2'><AlertTitle>Error</AlertTitle>Ocurrió un <strong>error</strong>, intente mas tarde!!</Alert>)
       }
       {
-        (warning) && (<Alert severity='warning' className='mt-2'><AlertTitle>Advertencia</AlertTitle>No ha seleccionado un tipo de usuario o selecciono el mismo tipo de usuario.</Alert>)
+        (warning) && (<Alert severity='warning' className='mt-2'><AlertTitle>Advertencia</AlertTitle><strong>No ha seleccionado</strong> un tipo de usuario o <strong>selecciono el mismo</strong> tipo de usuario.</Alert>)
       }
       {
         (success) && (<Alert severity='success' className='mt-2'><AlertTitle>Cambios Guardados</AlertTitle>La operación se realizo con <strong>éxito</strong>, regrese a la <strong>sección principal</strong> para visualizar los cambios</Alert>)
