@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 import { AdminPanelSettingsOutlined, CoPresentOutlined, SchoolOutlined } from '@mui/icons-material';
+import { Grid } from '@mui/material';
 
 export const TableUser = ({ message }) => {
 
@@ -67,7 +68,7 @@ export const TableUser = ({ message }) => {
   ];
 
   return (
-    <Box sx={{ height: 660, width: '100%', backgroundColor: '#FFFFFF', borderRadius: '10px', marginTop: '30px', padding: '10px' }}>
+    <Grid item xs={12} sx={{ height: 700, width: '100%', backgroundColor: '#FFFFFF', borderRadius: '10px', padding: '10px' }}>
       <DataGrid
         rows={message}
         columns={columns}
@@ -78,6 +79,6 @@ export const TableUser = ({ message }) => {
         disableColumnMenu
         experimentalFeatures={{ newEditingApi: true }}
       />
-    </Box>
+    </Grid>
   )
 }
