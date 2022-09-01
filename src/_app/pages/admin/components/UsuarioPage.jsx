@@ -5,39 +5,21 @@ import { url } from '../../../../config';
 import { useFetch } from '../../../../hook';
 import { LoadingSpinner2 } from '../../student/components/LoadingSpinner2';
 import { UserInformation } from './UserInformation';
+import { useLocation } from 'react-router-dom'
 
 export const UsuarioPage = () => {
+
+  const location = useLocation()
+  const { userData } = location.state
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data, isLoading, hasError } = useFetch(`${url}/api/getUsers`);
-
-  const { message } = data;
-
-  /* const { message } = data;
-
-
-  message.map((option, index) => {
-    (option.id == id) && (user = option)
-  }) */
-
-  // console.log(user)
-  console.log(data)
-
   const onNavigateBack = () => navigate(-1);
-
-  /*   if (!hero) {
-      return <Navigate to="/usuarios" />
-    } */
 
   return (
     <>
-      {
-        (isLoading)
-          ? <LoadingSpinner2 />
-          : (!hasError) ? <UserInformation message={message} id={id} /> : <Alert variant="filled" severity="error">Ocurrió un error, inténtelo mas tarde!!</Alert>
-      }
+      <UserInformation userData={userData} id={id} />
       <Button
         variant="contained"
         onClick={() => onNavigateBack()}
