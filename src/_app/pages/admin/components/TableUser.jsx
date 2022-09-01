@@ -1,9 +1,9 @@
-import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 import { AdminPanelSettingsOutlined, CoPresentOutlined, SchoolOutlined } from '@mui/icons-material';
 import { Grid } from '@mui/material';
+import { localizedTextsMap } from '../../../helpers';
 
 export const TableUser = ({ message }) => {
 
@@ -30,15 +30,15 @@ export const TableUser = ({ message }) => {
   const columns = [
     {
       field: 'nombre',
-      headerName: 'Nombre', minWidth: 140, maxWidth: 230, flex: 1,
+      headerName: 'Nombre', minWidth: 140, flex: 1,
     },
     {
       field: 'a_paterno',
-      headerName: 'Apellido Paterno', minWidth: 170, maxWidth: 240, flex: 1,
+      headerName: 'Apellido Paterno', minWidth: 170, flex: 1,
     },
     {
       field: 'a_materno',
-      headerName: 'Apellido Materno', minWidth: 170, maxWidth: 240, flex: 1,
+      headerName: 'Apellido Materno', minWidth: 170, flex: 1,
     },
     {
       field: 'email',
@@ -49,7 +49,7 @@ export const TableUser = ({ message }) => {
     },
     {
       field: 'tipoUsuario_id',
-      headerName: 'Tipo de Usuario', minWidth: 155, maxWidth: 180, flex: 1,
+      headerName: 'Tipo de Usuario', minWidth: 155, flex: 1,
       renderCell: iconChip,
       valueGetter: (params) =>
         (params.row.tipoUsuario_id == 3)
@@ -62,7 +62,7 @@ export const TableUser = ({ message }) => {
       headerName: '', minWidth: 110,
       renderCell: renderDetailsButton,
       disableClickEventBubbling: true,
-      sortable: false,
+      // sortable: false,
       align: 'center',
     },
   ];
@@ -70,6 +70,8 @@ export const TableUser = ({ message }) => {
   return (
     <Grid item xs={12} sx={{ height: 700, width: '100%', backgroundColor: '#FFFFFF', borderRadius: '10px', padding: '10px' }}>
       <DataGrid
+        localeText={localizedTextsMap}
+        components={{ Toolbar: GridToolbar }}
         rows={message}
         columns={columns}
         pageSize={10}
