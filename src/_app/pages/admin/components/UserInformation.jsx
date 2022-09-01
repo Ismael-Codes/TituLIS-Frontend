@@ -67,7 +67,6 @@ export const UserInformation = ({ userData, openEdit, register }) => {
               ? <TextField
                 select
                 fullWidth
-                variant='standard'
                 label='Tipo de Usuario'
                 {...register("tipoUsuario_id", userData.tipoUsuario_id)}
                 defaultValue={userData.tipoUsuario_id}
