@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material"
 import { DoughnutChart } from "./DoughnutChart"
+import { LineChart } from "./LineChart"
 
 export const Graficas = ({ result, label }) => {
 
@@ -16,7 +17,8 @@ export const Graficas = ({ result, label }) => {
         <Box sx={{
           backgroundColor: '#FFFFFF', borderRadius: '10px', padding: '10px', height: '100%'
         }}>
-          <Typography variant="h4" align="center">Hola, Soy una box vacía!!</Typography>
+          {/* <Typography variant="h4" align="center">Hola, Soy una box vacía!!</Typography> */}
+          <LineChart />
         </Box>
       </Grid>
     </Grid>

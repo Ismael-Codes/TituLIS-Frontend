@@ -1,19 +1,12 @@
 import { Avatar, Grid, MenuItem, TextField } from "@mui/material";
 
-export const UserInformation = ({ userData, openEdit, register, success }) => {
+export const UserInformation = ({ userData, register, variante, helper, newType }) => {
 
-  let tipoDeUsuario = 'Docente';
   let matricula;
 
   (userData.matricula == '')
     ? matricula = 'No tiene Matricula'
     : matricula = userData.matricula;
-
-  if (userData.tipoUsuario_id == 1) {
-    tipoDeUsuario = 'Estudiante'
-  } else if (userData.tipoUsuario_id == 3) {
-    tipoDeUsuario = 'Administrador'
-  }
 
   return (
     <>
@@ -42,7 +35,7 @@ export const UserInformation = ({ userData, openEdit, register, success }) => {
             label="Correo"
             defaultValue={userData.email}
             InputProps={{
-              disabled: true,
+              readOnly: true,
             }}
           />
         </Grid>
@@ -62,37 +55,27 @@ export const UserInformation = ({ userData, openEdit, register, success }) => {
         }
 
         <Grid item xs={12} md={4}>
-          {
-            (openEdit)
-              ? <TextField
-                select
-                fullWidth
-                label='Tipo de Usuario'
-                {...register("tipoUsuario_id", userData.tipoUsuario_id)}
-                defaultValue={userData.tipoUsuario_id}
-                InputProps={{
-                  readOnly: success,
-                }}
-              >
-                <MenuItem value='1' >
-                  Estudiante
-                </MenuItem>
-                <MenuItem value='2' >
-                  Docente
-                </MenuItem>
-                <MenuItem value='3' >
-                  Administrador
-                </MenuItem>
-              </TextField>
-              : <TextField
-                sx={{ width: 1 }}
-                label="Tipo de Usuario"
-                defaultValue={tipoDeUsuario}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-          }
+          <TextField
+            select
+            fullWidth
+            variant={variante}
+            label='Tipo de Usuario'
+            {...register("tipoUsuario_id", userData.tipoUsuario_id)}
+            defaultValue={newType}
+            InputProps={{
+              readOnly: helper,
+            }}
+          >
+            <MenuItem value='1' >
+              Estudiante
+            </MenuItem>
+            <MenuItem value='2' >
+              Docente
+            </MenuItem>
+            <MenuItem value='3' >
+              Administrador
+            </MenuItem>
+          </TextField>
         </Grid>
       </Grid>
     </>

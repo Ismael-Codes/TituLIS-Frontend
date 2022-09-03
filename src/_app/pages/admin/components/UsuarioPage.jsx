@@ -1,5 +1,5 @@
 import { Alert, AlertTitle, Button } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { UserInformation } from './UserInformation';
 import { useLocation } from 'react-router-dom'
 import { ArrowBack, CancelOutlined, EditOutlined, SaveOutlined } from '@mui/icons-material';
@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import { url } from '../../../../config';
-import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { green } from '@mui/material/colors';
 
@@ -18,10 +17,12 @@ export const UsuarioPage = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [warning, setWarning] = useState(false)
+  const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [variante, setVariante] = useState('outlined');
+  const [helper, setHelper] = useState(true);
+  const [newType, setNewType] = useState(userData.tipoUsuario_id)
 
-  const { id } = useParams();
   const navigate = useNavigate();
 
   const onNavigateBack = () => navigate(-1);
@@ -42,9 +43,12 @@ export const UsuarioPage = () => {
           tipo: tipoUsuario.tipoUsuario_id
         })
           .then(() => {
+            setNewType(tipoUsuario.tipoUsuario_id)
             setLoading(false);
             setSuccess(true);
             setOpenEdit(false);
+            setVariante('outlined')
+            setHelper(true)
           })
           .catch(error => {
             setHasError(true);
@@ -58,7 +62,7 @@ export const UsuarioPage = () => {
 
   return (
     <>
-      <UserInformation userData={userData} id={id} openEdit={openEdit} register={register} success={success} />
+      <UserInformation userData={userData} register={register} variante={variante} helper={helper} newType={newType}/>
       <Button
         className="animate__animated animate__headShake"
         variant="contained"
@@ -74,7 +78,7 @@ export const UsuarioPage = () => {
         variant="contained"
         size='large'
         startIcon={<EditOutlined />}
-        onClick={() => setOpenEdit(true)}
+        onClick={() => { setOpenEdit(true); setVariante('standard'); setHelper(false); }}
         sx={{ mt: 1, mr: 1 }}
       >
         Editar
@@ -115,7 +119,7 @@ export const UsuarioPage = () => {
             size='large'
             color='error'
             startIcon={<CancelOutlined />}
-            onClick={() => { setOpenEdit(false); setWarning(false); setHasError(false) }}
+            onClick={() => { setOpenEdit(false); setWarning(false); setHasError(false); setVariante('outlined'); setHelper(true); }}
             sx={{ mt: 1, mr: 1 }}
           >
             Cancelar
