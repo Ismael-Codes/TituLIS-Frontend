@@ -68,7 +68,7 @@ export const TableUser = ({ message }) => {
   ];
 
   return (
-    <Grid item xs={12} sx={{ height: 700, width: '100%', backgroundColor: '#FFFFFF', borderRadius: '10px', padding: '10px' }}>
+    <Grid item xs={12} sx={{ height: 710, width: '100%', backgroundColor: '#FFFFFF', borderRadius: '10px', padding: '10px' }}>
       <DataGrid
         localeText={localizedTextsMap}
         components={{ Toolbar: GridToolbar }}
