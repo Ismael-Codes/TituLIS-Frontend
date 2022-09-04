@@ -28,6 +28,16 @@ export const AdminNavbar = () => {
 
         <NavLink
           className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+          to="/modalidades"
+        >
+          Modalidades
+        </NavLink>
+      </li>
+
+      <li className="nav-pills">
+
+        <NavLink
+          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
           to="/solicitudes"
         >
           Solicitudes

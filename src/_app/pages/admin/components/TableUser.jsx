@@ -50,19 +50,14 @@ export const TableUser = ({ message }) => {
     {
       field: 'tipoUsuario_id',
       headerName: 'Tipo de Usuario', minWidth: 155, flex: 1,
-      renderCell: iconChip,
-      valueGetter: (params) =>
-        (params.row.tipoUsuario_id == 3)
-          ? 'Administrador'
-          : (params.row.tipoUsuario_id == 2)
-            ? 'Docente' : 'Estudiante'
+      renderCell: iconChip
     },
     {
       field: 'id',
       headerName: '', minWidth: 110,
       renderCell: renderDetailsButton,
       disableClickEventBubbling: true,
-      // sortable: false,
+      sortable: false,
       align: 'center',
     },
   ];
