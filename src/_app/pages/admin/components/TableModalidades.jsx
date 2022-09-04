@@ -1,9 +1,7 @@
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
-import { AdminPanelSettingsOutlined, CoPresentOutlined, SchoolOutlined } from '@mui/icons-material';
 import { Grid } from '@mui/material';
-import { localizedTextsMap } from '../../../helpers';
 
 export const TableModalidades = ({ message }) => {
 
@@ -22,7 +20,7 @@ export const TableModalidades = ({ message }) => {
   const renderDetailsButton = (params) => {
     return (
       <>
-        <Link className='btn btn-primary text-center' to={`/modalidad/${params.row.id}`} state={{ data: params.row }}>Editar</Link>
+        <Link className='btn btn-primary text-center' to={`/modalidad/${params.row.id}`} state={{ data: params.row }}>Revisar</Link>
       </>
     )
   }
