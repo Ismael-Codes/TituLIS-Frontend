@@ -3,7 +3,7 @@ import { Grid, IconButton, MenuItem, TextField, Tooltip } from "@mui/material"
 
 export const Selectores = ({ data, variante, openEdit }) => {
 
-  const requerido = data.required == true ? '1' : '2';
+  const requerido = data.required == true ? 1 : 2;
 
   return (
     <Grid item container xs={12} sx={{ marginBottom: '20px' }} spacing={2}>
@@ -48,7 +48,8 @@ export const Selectores = ({ data, variante, openEdit }) => {
           select
           fullWidth
           label='Requerido'
-          value={requerido}
+          // value={requerido}
+          defaultValue={requerido}
           variant={variante}
           InputProps={{
             readOnly: openEdit
