@@ -62,9 +62,11 @@ export default function CustomizedAccordions({ info, label }) {
           <Typography component={'span'}>
             <ol>
               {
-                info.requisitos_generales.map((option, index) => (
-                  <li key={index}>{option}</li>
-                ))
+                (info?.requisitos_generales?.length > 0)
+                  ? info.requisitos_generales.map((option, index) => (
+                    <li key={index}>{option}</li>
+                  ))
+                  : <Typography variant="body1">Está modalidad no contiene <strong>requisitos generales.</strong></Typography>
               }
             </ol>
           </Typography>
@@ -80,9 +82,11 @@ export default function CustomizedAccordions({ info, label }) {
           <Typography component={'span'}>
             <ol>
               {
-                info.requisitos_especificos.map((option, index) => (
-                  <li key={index}>{option}</li>
-                ))
+                (info?.requisitos_especificos?.length > 0)
+                  ? info.requisitos_especificos.map((option, index) => (
+                    <li key={index}>{option}</li>
+                  ))
+                  : <Typography variant="body1">Está modalidad no contiene <strong>requisitos específicos.</strong></Typography>
               }
             </ol>
           </Typography>
@@ -96,9 +100,11 @@ export default function CustomizedAccordions({ info, label }) {
           <Typography component={'span'}>
             <ol>
               {
-                info.documentacion.map((option, index) => (
-                  <li key={index}>{option}</li>
-                ))
+                (info?.documentacion?.length > 0)
+                  ? info.documentacion.map((option, index) => (
+                    <li key={index}>{option}</li>
+                  ))
+                  : <Typography variant="body1">Está modalidad no contiene <strong>requisitos documentación.</strong></Typography>
               }
             </ol>
           </Typography>

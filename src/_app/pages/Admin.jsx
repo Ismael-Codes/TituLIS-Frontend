@@ -1,8 +1,7 @@
 import { Solicitudes } from "./admin/Solicitudes"
 import { Navigate, Route, Routes } from "react-router-dom"
 import { ProfilePage, Error_404 } from "../pages"
-import { Usuarios } from "./admin/Usuarios"
-import { UsuarioPage } from "./admin/components/UsuarioPage"
+import { Usuarios, UsuarioPage, Modalidades, ModalidadPage } from "./admin/index"
 
 export const Admin = () => {
   return (
@@ -14,7 +13,11 @@ export const Admin = () => {
 
         <Route path="usuarios" element={<Usuarios />} />
 
+        <Route path="modalidades" element={<Modalidades />} />
+
         <Route path="usuario/:id" element={<UsuarioPage />} />
+
+        <Route path="modalidad/:id" element={<ModalidadPage />} />
 
         <Route path="404" element={<Error_404 />} />
 
