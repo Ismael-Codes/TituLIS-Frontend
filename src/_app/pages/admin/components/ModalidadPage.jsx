@@ -50,7 +50,7 @@ export const ModalidadPage = () => {
   }
 
   const addInputFile = () => {
-    inputFile == undefined
+    archivos == undefined
       ? setInputFile([{ name: '', code: '', required: true }])
       : setInputFile(archivos.concat({ name: '', required: true, code: '' }));
   }
