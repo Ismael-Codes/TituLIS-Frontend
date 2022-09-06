@@ -1,9 +1,7 @@
 import { Delete } from "@mui/icons-material";
 import { Grid, IconButton, MenuItem, TextField, Tooltip } from "@mui/material"
 
-export const CajasDeTexto = ({ data, variante, openEdit }) => {
-
-  const requerido = data.required == true ? '1' : '2';
+export const CajasDeTexto = ({ index, data, variante, openEdit, register, cajaTexto, unregister }) => {
 
   return (
     <Grid item container xs={12} sx={{ marginBottom: '20px' }} spacing={2}>
@@ -11,6 +9,7 @@ export const CajasDeTexto = ({ data, variante, openEdit }) => {
         <TextField
           sx={{ width: 1 }}
           label="Nombre"
+          {...register(`descripcion.inputText.${index}.name`)}
           defaultValue={data.name}
           variant={variante}
           InputProps={{
@@ -23,6 +22,7 @@ export const CajasDeTexto = ({ data, variante, openEdit }) => {
         <TextField
           sx={{ width: 1 }}
           label="Código"
+          {...register(`descripcion.inputText.${index}.code`)}
           defaultValue={data.code}
           variant={variante}
           InputProps={{
@@ -36,16 +36,17 @@ export const CajasDeTexto = ({ data, variante, openEdit }) => {
           select
           fullWidth
           label='Requerido'
-          value={requerido}
+          {...register(`descripcion.inputText.${index}.required`)}
+          defaultValue={data.required}
           variant={variante}
           InputProps={{
             readOnly: openEdit
           }}
         >
-          <MenuItem value='1' >
+          <MenuItem value='true' >
             Sí
           </MenuItem>
-          <MenuItem value='2' >
+          <MenuItem value='false'>
             No
           </MenuItem>
         </TextField>
@@ -53,7 +54,10 @@ export const CajasDeTexto = ({ data, variante, openEdit }) => {
       <Grid item xs={12} md={0.5} sx={{ width: '100%' }} >
         {
           !openEdit && (<Tooltip title="Eliminar">
-            <IconButton>
+            <IconButton className="animate__animated animate__headShake" onClick={() => {
+              unregister(`descripcion.inputText.${index}`)
+              delete cajaTexto[index]
+            }}>
               <Delete />
             </IconButton>
           </Tooltip>)

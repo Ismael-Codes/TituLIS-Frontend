@@ -1,4 +1,4 @@
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 import { Grid } from '@mui/material';
@@ -20,7 +20,7 @@ export const TableModalidades = ({ message }) => {
   const renderDetailsButton = (params) => {
     return (
       <>
-        <Link className='btn btn-primary text-center' to={`/modalidad/${params.row.id}`} state={{ data: params.row }}>Revisar</Link>
+        <Link className='btn btn-primary text-center' to={`/modalidad/${params.row.id}`} state={{ data: params.row, edit: true, variante: 'outlined' }}>Revisar</Link>
       </>
     )
   }

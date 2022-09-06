@@ -3,3 +3,4 @@ export * from './getHeroesById';
 export * from './getHeroesByName';
 export * from './sendData';
 export * from './localizedTextsMap';
+export * from './config';

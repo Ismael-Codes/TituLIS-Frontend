@@ -1,6 +1,6 @@
 import { Grid, TextField } from "@mui/material"
 
-export const Requisitos = ({ info, label, variante, openEdit }) => {
+export const Requisitos = ({ info, label, variante, openEdit, register, name }) => {
 
   return (
     <Grid container spacing={2} className="mb-3">
@@ -10,6 +10,7 @@ export const Requisitos = ({ info, label, variante, openEdit }) => {
           id="outlined-multiline-static"
           label={label}
           defaultValue={info}
+          {...register(`descripcion.info.${name}`)}
           multiline
           variant={variante}
           InputProps={{

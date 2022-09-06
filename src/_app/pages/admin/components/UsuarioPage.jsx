@@ -62,7 +62,7 @@ export const UsuarioPage = () => {
 
   return (
     <>
-      <UserInformation userData={userData} register={register} variante={variante} helper={helper} newType={newType}/>
+      <UserInformation userData={userData} register={register} variante={variante} helper={helper} newType={newType} />
       <Button
         className="animate__animated animate__headShake"
         variant="contained"
@@ -107,7 +107,7 @@ export const UsuarioPage = () => {
             onClick={sendData}
             sx={{ mt: 1, mr: 1 }}
           >
-            Guardar
+            Actualizar
           </Button>
         )
       }
