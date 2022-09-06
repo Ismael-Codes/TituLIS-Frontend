@@ -1,27 +1,63 @@
-import { ArrowBack, EditOutlined } from "@mui/icons-material";
+import { ArrowBack, CancelOutlined, EditOutlined, SaveOutlined } from "@mui/icons-material";
 import { Button, Chip, Divider, Grid, Typography, TextField, Alert } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { url } from "../../../../config";
 import { CajasDeTexto, InputFile, Requisitos } from "./revision";
 import { Selectores } from "./revision/Selectores";
 
 export const ModalidadPage = () => {
 
-  const [openEdit, setOpenEdit] = useState(true);
-  const [variante, setVariante] = useState('outlined')
+  const { id } = useParams()
 
-  const location = useLocation()
-  const { data } = location.state;
+  const location = useLocation();
+  const [data, setData] = useState(location.state.data);
+
+  const [openEdit, setOpenEdit] = useState(true);
+  const [variante, setVariante] = useState('outlined');
+  const [selector, setSelector] = useState(data.descripcion.inputSelect);
+  const [cajaTexto, setCajaTexto] = useState(data.descripcion.inputText);
+  const [archivos, setInputFile] = useState(data.descripcion.inputFile);
+
+  console.log(archivos);
+  console.log(selector);
+
+  const [firstStep, setFirstStep] = useState({
+    generales: data.descripcion.info.requisitos_generales,
+    especificos: data.descripcion.info.requisitos_especificos,
+    documentacion: data.descripcion.info.documentacion
+  })
+
+  const { register, watch, getValues, unregister } = useForm()
+
+  watch()
+
+  const dataForm = getValues()
+
+  console.log(dataForm, 'dataForm')
 
   const navigate = useNavigate();
   const onNavigateBack = () => navigate(-1);
 
-  /*  let str = "Aprobar el examen general de egreso de licenciatura;,-Cumplir con los requisitos académicos establecidos en los programas educativos;,Contar con la validación de la modalidad por parte del titular de la coordinación del programa educativo;,Cumplir con los requisitos específicos de la modalidad;,-Contar con la validación de los requisitos académicos por parte de las dependencias responsables de cada proceso, a través de los sistemas de información de apoyo académico, y,Rendir la protesta de Ley correspondiente."
- 
-   let arr = str.split('-');
- 
-   console.log(arr) */
+  const addSelector = () => {
+    selector == undefined
+      ? setSelector([{ url: '', code: '', name: '', required: true }])
+      : setSelector(selector.concat({ url: '', code: '', name: '', required: true }));
+  }
 
+  const addCajaDeTexto = () => {
+    cajaTexto == undefined
+      ? setCajaTexto([{ code: '', name: '', required: true }])
+      : setCajaTexto(cajaTexto.concat({ code: '', name: '', required: true }));
+  }
+
+  const addInputFile = () => {
+    inputFile == undefined
+      ? setInputFile([{ name: '', code: '', required: true }])
+      : setInputFile(archivos.concat({ name: '', required: true, code: '' }));
+  }
 
   return (
     <Grid container className="mb-3">
@@ -49,26 +85,36 @@ export const ModalidadPage = () => {
         !openEdit && (<Button
           className="animate__animated animate__headShake"
           variant="outlined"
-          color="error"
+          color="success"
           size='large'
-          startIcon={<EditOutlined />}
-          onClick={() => { setOpenEdit(true); setVariante('outlined'); }}
+          startIcon={<SaveOutlined />}
+          onClick={() => {
+
+            const requisitos_generales = dataForm.descripcion.info.requisitos_generales.split('-');
+            const requisitos_especificos = dataForm.descripcion.info.requisitos_especificos.split('-');
+            const documentacion = dataForm.descripcion.info.documentacion.split('-');
+
+            const inputFile = dataForm.descripcion.inputFile.filter(option => option.name != '' && option.code != '');
+            const inputText = dataForm.descripcion.inputText.filter(option => option.name != '' && option.code != '');
+            const inputSelect = dataForm.descripcion.inputSelect.filter(option => option.name != '' && option.code != '' && option.url != '');
+
+          }}
           sx={{ mt: 1, mr: 1 }}
         >
-          Cancelar
+          Actualizar
         </Button>)
       }
       {
         !openEdit && (<Button
           className="animate__animated animate__headShake"
           variant="outlined"
-          color="success"
+          color="error"
           size='large'
-          startIcon={<EditOutlined />}
-          // onClick={() => { setOpenEdit(true); setVariante('outlined'); }}
+          startIcon={<CancelOutlined />}
+          onClick={() => { setOpenEdit(true); setVariante('outlined'); setSelector(data.descripcion.inputSelect); setCajaTexto(data.descripcion.inputText); setInputFile(data.descripcion.inputFile); unregister('') }}
           sx={{ mt: 1, mr: 1 }}
         >
-          Enviar
+          Cancelar
         </Button>)
       }
 
@@ -82,6 +128,7 @@ export const ModalidadPage = () => {
             <TextField
               sx={{ width: 1 }}
               label="Nombre"
+              {...register('nombre')}
               defaultValue={data.nombre}
               variant={variante}
               InputProps={{
@@ -94,6 +141,7 @@ export const ModalidadPage = () => {
             <TextField
               sx={{ width: 1 }}
               label="Label"
+              {...register('descripcion.label')}
               defaultValue={data.descripcion.label}
               variant={variante}
               InputProps={{
@@ -103,28 +151,26 @@ export const ModalidadPage = () => {
           </Grid>
         </Grid>
 
-
-
         <Grid item xs={12} >
           {
-            (data.descripcion.info.requisitos_generales.length > 0)
-              ? <Requisitos info={data.descripcion.info.requisitos_generales.toString()} label={'Requisitos Generales'} variante={variante} openEdit={openEdit} />
+            (firstStep.generales.length > 0)
+              ? <Requisitos info={firstStep.generales.join('-')} label={'Requisitos Generales'} variante={variante} openEdit={openEdit} register={register} name={'requisitos_generales'} />
               : <Typography>Esta Modalidad no contiene requisitos generales.</Typography>
           }
         </Grid>
 
         <Grid item xs={12} >
           {
-            (data.descripcion.info.requisitos_especificos.length > 0)
-              ? <Requisitos info={data.descripcion.info.requisitos_especificos.toString()} label={'Requisitos específicos de la modalidad'} variante={variante} openEdit={openEdit} />
+            (firstStep.especificos.length > 0)
+              ? <Requisitos info={firstStep.especificos.join('-')} label={'Requisitos específicos de la modalidad'} variante={variante} openEdit={openEdit} register={register} name={'requisitos_especificos'} />
               : <Typography>Esta Modalidad no contiene requisitos generales.</Typography>
           }
         </Grid>
 
         <Grid item xs={12} >
           {
-            (data.descripcion.info.documentacion.length > 0)
-              ? <Requisitos info={data.descripcion.info.documentacion.toString()} label={'Documentación solicitada para integrar expediente'} variante={variante} openEdit={openEdit} />
+            (firstStep.documentacion.length > 0)
+              ? <Requisitos info={firstStep.documentacion.join('-')} label={'Documentación solicitada para integrar expediente'} variante={variante} openEdit={openEdit} register={register} name={'documentacion'} />
               : <Typography>Esta Modalidad no contiene requisitos generales.</Typography>
           }
         </Grid>
@@ -137,27 +183,25 @@ export const ModalidadPage = () => {
 
         <Typography variant="h6" sx={{ marginBottom: 1.5 }}>Selectores:</Typography>
         {
-
-          (data.descripcion.inputSelect != undefined)
-            ? data.descripcion.inputSelect.map((option, i) => <Selectores key={i} data={option} variante={variante} openEdit={openEdit} />)
+          (selector != undefined)
+            ? selector.map((option, i) => <Selectores key={i} index={i} data={option} variante={variante} openEdit={openEdit} register={register} unregister={unregister} setSelector={setSelector} selector={selector} />)
             : <Typography variant="body1">Está modalidad no contiene <strong>selectores</strong></Typography>
         }
         {
           !openEdit && (<Grid item xs={12} >
-            <Button fullWidth variant="contained">Agregar selector</Button></Grid>)
+            <Button fullWidth variant="contained" onClick={addSelector}>Agregar selector</Button></Grid>)
         }
 
         <Typography variant="h6" sx={{ marginBottom: 1.5, marginTop: 2.5 }}>Cajas de Texto:</Typography>
         {
-          (data.descripcion.inputText != undefined)
-            ? data.descripcion.inputText.map((option, i) => <CajasDeTexto key={i} data={option} variante={variante} openEdit={openEdit} />)
+          (cajaTexto != undefined)
+            ? cajaTexto.map((option, i) => <CajasDeTexto key={i} index={i} data={option} variante={variante} openEdit={openEdit} unregister={unregister} register={register} cajaTexto={cajaTexto} />)
             : <Typography variant="body1">Está modalidad no contiene <strong>cajas de texto</strong></Typography>
         }
         {
           !openEdit && (<Grid item xs={12} md={8.5}>
-            <Button fullWidth variant="contained">Agregar selector</Button></Grid>)
+            <Button fullWidth variant="contained" onClick={addCajaDeTexto}>Agregar caja de texto</Button></Grid>)
         }
-
       </Grid>
 
       <Grid item xs={12}>
@@ -167,13 +211,13 @@ export const ModalidadPage = () => {
 
         <Typography variant="h6" sx={{ marginBottom: 1.5 }}>Selectores de Archivos:</Typography>
         {
-          (data.descripcion.inputFile != undefined)
-            ? data.descripcion.inputFile.map((option, i) => <InputFile key={i} data={option} variante={variante} openEdit={openEdit} />)
+          (archivos != undefined)
+            ? archivos.map((option, i) => <InputFile key={i} index={i} data={option} variante={variante} openEdit={openEdit} unregister={unregister} register={register} archivos={archivos} />)
             : <Typography variant="body1">Está modalidad no contiene <strong>selectores de archivos</strong></Typography>
         }
         {
           !openEdit && (<Grid item xs={12} md={8.5}>
-            <Button fullWidth variant="contained">Agregar selector de archivos</Button></Grid>)
+            <Button fullWidth variant="contained" onClick={addInputFile}>Agregar selector de archivos</Button></Grid>)
         }
       </Grid>
 
@@ -221,8 +265,6 @@ export const ModalidadPage = () => {
         >
           <strong>Eliminar</strong> Modalidad
         </Alert>
-
-
         <hr />
       </Grid>
 
