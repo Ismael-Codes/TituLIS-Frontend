@@ -13,30 +13,26 @@ export const ModalidadPage = () => {
   const { id } = useParams()
 
   const location = useLocation();
+
   const [data, setData] = useState(location.state.data);
 
-  const [openEdit, setOpenEdit] = useState(true);
-  const [variante, setVariante] = useState('outlined');
+  const [openEdit, setOpenEdit] = useState(location.state.edit);
+  const [variante, setVariante] = useState(location.state.variante);
   const [selector, setSelector] = useState(data.descripcion.inputSelect);
   const [cajaTexto, setCajaTexto] = useState(data.descripcion.inputText);
   const [archivos, setInputFile] = useState(data.descripcion.inputFile);
-
-  console.log(archivos);
-  console.log(selector);
+  const [hasError, setHasError] = useState(false);
 
   const [firstStep, setFirstStep] = useState({
     generales: data.descripcion.info.requisitos_generales,
     especificos: data.descripcion.info.requisitos_especificos,
     documentacion: data.descripcion.info.documentacion
-  })
+  });
 
-  const { register, watch, getValues, unregister } = useForm()
-
-  watch()
-
-  const dataForm = getValues()
-
-  console.log(dataForm, 'dataForm')
+  const { register, watch, getValues, unregister } = useForm();
+  watch();
+  const dataForm = getValues();
+  console.log(dataForm, 'dataForm');
 
   const navigate = useNavigate();
   const onNavigateBack = () => navigate(-1);
@@ -90,18 +86,30 @@ export const ModalidadPage = () => {
           startIcon={<SaveOutlined />}
           onClick={() => {
 
-            const requisitos_generales = dataForm.descripcion.info.requisitos_generales.split('-');
+            if (dataForm.nombre != undefined || dataForm.nombre != '') {
+              if (dataForm.nombre.match(/[a-zA-Z]{5,}/)) {
+                console.log('valido')
+              } else { console.log('nombre no valido, necesitas letras') }
+            } else { console.log('vacio') }
+
+            if (dataForm.descripcion.label != undefined || dataForm.descripcion.label != '') {
+              if (dataForm.descripcion.label.match(/[a-zA-Z]{5,}/)) {
+                console.log('valido')
+              } else { console.log('label no valido, necesitas letras') }
+            } else { console.log('vacio') }
+
+            /* const requisitos_generales = dataForm.descripcion.info.requisitos_generales.split('-');
             const requisitos_especificos = dataForm.descripcion.info.requisitos_especificos.split('-');
             const documentacion = dataForm.descripcion.info.documentacion.split('-');
 
             const inputFile = dataForm.descripcion.inputFile.filter(option => option.name != '' && option.code != '');
             const inputText = dataForm.descripcion.inputText.filter(option => option.name != '' && option.code != '');
-            const inputSelect = dataForm.descripcion.inputSelect.filter(option => option.name != '' && option.code != '' && option.url != '');
+            const inputSelect = dataForm.descripcion.inputSelect.filter(option => option.name != '' && option.code != '' && option.url != ''); */
 
           }}
           sx={{ mt: 1, mr: 1 }}
         >
-          Actualizar
+          {(id == 'add') ? 'Agregar' : 'Actualizar'}
         </Button>)
       }
       {
@@ -111,7 +119,19 @@ export const ModalidadPage = () => {
           color="error"
           size='large'
           startIcon={<CancelOutlined />}
-          onClick={() => { setOpenEdit(true); setVariante('outlined'); setSelector(data.descripcion.inputSelect); setCajaTexto(data.descripcion.inputText); setInputFile(data.descripcion.inputFile); unregister('') }}
+          onClick={() => {
+            if (id == 'add') {
+              onNavigateBack()
+            } else {
+              setOpenEdit(true);
+              setVariante('outlined');
+              setSelector(data.descripcion.inputSelect);
+              setCajaTexto(data.descripcion.inputText);
+              setInputFile(data.descripcion.inputFile);
+              unregister('')
+            }
+          }
+          }
           sx={{ mt: 1, mr: 1 }}
         >
           Cancelar
@@ -153,7 +173,7 @@ export const ModalidadPage = () => {
 
         <Grid item xs={12} >
           {
-            (firstStep.generales.length > 0)
+            (firstStep.generales != undefined)
               ? <Requisitos info={firstStep.generales.join('-')} label={'Requisitos Generales'} variante={variante} openEdit={openEdit} register={register} name={'requisitos_generales'} />
               : <Typography>Esta Modalidad no contiene requisitos generales.</Typography>
           }
@@ -161,7 +181,7 @@ export const ModalidadPage = () => {
 
         <Grid item xs={12} >
           {
-            (firstStep.especificos.length > 0)
+            (firstStep.especificos != undefined)
               ? <Requisitos info={firstStep.especificos.join('-')} label={'Requisitos específicos de la modalidad'} variante={variante} openEdit={openEdit} register={register} name={'requisitos_especificos'} />
               : <Typography>Esta Modalidad no contiene requisitos generales.</Typography>
           }
@@ -169,7 +189,7 @@ export const ModalidadPage = () => {
 
         <Grid item xs={12} >
           {
-            (firstStep.documentacion.length > 0)
+            (firstStep.documentacion != undefined)
               ? <Requisitos info={firstStep.documentacion.join('-')} label={'Documentación solicitada para integrar expediente'} variante={variante} openEdit={openEdit} register={register} name={'documentacion'} />
               : <Typography>Esta Modalidad no contiene requisitos generales.</Typography>
           }
