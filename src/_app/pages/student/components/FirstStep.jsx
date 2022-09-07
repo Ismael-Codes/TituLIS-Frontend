@@ -21,7 +21,7 @@ export const FirstStep = ({ register, message, dataForm, label, info }) => {
           {...register("form")}
         >
           {message.map((option, index) => (
-            <MenuItem key={index} value={option.descripcion.value}>
+            <MenuItem key={index} value={index}>
               {option.nombre}
             </MenuItem>
           ))}
