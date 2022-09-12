@@ -5,8 +5,6 @@ export const UserInformation = ({ userData, register, variante, helper, newType,
 
   let matricula;
 
-  console.log(userData.tsDeleted)
-
   let date = '';
   userData.tsDeleted != null && (userData.tsDeleted != 'null' &&
     (date = new Date(parseInt(userData.tsDeleted)))
