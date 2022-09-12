@@ -18,9 +18,16 @@ export const TableModalidades = ({ message }) => {
   }
 
   const renderDetailsButton = (params) => {
+
+    const data = {
+      nombre: params.row.nombre,
+      descripcion: JSON.parse(atob(params.row.descripcion.codification)),
+      configuracion: params.row.configuracion
+    }
+
     return (
       <>
-        <Link className='btn btn-primary text-center' to={`/modalidad/${params.row.id}`} state={{ data: params.row, edit: true, variante: 'outlined' }}>Revisar</Link>
+        <Link className='btn btn-primary text-center' to={`/modalidad/${params.row.id}`} state={{ data, edit: true, variante: 'outlined' }}>Revisar</Link>
       </>
     )
   }
@@ -54,9 +61,9 @@ export const TableModalidades = ({ message }) => {
       <DataGrid
         rows={message}
         columns={columns}
-        pageSize={6}
+        pageSize={7}
         sx={{ fontSize: '1em' }}
-        rowsPerPageOptions={[6]}
+        rowsPerPageOptions={[7]}
         disableSelectionOnClick
         disableColumnMenu
         experimentalFeatures={{ newEditingApi: true }}

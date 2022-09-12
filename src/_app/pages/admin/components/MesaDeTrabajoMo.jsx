@@ -9,11 +9,11 @@ export const MesaDeTrabajoMo = ({ message }) => {
 
   return (
     <Grid container className="mb-3">
-      <Grid item xs={12} sx={{ marginBottom: '10px' }}>
-        <Link className='btn btn-primary text-center' to={`/modalidad/add`} state={{ data: object, edit: false, variante: "standard" }}>agregar de Modalidad</Link>
-      </Grid>
       <Grid item container xs={12} sx={{ marginBottom: '10px' }} spacing={2}>
         <Grid item xs={12} md={4} sx={{ width: '100%' }} >
+          <Grid item xs={12} sx={{ marginBottom: '10px' }}>
+            <Link to={`/modalidad/add`} state={{ data: object, edit: false, variante: "standard" }}><Button variant="contained" fullWidth>agregar de Modalidad</Button></Link>
+          </Grid>
           <Box sx={{ backgroundColor: '#FFFFFF', borderRadius: '10px', padding: '10px', height: '520px' }} >
             <PieChart />
           </Box>
