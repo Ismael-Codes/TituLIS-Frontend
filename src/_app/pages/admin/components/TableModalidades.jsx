@@ -9,9 +9,11 @@ export const TableModalidades = ({ message }) => {
     return (
       <>
         {
-          (params.row.configuracion.estado)
+          (params.row.configuracion.estado == true)
             ? <Chip label='Activa' color='success' />
-            : <Chip label='Inactiva' color='error' />
+            : (params.row.tsDeleted != null)
+              ? <Chip label='Eliminada' color='error' />
+              : <Chip label='Inactiva' color='warning' />
         }
       </>
     )
@@ -22,7 +24,8 @@ export const TableModalidades = ({ message }) => {
     const data = {
       nombre: params.row.nombre,
       descripcion: JSON.parse(atob(params.row.descripcion.codification)),
-      configuracion: params.row.configuracion
+      configuracion: params.row.configuracion,
+      tsDeleted: params.row.tsDeleted
     }
 
     return (
@@ -39,7 +42,7 @@ export const TableModalidades = ({ message }) => {
     },
     {
       field: 'configuracion.estado',
-      headerName: 'Estado', minWidth: 90, maxWith: 100,
+      headerName: 'Estado', minWidth: 110, maxWith: 111,
       renderCell: renderState,
       valueGetter: (params) =>
         (params.row.configuracion.estado)

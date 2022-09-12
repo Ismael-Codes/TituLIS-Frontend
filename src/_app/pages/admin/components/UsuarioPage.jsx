@@ -11,8 +11,15 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { green } from '@mui/material/colors';
 
 export const UsuarioPage = () => {
-  const location = useLocation()
-  const { userData } = location.state
+  const location = useLocation();
+  const { userData } = location.state;
+
+  let helper2;
+  (userData.tsDeleted != null) && ((userData.tsDeleted != 'null')
+    ? helper2 = true : helper2 = false
+  );
+
+  const [config, setConfig] = useState(helper2);
 
   const [openEdit, setOpenEdit] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -36,11 +43,12 @@ export const UsuarioPage = () => {
 
   const sendData = () => {
     if (tipoUsuario.tipoUsuario_id != undefined) {
-      if (userData.tipoUsuario_id != tipoUsuario.tipoUsuario_id) {
+      // if (userData.tipoUsuario_id != tipoUsuario.tipoUsuario_id) {
         setLoading(true);
         axios.post(`${url}/api/updateUserType`, {
           email: userData.email,
-          tipo: tipoUsuario.tipoUsuario_id
+          tipo: tipoUsuario.tipoUsuario_id,
+          config
         })
           .then(() => {
             setNewType(tipoUsuario.tipoUsuario_id)
@@ -54,7 +62,7 @@ export const UsuarioPage = () => {
             setHasError(true);
             console.error('There was an error!', error);
           });
-      } else { setWarning(true) }
+      // } else { setWarning(true) }
     } else {
       setWarning(true);
     }
@@ -62,7 +70,7 @@ export const UsuarioPage = () => {
 
   return (
     <>
-      <UserInformation userData={userData} register={register} variante={variante} helper={helper} newType={newType} />
+      <UserInformation userData={userData} register={register} variante={variante} helper={helper} newType={newType} config={config} setConfig={setConfig} />
       <Button
         className="animate__animated animate__headShake"
         variant="contained"
