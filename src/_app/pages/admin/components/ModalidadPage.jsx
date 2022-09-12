@@ -17,6 +17,11 @@ export const ModalidadPage = () => {
 
   const [data, setData] = useState(location.state.data);
 
+  let date;
+  data.tsDeleted != null && (
+    date = new Date(parseInt(data.tsDeleted))
+  )
+
   const [config, setConfig] = useState(location.state.data.configuracion.estado);
   const [openEdit, setOpenEdit] = useState(location.state.edit);
   const [variante, setVariante] = useState(location.state.variante);
@@ -71,16 +76,24 @@ export const ModalidadPage = () => {
         Regresar
       </Button>
       {
-        id != 'add' && (<Button
-          className="animate__animated animate__headShake"
-          variant="contained"
-          size='large'
-          startIcon={<EditOutlined />}
-          onClick={() => { setOpenEdit(false); setVariante('standard'); setSuccess(false); watch(); }}
-          sx={{ mt: 1, mr: 1 }}
-        >
-          Editar
-        </Button>)
+        id != 'add' && (
+          data.tsDeleted == null && (
+            <Button
+              className="animate__animated animate__headShake"
+              variant="contained"
+              size='large'
+              startIcon={<EditOutlined />}
+              onClick={() => { setOpenEdit(false); setVariante('standard'); setSuccess(false); watch(); }}
+              sx={{ mt: 1, mr: 1 }}
+            >
+              Editar
+            </Button>
+          )
+        )
+      }
+      {
+
+        data.tsDeleted != null && (<Typography>Fecha de eliminación: {JSON.stringify(date)}</Typography>)
       }
       {
         !openEdit && (<Button
@@ -133,7 +146,7 @@ export const ModalidadPage = () => {
           hasError.state && (<Alert sx={{ marginTop: 1 }} severity="error"><AlertTitle>Error</AlertTitle>{hasError.error}</Alert>)
         }
         {
-          !openEdit && (<Alert sx={{ marginTop: 1 }} severity="warning"><AlertTitle>Advertencia</AlertTitle><strong>Selectores, cajas de texto y selectores de archivos</strong> no serán guardados</Alert>)
+          !openEdit && (<Alert sx={{ marginTop: 1 }} severity="warning"><AlertTitle>Advertencia</AlertTitle><strong>Selectores, cajas de texto y selectores de archivos 'vacíos'</strong> no serán guardados</Alert>)
         }
         {
           isLoading && (<CircularProgress />)
