@@ -45,7 +45,7 @@ export const FormSolicitud = ({ message = '' }) => {
 
   //? Data extraida del form
   const dataForm = getValues();
-
+  
   //* Extrae la data que sera mostrada
   const { label, info, inputText, inputSelect, inputFile } = mainData(message, dataForm)
 

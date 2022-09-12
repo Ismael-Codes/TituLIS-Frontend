@@ -21,9 +21,11 @@ export const FirstStep = ({ register, message, dataForm, label, info }) => {
           {...register("form")}
         >
           {message.map((option, index) => (
-            <MenuItem key={index} value={index}>
-              {option.nombre}
-            </MenuItem>
+            (option.configuracion.estado) && (
+              <MenuItem key={index} value={index}>
+                {option.nombre}
+              </MenuItem>
+            )
           ))}
         </TextField>
       </Grid>

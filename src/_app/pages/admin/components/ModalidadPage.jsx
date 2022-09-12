@@ -1,10 +1,11 @@
 import { ArrowBack, CancelOutlined, EditOutlined, SaveOutlined } from "@mui/icons-material";
-import { Button, Chip, Divider, Grid, Typography, TextField, Alert } from "@mui/material";
+import { Button, Chip, Divider, Grid, Typography, TextField, Alert, CircularProgress, AlertTitle } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { url } from "../../../../config";
+import { updateModality } from "../helpers";
 import { CajasDeTexto, InputFile, Requisitos } from "./revision";
 import { Selectores } from "./revision/Selectores";
 
@@ -16,12 +17,15 @@ export const ModalidadPage = () => {
 
   const [data, setData] = useState(location.state.data);
 
+  const [config, setConfig] = useState(location.state.data.configuracion.estado);
   const [openEdit, setOpenEdit] = useState(location.state.edit);
   const [variante, setVariante] = useState(location.state.variante);
   const [selector, setSelector] = useState(data.descripcion.inputSelect);
   const [cajaTexto, setCajaTexto] = useState(data.descripcion.inputText);
   const [archivos, setInputFile] = useState(data.descripcion.inputFile);
-  const [hasError, setHasError] = useState(false);
+  const [hasError, setHasError] = useState({ state: false, error: 'Sin error' });
+  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [firstStep, setFirstStep] = useState({
     generales: data.descripcion.info.requisitos_generales,
@@ -29,28 +33,27 @@ export const ModalidadPage = () => {
     documentacion: data.descripcion.info.documentacion
   });
 
+  const helperSet = { setFirstStep, setCajaTexto, setInputFile, setSelector, setHasError };
+
   const { register, watch, getValues, unregister } = useForm();
-  watch();
-  const dataForm = getValues();
-  console.log(dataForm, 'dataForm');
 
   const navigate = useNavigate();
   const onNavigateBack = () => navigate(-1);
 
   const addSelector = () => {
-    selector == undefined
+    selector == ''
       ? setSelector([{ url: '', code: '', name: '', required: true }])
       : setSelector(selector.concat({ url: '', code: '', name: '', required: true }));
   }
 
   const addCajaDeTexto = () => {
-    cajaTexto == undefined
+    cajaTexto == ''
       ? setCajaTexto([{ code: '', name: '', required: true }])
       : setCajaTexto(cajaTexto.concat({ code: '', name: '', required: true }));
   }
 
   const addInputFile = () => {
-    archivos == undefined
+    archivos == ''
       ? setInputFile([{ name: '', code: '', required: true }])
       : setInputFile(archivos.concat({ name: '', required: true, code: '' }));
   }
@@ -67,16 +70,18 @@ export const ModalidadPage = () => {
       >
         Regresar
       </Button>
-      <Button
-        className="animate__animated animate__headShake"
-        variant="contained"
-        size='large'
-        startIcon={<EditOutlined />}
-        onClick={() => { setOpenEdit(false); setVariante('standard'); }}
-        sx={{ mt: 1, mr: 1 }}
-      >
-        Editar
-      </Button>
+      {
+        id != 'add' && (<Button
+          className="animate__animated animate__headShake"
+          variant="contained"
+          size='large'
+          startIcon={<EditOutlined />}
+          onClick={() => { setOpenEdit(false); setVariante('standard'); setSuccess(false); watch(); }}
+          sx={{ mt: 1, mr: 1 }}
+        >
+          Editar
+        </Button>)
+      }
       {
         !openEdit && (<Button
           className="animate__animated animate__headShake"
@@ -85,27 +90,9 @@ export const ModalidadPage = () => {
           size='large'
           startIcon={<SaveOutlined />}
           onClick={() => {
-
-            if (dataForm.nombre != undefined || dataForm.nombre != '') {
-              if (dataForm.nombre.match(/[a-zA-Z]{5,}/)) {
-                console.log('valido')
-              } else { console.log('nombre no valido, necesitas letras') }
-            } else { console.log('vacio') }
-
-            if (dataForm.descripcion.label != undefined || dataForm.descripcion.label != '') {
-              if (dataForm.descripcion.label.match(/[a-zA-Z]{5,}/)) {
-                console.log('valido')
-              } else { console.log('label no valido, necesitas letras') }
-            } else { console.log('vacio') }
-
-            /* const requisitos_generales = dataForm.descripcion.info.requisitos_generales.split('-');
-            const requisitos_especificos = dataForm.descripcion.info.requisitos_especificos.split('-');
-            const documentacion = dataForm.descripcion.info.documentacion.split('-');
-
-            const inputFile = dataForm.descripcion.inputFile.filter(option => option.name != '' && option.code != '');
-            const inputText = dataForm.descripcion.inputText.filter(option => option.name != '' && option.code != '');
-            const inputSelect = dataForm.descripcion.inputSelect.filter(option => option.name != '' && option.code != '' && option.url != ''); */
-
+            watch();
+            const dataForm = getValues();
+            updateModality(dataForm, id, setOpenEdit, setVariante, setSuccess, setIsLoading, helperSet, config);
           }}
           sx={{ mt: 1, mr: 1 }}
         >
@@ -129,6 +116,7 @@ export const ModalidadPage = () => {
               setCajaTexto(data.descripcion.inputText);
               setInputFile(data.descripcion.inputFile);
               unregister('')
+              setIsLoading(false)
             }
           }
           }
@@ -137,7 +125,20 @@ export const ModalidadPage = () => {
           Cancelar
         </Button>)
       }
-
+      <Grid item xs={12}>
+        {
+          success && (<Alert sx={{ marginTop: 1 }} severity="success"><AlertTitle>Éxito</AlertTitle>{(id == 'add') ? 'Se agrego con éxito' : 'Se Actualizo con éxito'}</Alert>)
+        }
+        {
+          hasError.state && (<Alert sx={{ marginTop: 1 }} severity="error"><AlertTitle>Error</AlertTitle>{hasError.error}</Alert>)
+        }
+        {
+          !openEdit && (<Alert sx={{ marginTop: 1 }} severity="warning"><AlertTitle>Advertencia</AlertTitle><strong>Selectores, cajas de texto y selectores de archivos</strong> no serán guardados</Alert>)
+        }
+        {
+          isLoading && (<CircularProgress />)
+        }
+      </Grid>
       <Grid item xs={12}>
         <Divider textAlign="right" sx={{ marginTop: 2, marginBottom: 2 }}>
           <Chip label="Primer Paso" />
@@ -203,7 +204,7 @@ export const ModalidadPage = () => {
 
         <Typography variant="h6" sx={{ marginBottom: 1.5 }}>Selectores:</Typography>
         {
-          (selector != undefined)
+          (selector != '')
             ? selector.map((option, i) => <Selectores key={i} index={i} data={option} variante={variante} openEdit={openEdit} register={register} unregister={unregister} setSelector={setSelector} selector={selector} />)
             : <Typography variant="body1">Está modalidad no contiene <strong>selectores</strong></Typography>
         }
@@ -214,7 +215,7 @@ export const ModalidadPage = () => {
 
         <Typography variant="h6" sx={{ marginBottom: 1.5, marginTop: 2.5 }}>Cajas de Texto:</Typography>
         {
-          (cajaTexto != undefined)
+          (cajaTexto != '')
             ? cajaTexto.map((option, i) => <CajasDeTexto key={i} index={i} data={option} variante={variante} openEdit={openEdit} unregister={unregister} register={register} cajaTexto={cajaTexto} />)
             : <Typography variant="body1">Está modalidad no contiene <strong>cajas de texto</strong></Typography>
         }
@@ -231,7 +232,7 @@ export const ModalidadPage = () => {
 
         <Typography variant="h6" sx={{ marginBottom: 1.5 }}>Selectores de Archivos:</Typography>
         {
-          (archivos != undefined)
+          (archivos != '')
             ? archivos.map((option, i) => <InputFile key={i} index={i} data={option} variante={variante} openEdit={openEdit} unregister={unregister} register={register} archivos={archivos} />)
             : <Typography variant="body1">Está modalidad no contiene <strong>selectores de archivos</strong></Typography>
         }
@@ -242,17 +243,21 @@ export const ModalidadPage = () => {
       </Grid>
 
       <Grid item xs={12} sx={{ marginBottom: 1 }}>
-        <Divider textAlign="left" sx={{ marginTop: 2, marginBottom: 1 }}>
-          <Chip label="Extras" />
-        </Divider>
         {
-          (!data.configuracion.estado)
+          id != 'add' && !openEdit && (<Divider textAlign="left" sx={{ marginTop: 2, marginBottom: 1 }}>
+            <Chip label="Extras" />
+          </Divider>)
+        }
+        {
+          id != 'add' && !openEdit && ((!config)
             ? <Alert
               sx={{ marginTop: 2 }}
               color="success"
               variant="outlined"
               action={
-                <Button color="inherit" size="small">
+                <Button color="inherit" size="small" onClick={() => {
+                  setConfig(true)
+                }}>
                   Activar
                 </Button>
               }
@@ -264,30 +269,40 @@ export const ModalidadPage = () => {
               color="error"
               variant="outlined"
               action={
-                <Button color="inherit" size="small">
+                <Button color="inherit" size="small" onClick={() => {
+                  setConfig(false)
+                }}>
                   Desactivar
                 </Button>
               }
             >
               <strong>Desactivar</strong> Modalidad
-            </Alert>
+            </Alert>)
         }
 
-        <Alert
+        {id != 'add' && !openEdit && (<Alert
           sx={{ marginTop: 1 }}
           color="error"
           variant="outlined"
           action={
-            <Button color="inherit" size="small">
+            <Button color="inherit" size="small" onClick={() => {
+              axios.post(`${url}/api/deleteModality`, {
+                id
+              }).then(() => {
+                onNavigateBack();
+              }).catch(() => {
+                setHasError({ state: true, error: 'Ocurrió un error' })
+              })
+            }}>
               Eliminar
             </Button>
           }
         >
           <strong>Eliminar</strong> Modalidad
-        </Alert>
+        </Alert>)}
         <hr />
       </Grid>
 
-    </Grid>
+    </Grid >
   )
 }
