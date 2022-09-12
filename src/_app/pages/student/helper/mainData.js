@@ -4,15 +4,26 @@ import { dataExtraction } from "./dataExtraction";
 
 export const mainData = (message, dataForm) => {
 
-  const label = dataExtraction(message[dataForm['form']]?.descripcion.label, 'label');
+  const helper = message.map(option => {
+    return {
+      id: option.id,
+      nombre: option.nombre,
+      descripcion: JSON.parse(atob(option.descripcion.codification))
+    }
+  })
 
-  const info = dataExtraction(message[dataForm['form']]?.descripcion.info, 'info')
+  const label = dataExtraction(helper[dataForm['form']]?.descripcion.label, 'label');
 
-  const inputText = dataExtraction(message[dataForm['form']]?.descripcion.inputText, 'inputText')
+  const info = dataExtraction(helper[dataForm['form']]?.descripcion.info, 'info')
 
-  const inputSelect = dataExtraction(message[dataForm['form']]?.descripcion.inputSelect, 'inputSelect')
+  const inputText = dataExtraction(helper[dataForm['form']]?.descripcion.inputText, 'inputText')
 
-  const inputFile = dataExtraction(message[dataForm['form']]?.descripcion.inputFile, 'inputFile')
+  const inputSelect = dataExtraction(helper[dataForm['form']]?.descripcion.inputSelect, 'inputSelect')
+
+  const inputFile = dataExtraction(helper[dataForm['form']]?.descripcion.inputFile, 'inputFile')
+
+
 
   return { label, inputText, inputSelect, inputFile, info }
 }
+
