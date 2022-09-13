@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 export const LoginButton = () => {
 
-  const { SignIn, isLoading, errorAlert } = useSignIn()
+  const { SignIn, isLoading, errorAlert, errorDetail } = useSignIn()
   const [open, setOpen] = useState(true);
 
   return (
@@ -60,7 +60,7 @@ export const LoginButton = () => {
               severity="error"
               variant="filled"
             >
-              Ocurrió un error, inténtelo mas tarde!
+              Ocurrió un error, {errorDetail}
             </Alert>
           </Collapse>
           : <></>
