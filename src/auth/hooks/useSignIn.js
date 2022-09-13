@@ -68,15 +68,10 @@ export const useSignIn = () => {
 
         })
 
-      if (tsDeleted == null) {
-        if (tsDeleted != 'null') {
-          login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
-          navigate('/perfil', { replace: true });
-        } else {
-          setErrorAlert(true);
-          setErrorDetail('Usuario Desactivado')
-          setIsLoading(false);
-        }
+      if (tsDeleted == null || tsDeleted == 'null') {
+        login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
+        navigate('/perfil', { replace: true });
+
       } else {
         setErrorAlert(true);
         setErrorDetail('Usuario Desactivado')
