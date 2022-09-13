@@ -25,7 +25,9 @@ export const TableModalidades = ({ message }) => {
       nombre: params.row.nombre,
       descripcion: JSON.parse(atob(params.row.descripcion.codification)),
       configuracion: params.row.configuracion,
-      tsDeleted: params.row.tsDeleted
+      tsDeleted: params.row.tsDeleted,
+      ts_create: params.row.ts_create,
+      ts_update: params.row.ts_update
     }
 
     return (

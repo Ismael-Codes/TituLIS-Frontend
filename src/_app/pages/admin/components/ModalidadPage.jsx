@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { url } from "../../../../config";
 import { updateModality } from "../helpers";
-import { CajasDeTexto, InputFile, Requisitos } from "./revision";
+import { CajasDeTexto, Details, InputFile, Requisitos } from "./revision";
 import { Selectores } from "./revision/Selectores";
 
 export const ModalidadPage = () => {
@@ -16,6 +16,8 @@ export const ModalidadPage = () => {
   const location = useLocation();
 
   const [data, setData] = useState(location.state.data);
+
+  console.log(data);
 
   let date;
   data.tsDeleted != null && (
@@ -90,10 +92,6 @@ export const ModalidadPage = () => {
             </Button>
           )
         )
-      }
-      {
-
-        data.tsDeleted != null && (<Typography>Fecha de eliminación: {JSON.stringify(date)}</Typography>)
       }
       {
         !openEdit && (<Button
@@ -257,9 +255,16 @@ export const ModalidadPage = () => {
 
       <Grid item xs={12} sx={{ marginBottom: 1 }}>
         {
-          id != 'add' && !openEdit && (<Divider textAlign="left" sx={{ marginTop: 2, marginBottom: 1 }}>
+          id != 'add' && (<Divider textAlign="left" sx={{ marginTop: 2, marginBottom: 1 }}>
             <Chip label="Extras" />
           </Divider>)
+        }
+        {
+          data.ts_create != undefined && (
+            <Grid item xs={12} sx={{ marginTop: 1 }}>
+              <Details tsDeleted={data.tsDeleted} date={date} ts_create={data.ts_create} ts_update={data.ts_update} />
+            </Grid>
+          )
         }
         {
           id != 'add' && !openEdit && ((!config)

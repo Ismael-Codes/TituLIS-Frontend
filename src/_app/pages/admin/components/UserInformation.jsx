@@ -1,18 +1,15 @@
 import { Alert, Avatar, Button, Grid, MenuItem, TextField } from "@mui/material";
 import { useState } from "react";
+import { Details } from "./revision";
 
 export const UserInformation = ({ userData, register, variante, helper, newType, config, setConfig }) => {
 
   let matricula;
 
-  console.log(userData.tsDeleted)
-
   let date = '';
   userData.tsDeleted != null && (userData.tsDeleted != 'null' &&
     (date = new Date(parseInt(userData.tsDeleted)))
   );
-
-  console.log('date', date);
 
   (userData.matricula == '')
     ? matricula = 'No tiene Matricula'
@@ -87,14 +84,7 @@ export const UserInformation = ({ userData, register, variante, helper, newType,
             </MenuItem>
           </TextField>
         </Grid>
-        {userData.tsDeleted != null && (userData.tsDeleted != 'null' && (<Grid item xs={12} md={4}><Alert
-          color="info"
-          variant="outlined"
-        >
-          <strong>Desactivado</strong> desde <strong>{JSON.stringify(date)}</strong>
-        </Alert></Grid>))
-        }
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           {!helper && ((config)
             ? <Alert
               color="success"
@@ -122,6 +112,9 @@ export const UserInformation = ({ userData, register, variante, helper, newType,
             >
               <strong>Desactivar</strong> Usuario
             </Alert>)}
+        </Grid>
+        <Grid item xs={12}>
+          <Details tsDeleted={userData.tsDeleted} date={date} ts_create={userData.ts_create} ts_update={userData.ts_update} />
         </Grid>
       </Grid>
     </>

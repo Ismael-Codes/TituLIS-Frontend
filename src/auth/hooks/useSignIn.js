@@ -15,11 +15,13 @@ export const useSignIn = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [errorAlert, setErrorAlert] = useState(false)
+  const [errorDetail, setErrorDetail] = useState()
   let userType;
   let newUser = false;
 
   //todo: tipo de usuario
 
+  let tsDeleted;
   const { login } = useContext(AuthContext)
   const navigate = useNavigate();
 
@@ -35,12 +37,15 @@ export const useSignIn = () => {
       const aPaterno = divisiones[0];
       const aMaterno = divisiones[1];
 
+
       //* Extraer la matricula de un email
       const stringWithNumbers = email;
       const matricula = stringWithNumbers.replace(/[^0-9]+/g, "");
 
       await axios.get(`${url}/api/getUserType/${email}`)
         .then((resp) => {
+
+          tsDeleted = resp.data.data.tsDeleted;
 
           userType = resp.data.data.tipoUsuario_id
 
@@ -63,15 +68,27 @@ export const useSignIn = () => {
 
         })
 
-      login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
-      navigate('/perfil', { replace: true });
+      if (tsDeleted == null) {
+        if (tsDeleted != 'null') {
+          login(given_name, aPaterno, aMaterno, email, matricula, picture, sub, userType, newUser);
+          navigate('/perfil', { replace: true });
+        } else {
+          setErrorAlert(true);
+          setErrorDetail('Usuario Desactivado')
+          setIsLoading(false);
+        }
+      } else {
+        setErrorAlert(true);
+        setErrorDetail('Usuario Desactivado')
+        setIsLoading(false);
+      }
 
     } catch (error) {
       setErrorAlert(true);
       setIsLoading(false);
-      console.log(error);
+      setErrorDetail('inténtelo mas tarde!')
     }
 
   }
-  return { SignIn, isLoading, errorAlert };
+  return { SignIn, isLoading, errorAlert, errorDetail };
 }
