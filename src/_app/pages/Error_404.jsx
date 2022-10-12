@@ -13,7 +13,6 @@ export const Error_404 = () => {
 
               <img src="https://cdn.pixabay.com/photo/2013/07/12/16/38/halloween-151310__340.png" alt="cat" width="200" height="150" />
             </div>
-
             <h3 className="h2">
               Look like you're lost
             </h3>
